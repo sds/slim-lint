@@ -2,10 +2,42 @@
 
 Below is a list of linters supported by `slim-lint`, ordered alphabetically.
 
+* [ConsecutiveControlStatements](#consecutivecontrolstatements)
 * [LineLength](#linelength)
 * [RedundantDiv](#redundantdiv)
 * [RuboCop](#rubocop)
 * [TrailingWhitespace](#trailingwhitespace)
+
+## ConsecutiveControlStatements
+
+Option             | Description
+-------------------|-----------------------------------------------------
+`max_consecutive`  | Maximum number of control statements that can appear in a row
+
+Reports the appearance of multiple consecutive control statements.
+
+**Bad**
+```slim
+- some_code
+- some_more_code
+- do_you_really_need_this_much_code?
+```
+
+**Better**
+```slim
+ruby:
+  some_code
+  some_more_code
+  do_you_really_need_this_much_code?
+```
+
+**Best**
+```slim
+- helper_that_does_all_of_the_above
+```
+
+Large blocks of code in templates make them difficult to read and are usually
+a smell. It is best to extract these into separate helpers whenever possible.
 
 ## LineLength
 

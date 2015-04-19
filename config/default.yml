@@ -8,6 +8,10 @@
 skip_frontmatter: false
 
 linters:
+  ConsecutiveControlStatements:
+    enabled: true
+    max_consecutive: 2
+
   ExplicitDiv:
     enabled: true
 

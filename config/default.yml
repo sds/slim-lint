@@ -12,6 +12,9 @@ linters:
     enabled: true
     max_consecutive: 2
 
+  EmptyControlStatment:
+    enabled: true
+
   ExplicitDiv:
     enabled: true
 

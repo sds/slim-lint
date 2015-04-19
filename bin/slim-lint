@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require 'slim_lint'
+require 'slim_lint/cli'
+
+logger = SlimLint::Logger.new(STDOUT)
+exit SlimLint::CLI.new(logger).run(ARGV)

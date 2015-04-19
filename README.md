@@ -121,7 +121,7 @@ following to your `Rakefile`:
 ```ruby
 require 'slim_lint/rake_task'
 
-slimLint::RakeTask.new
+SlimLint::RakeTask.new
 ```
 
 By default, when you execute `rake slim_lint`, the above configuration is

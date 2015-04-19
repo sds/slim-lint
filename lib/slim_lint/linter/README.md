@@ -39,6 +39,23 @@ ruby:
 Large blocks of code in templates make them difficult to read and are usually
 a smell. It is best to extract these into separate helpers whenever possible.
 
+## EmptyControlStatement
+
+Reports control statements with no code.
+
+**Bad**
+```slim
+p Something
+-
+p Something else
+```
+
+**Good**
+```slim
+p Something
+p Something else
+```
+
 ## LineLength
 
 Option | Description

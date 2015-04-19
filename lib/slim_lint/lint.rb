@@ -1,5 +1,5 @@
 module SlimLint
-  # Contains information about a problem or issue with a HAML document.
+  # Contains information about a problem or issue with a Slim document.
   class Lint
     attr_reader :filename, :line, :linter, :message, :severity
 

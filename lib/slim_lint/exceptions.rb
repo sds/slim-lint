@@ -1,4 +1,4 @@
-# Collection of exceptions that can be raised by the HAML Lint application.
+# Collection of exceptions that can be raised by the application.
 module SlimLint::Exceptions
   # Raised when a {Configuration} could not be loaded from a file.
   class ConfigurationError < StandardError; end

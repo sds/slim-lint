@@ -19,7 +19,6 @@ your [SCM hooks](https://github.com/brigade/overcommit).
 * [Usage](#usage)
 * [Configuration](#configuration)
 * [Linters](#linters)
-* [Editor Integration](#editor-integration)
 * [Git Integration](#git-integration)
 * [Rake Integration](#rake-integration)
 * [Documentation](#documentation)

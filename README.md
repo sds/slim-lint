@@ -1,6 +1,6 @@
 # Slim-Lint
 
-[![Gem Version](https://badge.fury.io/rb/slim-lint.svg)](http://badge.fury.io/rb/slim-lint)
+[![Gem Version](https://badge.fury.io/rb/slim_lint.svg)](http://badge.fury.io/rb/slim_lint)
 [![Build Status](https://travis-ci.org/sds/slim-lint.svg)](https://travis-ci.org/sds/slim-lint)
 [![Code Climate](https://codeclimate.com/github/sds/slim-lint.png)](https://codeclimate.com/github/sds/slim-lint)
 [![Inline docs](http://inch-ci.org/github/sds/slim-lint.svg?branch=master)](http://inch-ci.org/github/sds/slim-lint)

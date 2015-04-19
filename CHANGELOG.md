@@ -6,6 +6,8 @@
 * Add `ConsecutiveControlStatements` which recommends condensing multiple
   control statements into a single `ruby:` filter
 * Add `EmptyControlStatement` which reports control statements with no code
+* Add `CommentControlStatement` which reports control statement with only
+  comments
 
 ## 0.1.0
 

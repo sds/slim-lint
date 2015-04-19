@@ -2,12 +2,30 @@
 
 Below is a list of linters supported by `slim-lint`, ordered alphabetically.
 
+* [CommentControlStatement](#commentcontrolstatement)
 * [ConsecutiveControlStatements](#consecutivecontrolstatements)
 * [EmptyControlStatement](#emptycontrolstatement)
 * [LineLength](#linelength)
 * [RedundantDiv](#redundantdiv)
 * [RuboCop](#rubocop)
 * [TrailingWhitespace](#trailingwhitespace)
+
+## CommentControlStatement
+
+Reports control statements with only comments.
+
+**Bad**
+```slim
+-# This is a control statement comment
+```
+
+**Good**
+```slim
+/ This is a Slim comment
+```
+
+Slim comments should be preferred as they do not result in any generated Ruby
+code and are optimized out of the parse tree during compilation.
 
 ## ConsecutiveControlStatements
 

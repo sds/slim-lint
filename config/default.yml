@@ -8,6 +8,9 @@
 skip_frontmatter: false
 
 linters:
+  CommentControlStatement:
+    enabled: true
+
   ConsecutiveControlStatements:
     enabled: true
     max_consecutive: 2

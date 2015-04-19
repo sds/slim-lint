@@ -1,0 +1,91 @@
+Lint/AmbiguousRegexpLiteral:
+  Enabled: false
+
+Lint/AssignmentInCondition:
+  Enabled: false
+
+Lint/Void:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 100
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/AbcSize:
+  Max: 16
+
+# Enforcing this results in a lot of unnecessary indentation.
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/CollectionMethods:
+  Enabled: false
+
+Style/Documentation:
+  Exclude:
+    - 'spec/**/*'
+
+Style/DotPosition:
+  EnforcedStyle: leading
+
+Style/Encoding:
+  EnforcedStyle: when_needed
+
+Style/FormatString:
+  Enabled: false
+
+Style/FileName:
+  Exclude:
+    - 'bin/slim-lint'
+    - 'Gemfile'
+    - 'Rakefile'
+    - '*.gemspec'
+
+Style/GuardClause:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/Lambda:
+  Enabled: false
+
+# Prefer curly braces except for %i/%w/%W, since those return arrays.
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%': '{}'
+    '%i': '[]'
+    '%q': '{}'
+    '%Q': '{}'
+    '%r': '{}'
+    '%s': '()'
+    '%w': '[]'
+    '%W': '[]'
+    '%x': '{}'
+
+# Renaming `has_something?` to `something?` obfuscates whether it is a "is-a" or
+# a "has-a" relationship.
+Style/PredicateName:
+  Enabled: false
+
+Style/SignalException:
+  Enabled: false
+
+# Forcing a particular name (e.g. |a, e|) for inject methods prevents you from
+# choosing intention-revealing names.
+Style/SingleLineBlockParams:
+  Enabled: false
+
+Style/SpecialGlobalVars:
+  Enabled: false
+
+Style/MultilineOperationIndentation:
+  Enabled: false
+
+Style/TrivialAccessors:
+  Enabled: false
+
+Style/TrailingComma:
+  Enabled: false

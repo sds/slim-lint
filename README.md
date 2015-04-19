@@ -78,11 +78,11 @@ Here's an example configuration file:
 
 ```yaml
 linters:
-  ImplicitDiv:
-    enabled: false
-
   LineLength:
     max: 100
+
+  RedundantDiv:
+    enabled: false
 ```
 
 All linters have an `enabled` option which can be `true` or `false`, which

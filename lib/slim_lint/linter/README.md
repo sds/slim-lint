@@ -3,6 +3,7 @@
 Below is a list of linters supported by `slim-lint`, ordered alphabetically.
 
 * [ConsecutiveControlStatements](#consecutivecontrolstatements)
+* [EmptyControlStatement](#emptycontrolstatement)
 * [LineLength](#linelength)
 * [RedundantDiv](#redundantdiv)
 * [RuboCop](#rubocop)

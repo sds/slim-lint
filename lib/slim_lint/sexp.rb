@@ -11,13 +11,13 @@ module SlimLint
     # Creates an {Sexp} from the given {Array}-based Sexp, performing a deep
     # copy.
     def initialize(sexp)
-      sexp.each do |sexp|
+      sexp.each do |child|
         item =
-          case sexp
+          case child
           when Array
-            Sexp.new(sexp)
+            Sexp.new(child)
           else
-            sexp
+            child
           end
 
         push(item)

@@ -40,8 +40,9 @@ module SlimLint
         result = method(pattern.callback_method_name).call(sexp, &block)
 
         # Returning :stop indicates we should stop searching this Sexp
-        # (i.e. stop descending this branch of depth-first search)
-        return if result == :stop
+        # (i.e. stop descending this branch of depth-first search).
+        # The `return` here is very intentional.
+        return if result == :stop # rubocop:disable Lint/NonLocalExitFromIterator
       end
 
       # If no pattern matchers called `yield` explicitly, continue traversing
@@ -63,7 +64,7 @@ module SlimLint
     # Executed before searching for any pattern matches.
     #
     # @param sexp [SlimLint::Sexp]
-    def on_start(sexp)
+    def on_start(*)
       # Overidden by DSL.on_start
     end
 

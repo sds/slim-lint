@@ -40,7 +40,7 @@ module SlimLint
       @source_lines.join("\n")
     end
 
-    on_start do |sexp|
+    on_start do |_sexp|
       @source_lines = []
       @source_map = {}
       @line_count = 0

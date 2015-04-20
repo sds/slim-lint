@@ -1,6 +1,16 @@
 module SlimLint
   # Represents a parsed Slim document and its associated metadata.
   class Document
+    # @!attribute config
+    #   @return [SlimLint::Configuration] Configuration used to parse template
+    # @!attribute file
+    #   @return [String] Slim template file path
+    # @!attribute sexp
+    #   @return [SlimLint::Sexp] Sexpression representing the parsed document
+    # @!attribute source
+    #   @return [String] original source code
+    # @!attribute source_lines
+    #   @return [Array<String>] original source code as an array of lines
     attr_reader :config, :file, :sexp, :source, :source_lines
 
     # Parses the specified Slim code into a {Document}.

@@ -70,10 +70,10 @@ module SlimLint
 
     # Mapping of Sexp pattern to callback method name.
     #
-    # @!attribute r sexp
+    # @!attribute sexp
     #   @return [Array] S-expression pattern that when matched triggers the
-    #     calllback
-    # @!attribute r callback_method_name
+    #     callback
+    # @!attribute callback_method_name
     #   @return [Symbol] name of the method to call when pattern is matched
     SexpPattern = Struct.new(:sexp, :callback_method_name)
     private_constant :SexpPattern

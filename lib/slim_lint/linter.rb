@@ -1,5 +1,7 @@
 module SlimLint
-  # @abstract Base implementation for all lint checks.
+  # Base implementation for all lint checks.
+  #
+  # @abstract
   class Linter
     # Include definitions for Sexp pattern-matching helpers.
     include SexpVisitor

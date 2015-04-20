@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.2.0
 
 * Ignore `Style/IndentationConsistency` RuboCop warnings
 * Add `ConsecutiveControlStatements` which recommends condensing multiple

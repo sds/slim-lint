@@ -14,12 +14,18 @@ module SlimLint
       extractor = SlimLint::RubyExtractor.new
       extracted_ruby = extractor.extract(processed_sexp)
 
-      find_lints(extractor, extracted_ruby) unless extracted_ruby.empty?
+      find_lints(extracted_ruby, extractor.source_map) unless extracted_ruby.empty?
     end
 
     private
 
-    def find_lints(extractor, ruby)
+    # Executes RuboCop against the given Ruby code and records the offenses as
+    # lints.
+    #
+    # @param ruby [String] Ruby code
+    # @param source_map [Hash] map of Ruby code line numbers to original line
+    #   numbers in the template
+    def find_lints(ruby, source_map)
       rubocop = ::RuboCop::CLI.new
 
       original_filename = document.file || 'ruby_script'
@@ -30,7 +36,7 @@ module SlimLint
         begin
           f.write(ruby)
           f.close
-          extract_lints_from_offences(lint_file(rubocop, f.path), extractor)
+          extract_lints_from_offenses(lint_file(rubocop, f.path), source_map)
         ensure
           f.unlink
         end
@@ -38,36 +44,52 @@ module SlimLint
     end
 
     # Defined so we can stub the results in tests
+    #
+    # @param rubocop [RuboCop::CLI]
+    # @param file [String]
+    # @return [Array<RuboCop::Cop::Offense>]
     def lint_file(rubocop, file)
-      rubocop.run(%w[--format SlimLint::OffenceCollector] << file)
-      OffenceCollector.offences
+      rubocop.run(%w[--format SlimLint::OffenseCollector] << file)
+      OffenseCollector.offenses
     end
 
-    def extract_lints_from_offences(offences, extractor)
-      offences.select { |offence| !config['ignored_cops'].include?(offence.cop_name) }
-              .each do |offence|
+    # Aggregates RuboCop offenses and converts them to {SlimLint::Lint}s
+    # suitable for reporting.
+    #
+    # @param offenses [Array<RuboCop::Cop::Offense>]
+    # @param source_map [Hash]
+    def extract_lints_from_offenses(offenses, source_map)
+      offenses.select { |offense| !config['ignored_cops'].include?(offense.cop_name) }
+              .each do |offense|
         @lints << Lint.new(self,
                            document.file,
-                           extractor.source_map[offence.line],
-                           "#{offence.cop_name}: #{offence.message}")
+                           source_map[offense.line],
+                           "#{offense.cop_name}: #{offense.message}")
       end
     end
   end
 
-  # Collects offences detected by RuboCop.
-  class OffenceCollector < ::RuboCop::Formatter::BaseFormatter
-    attr_accessor :offences
-
+  # Collects offenses detected by RuboCop.
+  class OffenseCollector < ::RuboCop::Formatter::BaseFormatter
     class << self
-      attr_accessor :offences
+      # List of offenses reported by RuboCop.
+      attr_accessor :offenses
     end
 
+    # Executed when RuboCop begins linting.
+    #
+    # @param _target_files [Array<String>]
     def started(_target_files)
-      self.class.offences = []
+      self.class.offenses = []
     end
 
-    def file_finished(_file, offences)
-      self.class.offences += offences
+    # Executed when a file has been scanned by RuboCop, adding the reported
+    # offenses to our collection.
+    #
+    # @param _file [String]
+    # @param offenses [Array<RuboCop::Cop::Offense>]
+    def file_finished(_file, offenses)
+      self.class.offenses += offenses
     end
   end
 end

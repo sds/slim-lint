@@ -45,5 +45,8 @@ linters:
       - Style/TrailingWhitespace
       - Style/WhileUntilModifier
 
+  TagCase:
+    enabled: true
+
   TrailingWhitespace:
     enabled: true

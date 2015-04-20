@@ -8,6 +8,7 @@
 * Add `EmptyControlStatement` which reports control statements with no code
 * Add `CommentControlStatement` which reports control statement with only
   comments
+* Add `TagCase` which reports tags with uppercase characters
 
 ## 0.1.0
 

@@ -8,6 +8,7 @@ Below is a list of linters supported by `slim-lint`, ordered alphabetically.
 * [LineLength](#linelength)
 * [RedundantDiv](#redundantdiv)
 * [RuboCop](#rubocop)
+* [TagCase](#tagcase)
 * [TrailingWhitespace](#trailingwhitespace)
 
 ## CommentControlStatement
@@ -143,6 +144,27 @@ You can customize which RuboCop warnings you want to ignore by modifying
 the `ignored_cops` option (see [`config/default.yml`](/config/default.yml)
 for the full list of ignored cops). Note that if you modify the list you'll
 need to re-include all the items from the default configuration.
+
+## TagCase
+
+Reports tag names with uppercase characters.
+
+**Bad**
+```slim
+BODY
+  P My paragraph
+```
+
+**Good**
+```slim
+body
+  p My paragraph
+```
+
+While the HTML standard does not require lowercase tag names, they are a
+_de facto_ standard and are used in almost all documentation and specifications
+available online. However, lowercase tags are required for XHTML documents, so
+using them consistently results in more portable code.
 
 ## TrailingWhitespace
 

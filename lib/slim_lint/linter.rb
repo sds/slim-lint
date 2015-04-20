@@ -1,5 +1,5 @@
 module SlimLint
-  # Base implementation for all lint checks.
+  # @abstract Base implementation for all lint checks.
   class Linter
     # Include definitions for Sexp pattern-matching helpers.
     include SexpVisitor
@@ -11,6 +11,8 @@ module SlimLint
     #   lints for the subject instead of the linter itself.
     attr_reader :lints
 
+    # Initializes a linter with the specified configuration.
+    #
     # @param config [Hash] configuration for this linter
     def initialize(config)
       @config = config

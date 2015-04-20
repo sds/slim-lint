@@ -12,6 +12,8 @@ module SlimLint
       validate
     end
 
+    # Access the configuration as if it were a hash.
+    #
     # @param key [String]
     # @return [Array,Hash,Number,String]
     def [](key)

@@ -12,13 +12,16 @@ module SlimLint
       # Executed when a linter includes the {LinterRegistry} module.
       #
       # This results in the linter being registered with the registry.
-      def included(base)
-        @linters << base
+      #
+      # @param subclass [Class]
+      def included(subclass)
+        @linters << subclass
       end
 
       # Return a list of {SlimLint::Linter} {Class}es corresponding to the
       # specified list of names.
       #
+      # @param linter_names [Array<String>]
       # @return [Array<Class>]
       def extract_linters_from(linter_names)
         linter_names.map do |linter_name|

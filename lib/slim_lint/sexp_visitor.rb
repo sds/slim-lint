@@ -2,8 +2,6 @@ module SlimLint
   # Provides an interface which when included allows a class to visit nodes in
   # the Sexp of a Slim document.
   module SexpVisitor
-    SexpPattern = Struct.new(:sexp, :callback_method_name)
-
     # Traverse the Sexp looking for matches with registered patterns, firing
     # callbacks for all matches.
     #
@@ -58,7 +56,7 @@ module SlimLint
 
     # Returns the list of registered Sexp patterns.
     #
-    # @return [Array<Array>]
+    # @return [Array<SlimLint::SexpVisitor::SexpPattern>]
     def patterns
       self.class.patterns || []
     end
@@ -70,19 +68,37 @@ module SlimLint
       # Overidden by DSL.on_start
     end
 
+    # Mapping of Sexp pattern to callback method name.
+    #
+    # @!attribute r sexp
+    #   @return [Array] S-expression pattern that when matched triggers the
+    #     calllback
+    # @!attribute r callback_method_name
+    #   @return [Symbol] name of the method to call when pattern is matched
+    SexpPattern = Struct.new(:sexp, :callback_method_name)
+    private_constant :SexpPattern
+
     # Exposes a convenient Domain-specific Language (DSL) that makes declaring
     # Sexp match patterns very easy.
     #
     # Include them with `extend SlimLint::SexpVisitor::DSL`
     module DSL
       # Registered patterns that this visitor will look for when traversing the
-      # Sexp.
+      # {SlimLint::Sexp}.
       attr_reader :patterns
 
       # DSL helper that defines a sexp pattern and block that will be executed if
       # the given pattern is found.
       #
       # @param sexp_pattern [Sexp]
+      # @yield block to execute when the specified pattern is matched
+      # @yieldparam sexp [SlimLint::Sexp] Sexp that matched the pattern
+      # @yieldreturn [SlimLint::Sexp,Symbol,void]
+      #   If a Sexp is returned, indicates that traversal should jump directly
+      #   to that Sexp.
+      #   If `:stop` is returned, halts further traversal down this branch
+      #   (i.e. stops recursing, but traversal at higher levels will continue).
+      #   Otherwise traversal will continue as normal.
       def on(sexp_pattern, &block)
         # TODO: Index Sexps on creation so we can quickly jump to potential
         # matches instead of checking array.

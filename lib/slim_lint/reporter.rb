@@ -10,6 +10,8 @@ module SlimLint
     # List of files that were linted.
     attr_reader :files
 
+    # Creates the reporter that will display the given report.
+    #
     # @param logger [SlimLint::Logger]
     # @param report [SlimLint::Report]
     def initialize(logger, report)
@@ -32,6 +34,8 @@ module SlimLint
     end
 
     # Executed when this class is subclassed.
+    #
+    # @param descendant [Class]
     def self.inherited(descendant)
       descendants << descendant
     end

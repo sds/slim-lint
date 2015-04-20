@@ -9,8 +9,10 @@ module SlimLint
     attr_accessor :line
 
     # Creates an {Sexp} from the given {Array}-based Sexp.
-    def initialize(sexp)
-      sexp.each do |child|
+    #
+    # @param array_sexp [Array]
+    def initialize(array_sexp)
+      array_sexp.each do |child|
         item =
           case child
           when Array
@@ -60,6 +62,9 @@ module SlimLint
     end
 
     # Pretty-prints this Sexp in a form that is more readable.
+    #
+    # @param depth [Integer] indentation level to display Sexp at
+    # @return [String]
     def display(depth = 1) # rubocop:disable Metrics/AbcSize
       indentation = ' ' * 2 * depth
       output = indentation

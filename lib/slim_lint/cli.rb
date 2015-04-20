@@ -7,6 +7,8 @@ module SlimLint
   class CLI
     attr_accessor :options
 
+    # Create a CLI that outputs to the specified logger.
+    #
     # @param logger [SlimLint::Logger]
     def initialize(logger)
       @log = logger

@@ -8,6 +8,8 @@ module SlimLint
     # is specified instead of a file.
     VALID_EXTENSIONS = %w[.slim]
 
+    # Create a file finder using the specified configuration.
+    #
     # @param config [SlimLint::Configuration]
     def initialize(config)
       @config = config

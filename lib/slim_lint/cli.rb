@@ -5,6 +5,7 @@ require 'sysexits'
 module SlimLint
   # Command line application interface.
   class CLI
+    # Hash of options.
     attr_accessor :options
 
     # Create a CLI that outputs to the specified logger.

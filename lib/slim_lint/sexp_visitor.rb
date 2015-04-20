@@ -57,6 +57,8 @@ module SlimLint
     end
 
     # Returns the list of registered Sexp patterns.
+    #
+    # @return [Array<Array>]
     def patterns
       self.class.patterns || []
     end
@@ -97,6 +99,8 @@ module SlimLint
       end
 
       # Define a block of code to run before checking for any pattern matches.
+      #
+      # @yield block to execute
       def on_start(&block)
         define_method(:on_start, block)
       end

@@ -18,6 +18,9 @@ module SlimLint
       @severity = severity
     end
 
+    # Return whether this lint has a severity of error.
+    #
+    # @return [Boolean]
     def error?
       @severity == :error
     end

@@ -1,7 +1,7 @@
 module SlimLint
   # Responsible for running the applicable linters against the desired files.
   class Runner
-    # Make the list of applicable files available
+    # List of applicable files.
     attr_reader :files
 
     # Runs the appropriate linters against the desired files given the specified
@@ -12,7 +12,7 @@ module SlimLint
     # @return [SlimLint::Report] a summary of all lints found
     def run(options = {})
       config = load_applicable_config(options)
-      files = extract_applicable_files(options, config)
+      files = extract_applicable_files(config, options)
       linters = extract_enabled_linters(config, options)
 
       raise SlimLint::Exceptions::NoLintersError, 'No linters specified' if linters.empty?
@@ -27,6 +27,11 @@ module SlimLint
 
     private
 
+    # Returns the {SlimLint::Configuration} that should be used given the
+    # specified options.
+    #
+    # @param options [Hash]
+    # @return [SlimLint::Configuration]
     def load_applicable_config(options)
       if options[:config_file]
         SlimLint::ConfigurationLoader.load_file(options[:config_file])
@@ -35,6 +40,12 @@ module SlimLint
       end
     end
 
+    # Returns a list of linters that are enabled given the specified
+    # configuration and additional options.
+    #
+    # @param config [SlimLint::Configuration]
+    # @param options [Hash]
+    # @return [Array<SlimLint::Linter>]
     def extract_enabled_linters(config, options)
       included_linters = LinterRegistry
         .extract_linters_from(options.fetch(:included_linters, []))
@@ -52,6 +63,12 @@ module SlimLint
       end.compact
     end
 
+    # Runs all provided linters using the specified config against the given
+    # file.
+    #
+    # @param file [String] path to file to lint
+    # @param linters [Array<SlimLint::Linter>]
+    # @param config [SlimLint::Configuration]
     def find_lints(file, linters, config)
       document = SlimLint::Document.new(File.read(file), file: file, config: config)
 
@@ -62,7 +79,13 @@ module SlimLint
       @lints << Lint.new(nil, file, ex.line, ex.error, :error)
     end
 
-    def extract_applicable_files(options, config)
+    # Returns the list of files that should be linted given the specified
+    # configuration and options.
+    #
+    # @param config [SlimLint::Configuration]
+    # @param options [Hash]
+    # @return [Array<String>]
+    def extract_applicable_files(config, options)
       included_patterns = options[:files]
       excluded_files = options.fetch(:excluded_files, [])
 

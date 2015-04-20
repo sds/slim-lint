@@ -31,6 +31,11 @@ module SlimLint
 
     private
 
+    # Extract the list of matching files given the list of glob patterns, file
+    # paths, and directories.
+    #
+    # @param patterns [Array<String>]
+    # @return [Array<String>]
     def extract_files_from(patterns) # rubocop:disable MethodLength
       files = []
 
@@ -60,6 +65,10 @@ module SlimLint
       files.uniq
     end
 
+    # Whether the given file should be treated as a Slim file.
+    #
+    # @param file [String]
+    # @return [Boolean]
     def slim_file?(file)
       return false unless ::FileTest.file?(file)
 

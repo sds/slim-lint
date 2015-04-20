@@ -5,18 +5,21 @@ module SlimLint
     include SexpVisitor
     extend SexpVisitor::DSL
 
-    # TODO: Remove once spec support returns an array of lints instead of a
-    # linter
+    # List of lints reported by this linter.
+    #
+    # @todo Remove once spec/support/shared_linter_context returns an array of
+    #   lints for the subject instead of the linter itself.
     attr_reader :lints
 
     # @param config [Hash] configuration for this linter
     def initialize(config)
       @config = config
       @lints = []
-      @ruby_parser = nil
     end
 
-    # Runs the linter against the specified Sexp
+    # Runs the linter against the given Slim document.
+    #
+    # @param document [SlimLint::Document]
     def run(document)
       @document = document
       @lints = []
@@ -25,6 +28,8 @@ module SlimLint
     end
 
     # Returns the simple name for this linter.
+    #
+    # @return [String]
     def name
       self.class.name.split('::').last
     end
@@ -34,12 +39,16 @@ module SlimLint
     attr_reader :config, :document
 
     # Record a lint for reporting back to the user.
-    def report_lint(sexp, message)
-      @lints << SlimLint::Lint.new(self, @document.file, sexp.line, message)
+    #
+    # @param node [#line] node to extract the line number from
+    # @param message [String] error/warning to display to the user
+    def report_lint(node, message)
+      @lints << SlimLint::Lint.new(self, @document.file, node.line, message)
     end
 
     # Parse Ruby code into an abstract syntax tree.
     #
+    # @param source [String] Ruby code to parse
     # @return [AST::Node]
     def parse_ruby(source)
       @ruby_parser ||= SlimLint::RubyParser.new

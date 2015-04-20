@@ -30,6 +30,8 @@ module SlimLint
     include SexpVisitor
     extend SexpVisitor::DSL
 
+    # Map of generated Ruby source code lines and their corresponding lines in
+    # the original document.
     attr_reader :source_map
 
     # Extracts Ruby code from Sexp representing a Slim document.

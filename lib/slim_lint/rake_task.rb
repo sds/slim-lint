@@ -51,6 +51,8 @@ module SlimLint
     attr_accessor :quiet
 
     # Create the task so it exists in the current namespace.
+    #
+    # @param name [Symbol] task name
     def initialize(name = :slim_lint)
       @name = name
       @files = ['.'] # Search for everything under current directory by default
@@ -63,6 +65,7 @@ module SlimLint
 
     private
 
+    # Defines the Rake task.
     def define
       desc default_description unless ::Rake.application.last_description
 
@@ -75,6 +78,9 @@ module SlimLint
       end
     end
 
+    # Executes the CLI given the specified task arguments.
+    #
+    # @param task_args [Rake::TaskArguments]
     def run_cli(task_args)
       cli_args = ['--config', config] if config
 
@@ -84,6 +90,10 @@ module SlimLint
       fail "#{SlimLint::APP_NAME} failed with exit code #{result}" unless result == 0
     end
 
+    # Returns the list of files that should be linted given the specified task
+    # arguments.
+    #
+    # @param task_args [Rake::TaskArguments]
     def files_to_lint(task_args)
       # Note: we're abusing Rake's argument handling a bit here. We call the
       # first argument `files` but it's actually only the first file--we pull
@@ -96,6 +106,11 @@ module SlimLint
     end
 
     # Friendly description that shows the full command that will be executed.
+    #
+    # This allows us to change the information displayed by `rake --tasks` based
+    # on the options passed to the constructor which defined the task.
+    #
+    # @return [String]
     def default_description
       description = "Run `#{SlimLint::APP_NAME}"
       description += " --config #{config}" if config

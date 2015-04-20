@@ -8,8 +8,7 @@ module SlimLint
     # corresponds to this Sexp.
     attr_accessor :line
 
-    # Creates an {Sexp} from the given {Array}-based Sexp, performing a deep
-    # copy.
+    # Creates an {Sexp} from the given {Array}-based Sexp.
     def initialize(sexp)
       sexp.each do |child|
         item =
@@ -60,6 +59,7 @@ module SlimLint
       true
     end
 
+    # Pretty-prints this Sexp in a form that is more readable.
     def display(depth = 1) # rubocop:disable Metrics/AbcSize
       indentation = ' ' * 2 * depth
       output = indentation

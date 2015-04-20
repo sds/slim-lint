@@ -4,6 +4,9 @@ module SlimLint::Filters
   # These {SlimLint::Sexp}s include additional helpers that makes working with
   # them more pleasant.
   class SexpConverter < Temple::Filter
+    # Converts the given {Array} to a Sexp.
+    #
+    # @return [SlimLint::Sexp]
     def call(array_sexp)
       SlimLint::Sexp.new(array_sexp)
     end

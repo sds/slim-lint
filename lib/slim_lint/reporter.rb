@@ -4,7 +4,10 @@ module SlimLint
   #
   # @abstract
   class Reporter
+    # List of lints that this reporter should report.
     attr_reader :lints
+
+    # List of files that were linted.
     attr_reader :files
 
     # @param logger [SlimLint::Logger]
@@ -20,11 +23,15 @@ module SlimLint
       raise NotImplementedError
     end
 
-    # Keep tracking all the descendants of this class for the list of available reporters
+    # Keep tracking all the descendants of this class for the list of available
+    # reporters.
+    #
+    # @return [Array<Class>]
     def self.descendants
       @descendants ||= []
     end
 
+    # Executed when this class is subclassed.
     def self.inherited(descendant)
       descendants << descendant
     end

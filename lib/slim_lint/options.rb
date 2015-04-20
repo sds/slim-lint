@@ -30,6 +30,7 @@ module SlimLint
 
     private
 
+    # Register linter-related flags.
     def add_linter_options(parser)
       parser.on('-e', '--exclude file,...', Array,
                 'List of file names to exclude') do |files|
@@ -52,6 +53,7 @@ module SlimLint
       end
     end
 
+    # Register file-related flags.
     def add_file_options(parser)
       parser.on('-c', '--config config-file', String,
                 'Specify which configuration file you want to use') do |conf_file|
@@ -64,6 +66,7 @@ module SlimLint
       end
     end
 
+    # Register informational flags.
     def add_info_options(parser)
       parser.on('--show-linters', 'Display available linters') do
         @options[:show_linters] = true

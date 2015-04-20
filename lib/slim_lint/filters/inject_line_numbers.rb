@@ -7,6 +7,10 @@ module SlimLint::Filters
   class InjectLineNumbers < Temple::Filter
     NEWLINE_SEXP = [:newline]
 
+    # Annotates the given {SlimLint::Sexp} with line number information.
+    #
+    # @param sexp [SlimLint::Sexp]
+    # @return [SlimLint::Sexp]
     def call(sexp)
       @line_number = 1
       traverse(sexp)

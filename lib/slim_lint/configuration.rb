@@ -1,6 +1,7 @@
 module SlimLint
   # Stores runtime configuration for the application.
   class Configuration
+    # Interan hash storing the configuration.
     attr_reader :hash
 
     # Creates a configuration from the given options hash.
@@ -62,13 +63,11 @@ module SlimLint
 
     private
 
-    # Validates the configuration for any invalid options, normalizing it where
-    # possible.
-    def validate
-      @hash = convert_nils_to_empty_hashes(@hash)
-      ensure_linter_section_exists(@hash)
-    end
-
+    # Merge two hashes such that nested hashes are merged rather than replaced.
+    #
+    # @param paremt [Hash]
+    # @param child [Hash]
+    # @return [Hash]
     def smart_merge(parent, child)
       parent.merge(child) do |_key, old, new|
         case old
@@ -80,11 +79,21 @@ module SlimLint
       end
     end
 
+    # Validates the configuration for any invalid options, normalizing it where
+    # possible.
+    def validate
+      @hash = convert_nils_to_empty_hashes(@hash)
+      ensure_linter_section_exists(@hash)
+    end
+
+    # Ensures the `linters` configuration section exists.
     def ensure_linter_section_exists(hash)
       hash['linters'] ||= {}
       hash['linters']['ALL'] ||= {}
     end
 
+    # Convert nil values to empty hashes, as this saves us from having to check
+    # for `nil`s when reading deeply-nested hashes.
     def convert_nils_to_empty_hashes(hash)
       hash.each_with_object({}) do |(key, value), h|
         h[key] =

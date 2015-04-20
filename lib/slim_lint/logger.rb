@@ -100,6 +100,11 @@ module SlimLint
 
     private
 
+    # Print output in the specified color.
+    #
+    # @param code [Integer,String] ANSI color code
+    # @param output [String] output to print
+    # @param newline [Boolean] whether to append a newline
     def color(code, output, newline = true)
       log(color_enabled ? "\033[#{code}m#{output}\033[0m" : output, newline)
     end

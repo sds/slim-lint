@@ -1,3 +1,6 @@
+require 'coveralls'
+Coveralls.wear!
+
 require 'slim_lint'
 require 'rspec/its'
 

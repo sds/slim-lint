@@ -1,17 +1,20 @@
 module SlimLint
   # Contains information about a problem or issue with a Slim document.
   class Lint
-    # @!attribute filename
-    #   @return [String] path to file which the lint applies
-    # @!attribute line
-    #   @return [String] line number of the file the lint corresponds to
-    # @!attribute linter
-    #   @return [SlimLint::Linter] linter that reported the lint
-    # @!attribute message
-    #   @return [String] error/warning message to display to user
-    # @!attribute severity
-    #   @return [Symbol] whether this lint is a warning or an error
-    attr_reader :filename, :line, :linter, :message, :severity
+    # @return [String] file path to which the lint applies
+    attr_reader :filename
+
+    # @return [String] line number of the file the lint corresponds to
+    attr_reader :line
+
+    # @return [SlimLint::Linter] linter that reported the lint
+    attr_reader :linter
+
+    # @return [String] error/warning message to display to user
+    attr_reader :message
+
+    # @return [Symbol] whether this lint is a warning or an error
+    attr_reader :severity
 
     # Creates a new lint.
     #

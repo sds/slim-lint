@@ -7,7 +7,7 @@ module SlimLint
     #
     # @param sexp [SlimLint::Sexp]
     def trigger_pattern_callbacks(sexp)
-      on_start sexp
+      return if on_start(sexp) == :stop
       traverse sexp
     end
 

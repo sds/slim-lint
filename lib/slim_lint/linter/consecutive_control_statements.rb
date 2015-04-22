@@ -25,6 +25,10 @@ module SlimLint
       sexp.is_a?(Sexp) && sexp.match?([:slim, :control])
     end
 
+    # Whether the given {Sexp} is a newline abstraction.
+    #
+    # @param sexp [Object]
+    # @return [Boolean]
     def newline_sexp?(sexp)
       sexp.is_a?(Sexp) && sexp.first == :newline
     end

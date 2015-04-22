@@ -66,18 +66,17 @@ module SlimLint
 
     # Executed before searching for any pattern matches.
     #
-    # @param sexp [SlimLint::Sexp]
+    # @param sexp [SlimLint::Sexp] see {SexpVisitor::DSL.on_start}
+    # @return [Symbol] see {SexpVisitor::DSL.on_start}
     def on_start(*)
       # Overidden by DSL.on_start
     end
 
     # Mapping of Sexp pattern to callback method name.
     #
-    # @!attribute sexp
-    #   @return [Array] S-expression pattern that when matched triggers the
+    # @attr_reader sexp [Array] S-expression pattern that when matched triggers the
     #     callback
-    # @!attribute callback_method_name
-    #   @return [Symbol] name of the method to call when pattern is matched
+    # @attr_reader callback_method_name [Symbol] name of the method to call when pattern is matched
     SexpPattern = Struct.new(:sexp, :callback_method_name)
     private_constant :SexpPattern
 
@@ -120,6 +119,9 @@ module SlimLint
       # Define a block of code to run before checking for any pattern matches.
       #
       # @yield block to execute
+      # @yieldparam sexp [SlimLint::Sexp] the root Sexp
+      # @yieldreturn [Symbol] if `:stop`, indicates that no further processing
+      #   should occur
       def on_start(&block)
         define_method(:on_start, block)
       end

@@ -5,7 +5,7 @@ module SlimLint
     # Traverse the Sexp looking for matches with registered patterns, firing
     # callbacks for all matches.
     #
-    # @param sexp [Sexp]
+    # @param sexp [SlimLint::Sexp]
     def trigger_pattern_callbacks(sexp)
       on_start sexp
       traverse sexp
@@ -13,7 +13,7 @@ module SlimLint
 
     # Traverse the given Sexp, firing callbacks if they are defined.
     #
-    # @param sexp [Sexp]
+    # @param sexp [SlimLint::Sexp]
     def traverse(sexp)
       block_called = false
 
@@ -48,6 +48,9 @@ module SlimLint
       traverse_children(sexp) unless block_called
     end
 
+    # Traverse the children of this {Sexp}.
+    #
+    # @param sexp [SlimLint::Sexp]
     def traverse_children(sexp)
       sexp.each do |nested_sexp|
         traverse nested_sexp if nested_sexp.is_a?(Sexp)

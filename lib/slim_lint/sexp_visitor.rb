@@ -15,27 +15,10 @@ module SlimLint
     #
     # @param sexp [SlimLint::Sexp]
     def traverse(sexp)
-      block_called = false
-
-      # Define a block within the closure of this method so that pattern matcher
-      # blocks can call `yield` within their block definitions to force
-      # traversal of their children.
-      block = ->(action = :descend) do
-        block_called = true
-        case action
-        when Sexp
-          # User explicitly yielded a Sexp, indicating they want to control the
-          # flow of traversal. Traverse the Sexp they returned.
-          traverse(action)
-        when :descend
-          traverse_children(sexp)
-        end
-      end
-
       patterns.each do |pattern|
         next unless sexp.match?(pattern.sexp)
 
-        result = method(pattern.callback_method_name).call(sexp, &block)
+        result = method(pattern.callback_method_name).call(sexp)
 
         # Returning :stop indicates we should stop searching this Sexp
         # (i.e. stop descending this branch of depth-first search).
@@ -43,9 +26,9 @@ module SlimLint
         return if result == :stop # rubocop:disable Lint/NonLocalExitFromIterator
       end
 
-      # If no pattern matchers called `yield` explicitly, continue traversing
-      # children by default (matchers can return `:stop` to not continue).
-      traverse_children(sexp) unless block_called
+      # Continue traversing children by default (match blocks can return `:stop`
+      # to not continue).
+      traverse_children(sexp)
     end
 
     # Traverse the children of this {Sexp}.

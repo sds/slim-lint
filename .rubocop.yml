@@ -20,6 +20,7 @@ Metrics/AbcSize:
 Style/AlignArray:
   Exclude:
     - 'lib/slim_lint/linter/**/*.rb'
+    - 'spec/slim_lint/**/*.rb'
 
 # Enforcing this results in a lot of unnecessary indentation.
 Style/ClassAndModuleChildren:

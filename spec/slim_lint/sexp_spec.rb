@@ -134,6 +134,18 @@ describe SlimLint::Sexp do
 
         it { should == false }
       end
+
+      context 'and the pattern is a matching matcher' do
+        let(:pattern) { SlimLint::Matcher::Anything.new }
+
+        it { should == true }
+      end
+
+      context 'and the pattern is a non-matching matcher' do
+        let(:pattern) { SlimLint::Matcher::Nothing.new }
+
+        it { should == false }
+      end
     end
   end
 

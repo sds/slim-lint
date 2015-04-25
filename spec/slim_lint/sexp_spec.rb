@@ -136,4 +136,45 @@ describe SlimLint::Sexp do
       end
     end
   end
+
+  describe '#inspect' do
+    subject { described_class.new(sexp).inspect }
+
+    context 'when empty' do
+      let(:sexp) { [] }
+
+      it { should == '[]' }
+    end
+
+    context 'when expression is flat' do
+      let(:sexp) { [:one, :two, :three] }
+
+      it { should == normalize_indent(<<-OUTPUT).chomp }
+        [
+          <#Atom :one>,
+          <#Atom :two>,
+          <#Atom :three>
+        ]
+      OUTPUT
+    end
+
+    context 'when expression is nested' do
+      let(:sexp) { [:one, [:two, [:hello, :world], :hey], :three] }
+
+      it { should == normalize_indent(<<-OUTPUT).chomp }
+        [
+          <#Atom :one>,
+          [
+            <#Atom :two>,
+            [
+              <#Atom :hello>,
+              <#Atom :world>
+            ],
+            <#Atom :hey>
+          ],
+          <#Atom :three>
+        ]
+      OUTPUT
+    end
+  end
 end

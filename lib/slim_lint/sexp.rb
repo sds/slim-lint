@@ -63,32 +63,38 @@ module SlimLint
       true
     end
 
+    # Returns pretty-printed representation of this S-expression.
+    #
+    # @return [String]
+    def inspect
+      display
+    end
+
+    protected
+
     # Pretty-prints this Sexp in a form that is more readable.
     #
     # @param depth [Integer] indentation level to display Sexp at
     # @return [String]
     def display(depth = 1) # rubocop:disable Metrics/AbcSize
       indentation = ' ' * 2 * depth
-      output = indentation
       output = '['
-      output << "\n"
 
       each_with_index do |nested_sexp, index|
+        output << "\n"
         output += indentation
 
-        case nested_sexp
-        when Sexp
+        if nested_sexp.is_a?(SlimLint::Sexp)
           output += nested_sexp.display(depth + 1)
         else
           output += nested_sexp.inspect
         end
 
-        if index < length - 1
-          output += ",\n"
-        end
+        # Add trailing comma unless this is the last item
+        output += ',' if index < length - 1
       end
-      output << "\n"
-      output << ' ' * 2 * (depth - 1)
+
+      output << "\n" << ' ' * 2 * (depth - 1) unless empty?
       output << ']'
 
       output

@@ -4,13 +4,13 @@ module SlimLint
   class CaptureMap < Hash
     # Returns the captured value with the specified name.
     #
-    # @param key [Symbol]
+    # @param capture_name [Symbol]
     # @return [Object]
-    def [](key)
-      if key?(key)
+    def [](capture_name)
+      if key?(capture_name)
         super.value
       else
-        raise ArgumentError, "Capture group #{key.inspect} does not exist!"
+        raise ArgumentError, "Capture #{capture_name.inspect} does not exist!"
       end
     end
   end

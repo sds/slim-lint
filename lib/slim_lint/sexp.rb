@@ -10,18 +10,20 @@ module SlimLint
 
     # Creates an {Sexp} from the given {Array}-based Sexp.
     #
+    # This provides a convenient way to convert between literal arrays of
+    # {Symbol}s and {Sexp}s containing {Atom}s and nested {Sexp}s. These objects
+    # all expose a similar API that conveniently allows the two objects to be
+    # treated similarly due to duck typing.
+    #
     # @param array_sexp [Array]
     def initialize(array_sexp)
-      array_sexp.each do |child|
-        item =
-          case child
-          when Array
-            Sexp.new(child)
-          else
-            child
-          end
-
-        push(item)
+      array_sexp.each do |atom_or_sexp|
+        case atom_or_sexp
+        when Array
+          push Sexp.new(atom_or_sexp)
+        else
+          push SlimLint::Atom.new(atom_or_sexp)
+        end
       end
     end
 
@@ -43,19 +45,16 @@ module SlimLint
     # Note that nested Sexps will also be matched, so be careful about the cost
     # of matching against a complicated pattern.
     #
-    # @param sexp_pattern [Sexp]
+    # @param sexp_pattern [Object,Array]
     # @return [Boolean]
     def match?(sexp_pattern)
+      return false unless sexp_pattern.is_a?(Array)
+
       # If there aren't enough items to compare then this obviously won't match
-      return unless length >= sexp_pattern.length
+      return false unless length >= sexp_pattern.length
 
       sexp_pattern.each_with_index do |sub_pattern, index|
-        case sub_pattern
-        when Array
-          return false unless self[index].match?(sub_pattern)
-        else
-          return false unless self[index] == sub_pattern
-        end
+        return false unless self[index].match?(sub_pattern)
       end
 
       true

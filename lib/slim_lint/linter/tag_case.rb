@@ -5,7 +5,7 @@ module SlimLint
 
     on [:html, :tag] do |sexp|
       _, _, name = sexp
-      next unless name =~ /[A-Z]/
+      next unless name[/[A-Z]/]
 
       report_lint(sexp, "Tag `#{name}` should be written as `#{name.downcase}`")
     end

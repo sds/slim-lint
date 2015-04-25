@@ -5,7 +5,7 @@ module SlimLint
 
     on [:slim, :control] do |sexp|
       _, _, code = sexp
-      next unless code =~ /\A\s*\Z/
+      next unless code[/\A\s*\Z/]
 
       report_lint(sexp, 'Empty control statement can be removed')
     end

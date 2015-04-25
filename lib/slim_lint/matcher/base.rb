@@ -6,16 +6,6 @@ module SlimLint::Matcher
   #
   # @abstract
   class Base
-    # Creates a matcher within the given Sexp traversal context.
-    #
-    # The context allows this matcher to store additional information as part of
-    # the match that is accessible later.
-    #
-    # @param context [SlimLint::SexpVisitor]
-    def initialize(context)
-      @context = context
-    end
-
     # Whether this matcher matches the specified object.
     #
     # This must be implemented by subclasses.

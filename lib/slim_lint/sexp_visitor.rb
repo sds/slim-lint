@@ -59,9 +59,9 @@ module SlimLint
 
     # Returns the map of capture names to captured values.
     #
-    # @return [Hash{Symbol => Object}]
+    # @return [Hash, CaptureMap]
     def captures
-      self.class.captures || []
+      self.class.captures || {}
     end
 
     # Returns the list of registered Sexp patterns.
@@ -140,7 +140,7 @@ module SlimLint
       #
       # @return [SlimLint::Matcher::Anything]
       def anything
-        SlimLint::Matcher::Anything.new(self)
+        SlimLint::Matcher::Anything.new
       end
 
       # Represents a pattern that matches the specified matcher, storing the
@@ -150,12 +150,10 @@ module SlimLint
       # @param matcher [SlimLint::Matcher::Base]
       # @return [SlimLint::Matcher::Capture]
       def capture(capture_name, matcher)
-        @captures ||= {}
+        @captures ||= SlimLint::CaptureMap.new
 
-        SlimLint::Matcher::Capture.new(self).tap do |cap_matcher|
-          cap_matcher.name = capture_name
-          cap_matcher.matcher = matcher
-        end
+        @captures[capture_name] =
+          SlimLint::Matcher::Capture.from_matcher(matcher)
       end
     end
   end

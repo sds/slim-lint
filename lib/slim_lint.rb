@@ -23,6 +23,7 @@ end
 
 require 'slim_lint/engine'
 require 'slim_lint/document'
+require 'slim_lint/capture_map'
 require 'slim_lint/sexp_visitor'
 require 'slim_lint/lint'
 require 'slim_lint/ruby_parser'

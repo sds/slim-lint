@@ -1,6 +1,9 @@
 module SlimLint
   # Represents a parsed Slim document and its associated metadata.
   class Document
+    # File name given to source code parsed from just a string.
+    STRING_SOURCE = '(string)'
+
     # @return [SlimLint::Configuration] Configuration used to parse template
     attr_reader :config
 
@@ -24,7 +27,7 @@ module SlimLint
     # @raise [Slim::Parser::Error] if there was a problem parsing the document
     def initialize(source, options)
       @config = options[:config]
-      @file = options.fetch(:file, '(string)')
+      @file = options.fetch(:file, STRING_SOURCE)
 
       process_source(source)
     end

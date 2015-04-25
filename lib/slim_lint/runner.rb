@@ -76,7 +76,7 @@ module SlimLint
         @lints += linter.run(document)
       end
     rescue Slim::Parser::SyntaxError => ex
-      @lints << Lint.new(nil, file, ex.line, ex.error, :error)
+      @lints << SlimLint::Lint.new(nil, file, ex.line, ex.error, :error)
     end
 
     # Returns the list of files that should be linted given the specified

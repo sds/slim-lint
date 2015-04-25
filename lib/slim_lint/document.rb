@@ -40,8 +40,8 @@ module SlimLint
       @source = strip_frontmatter(source)
       @source_lines = @source.split("\n")
 
-      @engine = SlimLint::Engine.new(file: @file)
-      @sexp = @engine.call(source)
+      engine = SlimLint::Engine.new(file: @file)
+      @sexp = engine.parse(source)
     end
 
     # Removes YAML frontmatter

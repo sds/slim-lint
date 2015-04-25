@@ -23,5 +23,11 @@ module SlimLint
 
     # Annotates Sexps with line numbers
     use SlimLint::Filters::InjectLineNumbers
+
+    # Parses the given source code into a Sexp.
+    #
+    # @param source [String] source code to parse
+    # @return [SlimLint::Sexp] parsed Sexp
+    alias_method :parse, :call
   end
 end

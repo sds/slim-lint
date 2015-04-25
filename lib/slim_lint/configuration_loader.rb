@@ -34,7 +34,7 @@ module SlimLint
         config = load_from_file(file)
 
         default_configuration.merge(config)
-      rescue => error
+      rescue Psych::SyntaxError, Errno::ENOENT => error
         raise SlimLint::Exceptions::ConfigurationError,
               "Unable to load configuration from '#{file}': #{error}",
               error.backtrace

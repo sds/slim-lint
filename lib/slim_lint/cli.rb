@@ -1,3 +1,4 @@
+require 'slim_lint'
 require 'slim_lint/options'
 
 require 'sysexits'

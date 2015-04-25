@@ -16,6 +16,11 @@ Metrics/MethodLength:
 Metrics/AbcSize:
   Max: 16
 
+# We break this rule to write S-expressions more succinctly.
+Style/AlignArray:
+  Exclude:
+    - 'lib/slim_lint/linter/**/*.rb'
+
 # Enforcing this results in a lot of unnecessary indentation.
 Style/ClassAndModuleChildren:
   Enabled: false

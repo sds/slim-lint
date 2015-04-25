@@ -6,12 +6,15 @@ module SlimLint
 
     MESSAGE = '`div` is redundant when %s attribute shortcut is present'
 
-    on [:html, :tag, 'div', [:html, :attrs, [:html, :attr, 'class', [:static]]]] do |sexp|
-      report_lint(sexp, MESSAGE % 'class')
-    end
+    on [:html, :tag, 'div',
+         [:html, :attrs,
+           [:html, :attr,
+             capture(:attr_name, anything),
+             [:static]]]] do |sexp|
+      attr = captures[:attr_name]
+      next unless %w[class id].include?(attr)
 
-    on [:html, :tag, 'div', [:html, :attrs, [:html, :attr, 'id', [:static]]]] do |sexp|
-      report_lint(sexp, MESSAGE % 'id')
+      report_lint(sexp, MESSAGE % attr)
     end
   end
 end

@@ -57,6 +57,13 @@ module SlimLint
       end
     end
 
+    # Returns the map of capture names to captured values.
+    #
+    # @return [Hash{Symbol => Object}]
+    def captures
+      self.class.captures || []
+    end
+
     # Returns the list of registered Sexp patterns.
     #
     # @return [Array<SlimLint::SexpVisitor::SexpPattern>]
@@ -88,6 +95,9 @@ module SlimLint
       # Registered patterns that this visitor will look for when traversing the
       # {SlimLint::Sexp}.
       attr_reader :patterns
+
+      # @return [Hash] map of capture names to captured values
+      attr_reader :captures
 
       # DSL helper that defines a sexp pattern and block that will be executed if
       # the given pattern is found.
@@ -124,6 +134,28 @@ module SlimLint
       #   should occur
       def on_start(&block)
         define_method(:on_start, block)
+      end
+
+      # Represents a pattern that matches anything.
+      #
+      # @return [SlimLint::Matcher::Anything]
+      def anything
+        SlimLint::Matcher::Anything.new(self)
+      end
+
+      # Represents a pattern that matches the specified matcher, storing the
+      # matched value in the captures list under the given name.
+      #
+      # @param capture_name [Symbol]
+      # @param matcher [SlimLint::Matcher::Base]
+      # @return [SlimLint::Matcher::Capture]
+      def capture(capture_name, matcher)
+        @captures ||= {}
+
+        SlimLint::Matcher::Capture.new(self).tap do |cap_matcher|
+          cap_matcher.name = capture_name
+          cap_matcher.matcher = matcher
+        end
       end
     end
   end

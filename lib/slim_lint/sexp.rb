@@ -48,10 +48,13 @@ module SlimLint
     # @param sexp_pattern [Object,Array]
     # @return [Boolean]
     def match?(sexp_pattern)
-      return false unless sexp_pattern.is_a?(Array)
+      # Delegate matching logic if we're comparing against a matcher
+      if sexp_pattern.is_a?(SlimLint::Matcher::Base)
+        return sexp_pattern.match?(self)
+      end
 
       # If there aren't enough items to compare then this obviously won't match
-      return false unless length >= sexp_pattern.length
+      return false unless sexp_pattern.is_a?(Array) && length >= sexp_pattern.length
 
       sexp_pattern.each_with_index do |sub_pattern, index|
         return false unless self[index].match?(sub_pattern)

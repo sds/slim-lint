@@ -13,7 +13,7 @@ require 'slim_lint/linter_registry'
 require 'slim_lint/logger'
 require 'slim_lint/version'
 
-# Need to load slim before we can
+# Need to load slim before we can define filters
 require 'slim'
 
 # Load all filters (required by SlimLint::Engine)
@@ -30,6 +30,12 @@ require 'slim_lint/linter'
 require 'slim_lint/reporter'
 require 'slim_lint/report'
 require 'slim_lint/runner'
+
+# Load all matchers
+require 'slim_lint/matcher/base'
+Dir[File.expand_path('slim_lint/matcher/*.rb', File.dirname(__FILE__))].each do |file|
+  require file
+end
 
 # Load all linters
 Dir[File.expand_path('slim_lint/linter/*.rb', File.dirname(__FILE__))].each do |file|

@@ -36,6 +36,11 @@ module SlimLint
     # @param [Array, Object]
     # @return [Boolean]
     def match?(pattern)
+      # Delegate matching logic if we're comparing against a matcher
+      if pattern.is_a?(SlimLint::Matcher::Base)
+        return pattern.match?(@value)
+      end
+
       @value == pattern
     end
 

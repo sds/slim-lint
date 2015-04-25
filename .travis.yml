@@ -11,11 +11,6 @@ rvm:
   - 2.2
   - jruby-19mode
   - rbx-2
-  - ruby-head
-
-matrix:
-  allow_failures:
-    - rvm: ruby-head
 
 before_script:
   - git config --local user.email "travis@travis.ci"

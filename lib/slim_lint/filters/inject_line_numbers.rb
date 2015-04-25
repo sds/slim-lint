@@ -5,6 +5,7 @@ module SlimLint::Filters
   # This is a hack that allows us to access line information directly from the
   # S-expressions, which makes a lot of other tasks easier.
   class InjectLineNumbers < Temple::Filter
+    # {Sexp} representing a newline.
     NEWLINE_SEXP = SlimLint::Sexp.new([:newline])
 
     # Annotates the given {SlimLint::Sexp} with line number information.
@@ -20,7 +21,7 @@ module SlimLint::Filters
     private
 
     # Traverses an {Sexp}, annotating it with line numbers by searching for
-    # :newline abstractions within it.
+    # newline abstractions within it.
     #
     # @param sexp [SlimLint::Sexp]
     def traverse(sexp)

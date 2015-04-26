@@ -26,10 +26,11 @@ describe SlimLint::Reporter::DefaultReporter do
       let(:lines)        { [502, 724] }
       let(:descriptions) { ['Description of lint 1', 'Description of lint 2'] }
       let(:severities)   { [:warning] * 2 }
+      let(:linter)       { double(name: 'SomeLinter') }
 
       let(:lints) do
         filenames.each_with_index.map do |filename, index|
-          SlimLint::Lint.new(nil, filename, lines[index], descriptions[index], severities[index])
+          SlimLint::Lint.new(linter, filename, lines[index], descriptions[index], severities[index])
         end
       end
 
@@ -80,6 +81,17 @@ describe SlimLint::Reporter::DefaultReporter do
           subject
           output.split("\n").each do |line|
             line.scan(/\[E\]/).count.should == 1
+          end
+        end
+      end
+
+      context 'when lint has no associated linter' do
+        let(:linter) { nil }
+
+        it 'prints the description for each lint' do
+          subject
+          descriptions.each do |description|
+            output.scan(/#{description}/).count.should == 1
           end
         end
       end

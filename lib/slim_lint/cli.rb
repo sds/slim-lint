@@ -89,7 +89,8 @@ module SlimLint
 
     # Outputs a report of the linter run using the specified reporter.
     def print_report(report, options)
-      reporter = options.fetch(:reporter, Reporter::DefaultReporter).new(log, report)
+      reporter = options.fetch(:reporter,
+                               SlimLint::Reporter::DefaultReporter).new(log, report)
       reporter.report_lints
     end
 
@@ -97,7 +98,7 @@ module SlimLint
     def print_available_linters
       log.info 'Available linters:'
 
-      linter_names = LinterRegistry.linters.map do |linter|
+      linter_names = SlimLint::LinterRegistry.linters.map do |linter|
         linter.name.split('::').last
       end
 
@@ -110,7 +111,7 @@ module SlimLint
     def print_available_reporters
       log.info 'Available reporters:'
 
-      reporter_names = Reporter.descendants.map do |reporter|
+      reporter_names = SlimLint::Reporter.descendants.map do |reporter|
         reporter.name.split('::').last.sub(/Reporter$/, '').downcase
       end
 

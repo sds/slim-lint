@@ -10,8 +10,7 @@ describe SlimLint::Linter do
   end
 
   let(:config) { double }
-
-  subject { linter_class.new(config) }
+  let(:linter) { linter_class.new(config) }
 
   describe '#run' do
     let(:document) do
@@ -19,10 +18,20 @@ describe SlimLint::Linter do
              file: 'file.slim')
     end
 
-    subject { super().run(document) }
+    subject { linter.run(document) }
 
     it 'returns the reported lints' do
       subject.length == 2
     end
+  end
+
+  describe '#name' do
+    subject { linter.name }
+
+    before do
+      linter.class.stub(:name).and_return('SlimLint::Linter::SomeLinterName')
+    end
+
+    it { should == 'SomeLinterName' }
   end
 end

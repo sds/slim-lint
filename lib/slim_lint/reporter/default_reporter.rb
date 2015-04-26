@@ -3,7 +3,7 @@ module SlimLint
   # message.
   class Reporter::DefaultReporter < Reporter
     def report_lints
-      sorted_lints = lints.sort_by { |l| [l.filename, l.line] }
+      sorted_lints = report.lints.sort_by { |l| [l.filename, l.line] }
 
       sorted_lints.each do |lint|
         print_location(lint)

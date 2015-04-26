@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe SlimLint::Reporter do
-  let(:reporter) { SlimLint::Reporter.new }
+  let(:reporter) { SlimLint::Reporter.new(double, double) }
 
   describe '#report_lints' do
     subject { reporter.report_lints }

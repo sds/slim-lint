@@ -4,11 +4,8 @@ module SlimLint
   #
   # @abstract
   class Reporter
-    # List of lints that this reporter should report.
-    attr_reader :lints
-
-    # List of files that were linted.
-    attr_reader :files
+    # @return [SlimLint::Report] report of all lints found and files scanned
+    attr_reader :report
 
     # Creates the reporter that will display the given report.
     #
@@ -16,8 +13,7 @@ module SlimLint
     # @param report [SlimLint::Report]
     def initialize(logger, report)
       @log = logger
-      @lints = report.lints
-      @files = report.files
+      @report = report
     end
 
     # Implemented by subclasses to display lints from a {SlimLint::Report}.

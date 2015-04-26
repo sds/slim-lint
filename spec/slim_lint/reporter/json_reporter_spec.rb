@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe SlimLint::Reporter::JsonReporter do
-  subject { SlimLint::Reporter::JsonReporter.new(lints) }
-
   describe '#report_lints' do
     let(:io) { StringIO.new }
     let(:output) { JSON.parse(io.string) }

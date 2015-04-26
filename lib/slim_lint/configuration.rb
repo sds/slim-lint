@@ -1,7 +1,7 @@
 module SlimLint
   # Stores runtime configuration for the application.
   class Configuration
-    # Interan hash storing the configuration.
+    # Internal hash storing the configuration.
     attr_reader :hash
 
     # Creates a configuration from the given options hash.
@@ -39,8 +39,6 @@ module SlimLint
           linter.name.split('::').last
         when SlimLint::Linter
           linter.name
-        else
-          linter.to_s
         end
 
       smart_merge(@hash['linters']['ALL'],
@@ -60,7 +58,7 @@ module SlimLint
 
     # Merge two hashes such that nested hashes are merged rather than replaced.
     #
-    # @param paremt [Hash]
+    # @param parent [Hash]
     # @param child [Hash]
     # @return [Hash]
     def smart_merge(parent, child)

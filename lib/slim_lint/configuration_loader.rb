@@ -49,10 +49,6 @@ module SlimLint
         config = SlimLint::Configuration.new(hash)
 
         default_configuration.merge(config)
-      rescue => error
-        raise SlimLint::Exceptions::ConfigurationError,
-              "Unable to load configuration from '#{file}': #{error}",
-              error.backtrace
       end
 
       private

@@ -47,13 +47,6 @@ module SlimLint
                   @hash['linters'].fetch(linter_name, {})).freeze
     end
 
-    # Returns whether the specified linter is enabled by this configuration.
-    #
-    # @param linter [SlimLint::Linter,String]
-    def linter_enabled?(linter)
-      for_linter(linter)['enabled'] != false
-    end
-
     # Merges the given configuration with this one, returning a new
     # {Configuration}. The provided configuration will either add to or replace
     # any options defined in this configuration.

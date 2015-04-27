@@ -5,6 +5,11 @@ module SlimLint
     # options.
     #
     # @param options [Hash]
+    # @option config_file [String] path of configuration file to load
+    # @option config [SlimLint::Configuration] configuration to use
+    # @option excluded_files [Array<String>]
+    # @option included_linters [Array<String>]
+    # @option excluded_linters [Array<String>]
     # @return [SlimLint::Report] a summary of all lints found
     def run(options = {})
       config = load_applicable_config(options)
@@ -29,6 +34,8 @@ module SlimLint
     def load_applicable_config(options)
       if options[:config_file]
         SlimLint::ConfigurationLoader.load_file(options[:config_file])
+      elsif options[:config]
+        options[:config]
       else
         SlimLint::ConfigurationLoader.load_applicable_config
       end
@@ -60,9 +67,10 @@ module SlimLint
     # @return [Array<String>]
     def extract_applicable_files(config, options)
       included_patterns = options[:files]
-      excluded_files = options.fetch(:excluded_files, [])
+      excluded_patterns = config['exclude']
+      excluded_patterns += options.fetch(:excluded_files, [])
 
-      SlimLint::FileFinder.new(config).find(included_patterns, excluded_files)
+      SlimLint::FileFinder.new(config).find(included_patterns, excluded_patterns)
     end
   end
 end

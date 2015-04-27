@@ -78,13 +78,17 @@ default configuration (see [`config/default.yml`](config/default.yml)).
 Here's an example configuration file:
 
 ```yaml
+exclude:
+  - 'exclude/files/in/this/directory/from/all/linters/**/*.slim'
+
 linters:
   EmptyControlStatement:
     exclude:
-      - app/views/directory_of_files_to_exclude/**/*.slim
-      - specific/file/to/exclude.slim
+      - 'app/views/directory_of_files_to_exclude/**/*.slim'
+      - 'specific/file/to/exclude.slim'
 
   LineLength:
+    include: 'specific/directory/to/include/**/*.slim'
     max: 100
 
   RedundantDiv:
@@ -102,6 +106,13 @@ Option        | Description
 `enabled`     | If `false`, this linter will never be run. This takes precedence over any other option.
 `include`     | List of files or glob patterns to scope this linter to. This narrows down any files specified via the command line.
 `exclude`     | List of files or glob patterns to exclude from this linter. This excludes any files specified via the command line or already filtered via the `include` option.
+
+### Global File Exclusion
+
+The `exclude` global configuration option allows you to specify a list of files
+or glob patterns to exclude from all linters. This is useful for ignoring
+third-party code that you don't maintain or care to lint. You can specify a
+single string or a list of strings for this option.
 
 ### Skipping Frontmatter
 

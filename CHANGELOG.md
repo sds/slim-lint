@@ -4,6 +4,8 @@
 
 * Add support for `include`/`exclude` options on linters, allowing a list of
   files or glob patterns to be included/excluded from a linter's scope
+* Add support for global `exclude` configuration option allowing a list of
+  files or glob patterns to be excluded from all linters
 
 ## 0.2.0
 

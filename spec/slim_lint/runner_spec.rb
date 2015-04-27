@@ -42,5 +42,22 @@ describe SlimLint::Runner do
         subject
       end
     end
+
+    context 'when `exclude` global config option specifies a list of patterns' do
+      let(:options) { { config: config, files: files } }
+      let(:config) { SlimLint::Configuration.new(config_hash) }
+      let(:config_hash) { { 'exclude' => 'exclude-this-file.slim' } }
+
+      before do
+        runner.stub(:extract_applicable_files).and_call_original
+      end
+
+      it 'passes the global exclude patterns to the FileFinder' do
+        SlimLint::FileFinder.any_instance.should_receive(:find)
+                                         .with(files, ['exclude-this-file.slim'])
+                                         .and_return([])
+        subject
+      end
+    end
   end
 end

@@ -10,6 +10,10 @@ describe SlimLint::Configuration do
     context 'with an empty hash' do
       let(:hash) { {} }
 
+      it 'creates an empty `exclude` section' do
+        subject['exclude'].should == []
+      end
+
       it 'creates an empty `linters` section' do
         subject['linters'].should == {}
       end

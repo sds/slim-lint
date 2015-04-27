@@ -79,8 +79,14 @@ module SlimLint
     # Validates the configuration for any invalid options, normalizing it where
     # possible.
     def validate
+      ensure_exclude_option_array_exists
       ensure_linter_section_exists
       ensure_linter_include_exclude_arrays_exist
+    end
+
+    # Ensures the `exclude` global option is an array.
+    def ensure_exclude_option_array_exists
+      @hash['exclude'] = Array(@hash['exclude'])
     end
 
     # Ensures the `linters` configuration section exists.

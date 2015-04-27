@@ -44,8 +44,20 @@ module SlimLint
 
       parser.on('-r', '--reporter reporter', String,
                 'Specify which reporter you want to use to generate the output') do |reporter|
-        @options[:reporter] = SlimLint::Reporter.const_get("#{reporter.capitalize}Reporter")
+        @options[:reporter] = load_reporter_class(reporter.capitalize)
       end
+    end
+
+    # Returns the class of the specified Reporter.
+    #
+    # @param reporter_name [String]
+    # @raise [SlimLint::Exceptions::InvalidCLIOption] if reporter doesn't exist
+    # @return [Class]
+    def load_reporter_class(reporter_name)
+      SlimLint::Reporter.const_get("#{reporter_name}Reporter")
+    rescue NameError
+      raise SlimLint::Exceptions::InvalidCLIOption,
+            "#{reporter_name}Reporter does not exist"
     end
 
     # Register file-related flags.

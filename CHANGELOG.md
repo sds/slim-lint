@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-# master (unreleased)
+## 0.3.0
 
 * Add support for `include`/`exclude` options on linters, allowing a list of
   files or glob patterns to be included/excluded from a linter's scope

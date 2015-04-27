@@ -5,7 +5,6 @@ describe SlimLint::Runner do
   let(:runner)  { described_class.new }
 
   before do
-    SlimLint::LinterRegistry.stub(:linters).and_return([FakeLinter1, FakeLinter2])
     runner.stub(:extract_applicable_files).and_return(files)
   end
 

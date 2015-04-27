@@ -32,11 +32,6 @@ module SlimLint
 
     # Register linter-related flags.
     def add_linter_options(parser)
-      parser.on('-e', '--exclude file,...', Array,
-                'List of file names to exclude') do |files|
-        @options[:excluded_files] = files
-      end
-
       parser.on('-i', '--include-linter linter,...', Array,
                 'Specify which linters you want to run') do |linters|
         @options[:included_linters] = linters

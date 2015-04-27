@@ -41,8 +41,7 @@ module SlimLint
           linter.name
         end
 
-      smart_merge(@hash['linters']['ALL'],
-                  @hash['linters'].fetch(linter_name, {})).freeze
+      @hash['linters'].fetch(linter_name, {}).freeze
     end
 
     # Merges the given configuration with this one, returning a new
@@ -75,29 +74,12 @@ module SlimLint
     # Validates the configuration for any invalid options, normalizing it where
     # possible.
     def validate
-      @hash = convert_nils_to_empty_hashes(@hash)
       ensure_linter_section_exists(@hash)
     end
 
     # Ensures the `linters` configuration section exists.
     def ensure_linter_section_exists(hash)
       hash['linters'] ||= {}
-      hash['linters']['ALL'] ||= {}
-    end
-
-    # Convert nil values to empty hashes, as this saves us from having to check
-    # for `nil`s when reading deeply-nested hashes.
-    def convert_nils_to_empty_hashes(hash)
-      hash.each_with_object({}) do |(key, value), h|
-        h[key] =
-          case value
-          when nil  then {}
-          when Hash then convert_nils_to_empty_hashes(value)
-          else
-            value
-          end
-        h
-      end
     end
   end
 end

@@ -1,9 +1,6 @@
 module SlimLint
   # Responsible for running the applicable linters against the desired files.
   class Runner
-    # List of applicable files.
-    attr_reader :files
-
     # Runs the appropriate linters against the desired files given the specified
     # options.
     #

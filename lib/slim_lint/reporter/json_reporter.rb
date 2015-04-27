@@ -1,7 +1,7 @@
 module SlimLint
   # Outputs report as a JSON document.
   class Reporter::JsonReporter < Reporter
-    def report_lints
+    def display_report(report)
       lints = report.lints
       grouped = lints.group_by(&:filename)
 

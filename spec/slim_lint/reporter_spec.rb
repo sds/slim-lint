@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe SlimLint::Reporter do
-  let(:reporter) { SlimLint::Reporter.new(double, double) }
+  let(:reporter) { SlimLint::Reporter.new(double) }
 
-  describe '#report_lints' do
-    subject { reporter.report_lints }
+  describe '#display_report' do
+    subject { reporter.display_report(double) }
 
     it 'raises an error' do
       expect { subject }.to raise_error NotImplementedError

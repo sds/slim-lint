@@ -1,24 +1,22 @@
 module SlimLint
-  # Abstract lint reporter. Subclass and override {#report_lints} to
+  # Abstract lint reporter. Subclass and override {#display_report} to
   # implement a custom lint reporter.
   #
   # @abstract
   class Reporter
-    # @return [SlimLint::Report] report of all lints found and files scanned
-    attr_reader :report
-
     # Creates the reporter that will display the given report.
     #
     # @param logger [SlimLint::Logger]
-    # @param report [SlimLint::Report]
-    def initialize(logger, report)
+    def initialize(logger)
       @log = logger
-      @report = report
     end
 
     # Implemented by subclasses to display lints from a {SlimLint::Report}.
-    def report_lints
-      raise NotImplementedError
+    #
+    # @param report [SlimLint::Report]
+    def display_report(report)
+      raise NotImplementedError,
+            "Implement `display_report` to display #{report}"
     end
 
     # Keep tracking all the descendants of this class for the list of available
@@ -38,6 +36,7 @@ module SlimLint
 
     private
 
+    # @return [SlimLint::Logger] logger to send output to
     attr_reader :log
   end
 end

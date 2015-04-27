@@ -90,8 +90,8 @@ module SlimLint
     # Outputs a report of the linter run using the specified reporter.
     def print_report(report, options)
       reporter = options.fetch(:reporter,
-                               SlimLint::Reporter::DefaultReporter).new(log, report)
-      reporter.report_lints
+                               SlimLint::Reporter::DefaultReporter).new(log)
+      reporter.display_report(report)
     end
 
     # Outputs a list of all currently available linters.

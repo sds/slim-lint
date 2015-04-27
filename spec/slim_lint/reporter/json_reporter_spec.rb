@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 describe SlimLint::Reporter::JsonReporter do
-  describe '#report_lints' do
+  describe '#display_report' do
     let(:io) { StringIO.new }
     let(:output) { JSON.parse(io.string) }
     let(:logger) { SlimLint::Logger.new(io) }
     let(:report) { SlimLint::Report.new(lints, []) }
-    let(:reporter) { described_class.new(logger, report) }
+    let(:reporter) { described_class.new(logger) }
 
-    subject { reporter.report_lints }
+    subject { reporter.display_report(report) }
 
     shared_examples_for 'output format specification' do
       it 'matches the output specification' do

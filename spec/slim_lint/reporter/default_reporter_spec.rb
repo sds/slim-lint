@@ -1,16 +1,14 @@
 require 'spec_helper'
 
 describe SlimLint::Reporter::DefaultReporter do
-  subject { SlimLint::Reporter::DefaultReporter.new(lints) }
-
-  describe '#report_lints' do
+  describe '#display_report' do
     let(:io) { StringIO.new }
     let(:output) { io.string }
     let(:logger) { SlimLint::Logger.new(io) }
     let(:report) { SlimLint::Report.new(lints, []) }
-    let(:reporter) { described_class.new(logger, report) }
+    let(:reporter) { described_class.new(logger) }
 
-    subject { reporter.report_lints }
+    subject { reporter.display_report(report) }
 
     context 'when there are no lints' do
       let(:lints) { [] }

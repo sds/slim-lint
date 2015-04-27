@@ -64,7 +64,7 @@ module SlimLint
         end
       end
 
-      files.uniq
+      files.uniq.sort
     end
 
     # Whether the given file should be treated as a Slim file.

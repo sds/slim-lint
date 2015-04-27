@@ -30,6 +30,7 @@ require 'slim_lint/ruby_parser'
 require 'slim_lint/linter'
 require 'slim_lint/reporter'
 require 'slim_lint/report'
+require 'slim_lint/linter_selector'
 require 'slim_lint/runner'
 
 # Load all matchers

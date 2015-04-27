@@ -1,6 +1,37 @@
 require 'spec_helper'
 
 describe SlimLint::Utils do
+  describe 'any_glob_matches?' do
+    let(:file) { 'match-file.txt' }
+    subject { described_class.any_glob_matches?(globs, file) }
+
+    context 'when a single matching glob is given' do
+      let(:globs) { 'match-*.txt' }
+
+      it { should == true }
+    end
+
+    context 'when a single non-matching glob is given' do
+      let(:globs) { 'other-*.txt' }
+
+      it { should == false }
+    end
+
+    context 'when a list of globs is given' do
+      context 'and none of them match' do
+        let(:globs) { ['who.txt', 'nope*.txt', 'nomatch-*.txt'] }
+
+        it { should == false }
+      end
+
+      context 'and one of them match' do
+        let(:globs) { ['who.txt', 'nope*.txt', 'match-*.txt'] }
+
+        it { should == true }
+      end
+    end
+  end
+
   describe '.for_consecutive_items' do
     let(:min_items) { 2 }
     let(:matches_proc) { ->(item) { item } }

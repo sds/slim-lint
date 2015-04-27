@@ -79,6 +79,11 @@ Here's an example configuration file:
 
 ```yaml
 linters:
+  EmptyControlStatement:
+    exclude:
+      - app/views/directory_of_files_to_exclude/**/*.slim
+      - specific/file/to/exclude.slim
+
   LineLength:
     max: 100
 
@@ -89,6 +94,14 @@ linters:
 All linters have an `enabled` option which can be `true` or `false`, which
 controls whether the linter is run, along with linter-specific options. The
 defaults are defined in [`config/default.yml`](config/default.yml).
+
+### Linter Options
+
+Option        | Description
+--------------|----------------------------------------------------------------
+`enabled`     | If `false`, this linter will never be run. This takes precedence over any other option.
+`include`     | List of files or glob patterns to scope this linter to. This narrows down any files specified via the command line.
+`exclude`     | List of files or glob patterns to exclude from this linter. This excludes any files specified via the command line or already filtered via the `include` option.
 
 ### Skipping Frontmatter
 

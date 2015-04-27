@@ -5,18 +5,16 @@ module SlimLint
     # options.
     #
     # @param options [Hash]
-    # @raise [SlimLint::Exceptions::NoLintersError] when no linters are enabled
     # @return [SlimLint::Report] a summary of all lints found
     def run(options = {})
       config = load_applicable_config(options)
       files = extract_applicable_files(config, options)
-      linters = extract_enabled_linters(config, options)
 
-      raise SlimLint::Exceptions::NoLintersError, 'No linters specified' if linters.empty?
+      linter_selector = SlimLint::LinterSelector.new(config, options)
 
       @lints = []
       files.each do |file|
-        find_lints(file, linters, config)
+        find_lints(file, linter_selector, config)
       end
 
       SlimLint::Report.new(@lints, files)
@@ -37,39 +35,16 @@ module SlimLint
       end
     end
 
-    # Returns a list of linters that are enabled given the specified
-    # configuration and additional options.
-    #
-    # @param config [SlimLint::Configuration]
-    # @param options [Hash]
-    # @return [Array<SlimLint::Linter>]
-    def extract_enabled_linters(config, options)
-      included_linters = LinterRegistry
-        .extract_linters_from(options.fetch(:included_linters, []))
-
-      included_linters = LinterRegistry.linters if included_linters.empty?
-
-      excluded_linters = LinterRegistry
-        .extract_linters_from(options.fetch(:excluded_linters, []))
-
-      # After filtering out explicitly included/excluded linters, only include
-      # linters which are enabled in the configuration
-      (included_linters - excluded_linters).map do |linter_class|
-        linter_config = config.for_linter(linter_class)
-        linter_class.new(linter_config) if linter_config['enabled']
-      end.compact
-    end
-
     # Runs all provided linters using the specified config against the given
     # file.
     #
     # @param file [String] path to file to lint
-    # @param linters [Array<SlimLint::Linter>]
+    # @param linter_selector [SlimLint::LinterSelector]
     # @param config [SlimLint::Configuration]
-    def find_lints(file, linters, config)
+    def find_lints(file, linter_selector, config)
       document = SlimLint::Document.new(File.read(file), file: file, config: config)
 
-      linters.each do |linter|
+      linter_selector.linters_for_file(file).each do |linter|
         @lints += linter.run(document)
       end
     rescue Slim::Parser::SyntaxError => ex

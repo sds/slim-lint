@@ -24,9 +24,7 @@ module SlimLint
     def find(patterns, excluded_patterns)
       extract_files_from(patterns).reject do |file|
         excluded_patterns.any? do |exclusion_glob|
-          ::File.fnmatch?(exclusion_glob, file,
-                          ::File::FNM_PATHNAME | # Wildcards don't match path separators
-                          ::File::FNM_DOTMATCH)  # `*` wildcard matches dotfiles
+          SlimLint::Utils.any_glob_matches?(exclusion_glob, file)
         end
       end
     end

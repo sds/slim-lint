@@ -3,6 +3,23 @@ module SlimLint
   module Utils
     module_function
 
+    # Returns whether a glob pattern (or any of a list of patterns) matches the
+    # specified file.
+    #
+    # This is defined here so our file globbing options are consistent
+    # everywhere we perform globbing.
+    #
+    # @param glob [String, Array]
+    # @param file [String]
+    # @return [Boolean]
+    def any_glob_matches?(globs_or_glob, file)
+      Array(globs_or_glob).any? do |glob|
+        ::File.fnmatch?(glob, file,
+                        ::File::FNM_PATHNAME | # Wildcards don't match path separators
+                        ::File::FNM_DOTMATCH)  # `*` wildcard matches dotfiles
+      end
+    end
+
     # Find all consecutive items satisfying the given block of a minimum size,
     # yielding each group of consecutive items to the provided block.
     #

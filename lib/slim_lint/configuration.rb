@@ -1,5 +1,10 @@
 module SlimLint
   # Stores runtime configuration for the application.
+  #
+  # The purpose of this class is to validate and ensure all configurations
+  # satisfy some basic pre-conditions so other parts of the application don't
+  # have to check the configuration for errors. It should have no knowledge of
+  # how these configuration values are ultimately used.
   class Configuration
     # Internal hash storing the configuration.
     attr_reader :hash
@@ -41,7 +46,7 @@ module SlimLint
           linter.name
         end
 
-      @hash['linters'].fetch(linter_name, {}).freeze
+      @hash['linters'].fetch(linter_name, {}).dup.freeze
     end
 
     # Merges the given configuration with this one, returning a new
@@ -74,12 +79,24 @@ module SlimLint
     # Validates the configuration for any invalid options, normalizing it where
     # possible.
     def validate
-      ensure_linter_section_exists(@hash)
+      ensure_linter_section_exists
+      ensure_linter_include_exclude_arrays_exist
     end
 
     # Ensures the `linters` configuration section exists.
-    def ensure_linter_section_exists(hash)
-      hash['linters'] ||= {}
+    def ensure_linter_section_exists
+      @hash['linters'] ||= {}
+    end
+
+    # Ensure `include` and `exclude` options for linters are arrays
+    # (since users can specify a single string glob pattern for convenience)
+    def ensure_linter_include_exclude_arrays_exist
+      @hash['linters'].keys.each do |linter_name|
+        %w[include exclude].each do |option|
+          linter_config = @hash['linters'][linter_name]
+          linter_config[option] = Array(linter_config[option])
+        end
+      end
     end
   end
 end

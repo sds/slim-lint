@@ -14,6 +14,27 @@ describe SlimLint::Configuration do
         subject['linters'].should == {}
       end
     end
+
+    context 'with a linter with single values in its `include`/`exclude` options' do
+      let(:hash) do
+        {
+          'linters' => {
+            'SomeLinter' => {
+              'include' => '**/*.slim',
+              'exclude' => '**/*.ignore.slim',
+            },
+          },
+        }
+      end
+
+      it 'converts the `include` value into an array' do
+        subject['linters']['SomeLinter']['include'].should == ['**/*.slim']
+      end
+
+      it 'converts the `exclude` value into an array' do
+        subject['linters']['SomeLinter']['exclude'].should == ['**/*.ignore.slim']
+      end
+    end
   end
 
   describe '#for_linter' do

@@ -203,4 +203,4 @@ of `slim-lint`, read the [Slim-Lint Changelog](CHANGELOG.md).
 
 ## License
 
-This project is released under the [MIT license](MIT-LICENSE).
+This project is released under the [MIT license](LICENSE.md).

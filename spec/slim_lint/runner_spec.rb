@@ -22,11 +22,11 @@ describe SlimLint::Runner do
     subject { runner.run(options) }
 
     before do
-      runner.stub(:find_lints).and_return([])
+      runner.stub(:collect_lints).and_return([])
     end
 
     it 'searches for lints in each file' do
-      runner.should_receive(:find_lints).exactly(files.size).times
+      runner.should_receive(:collect_lints).exactly(files.size).times
       subject
     end
 

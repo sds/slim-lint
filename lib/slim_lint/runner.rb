@@ -12,12 +12,11 @@ module SlimLint
 
       linter_selector = SlimLint::LinterSelector.new(config, options)
 
-      @lints = []
-      files.each do |file|
-        find_lints(file, linter_selector, config)
-      end
+      lints = files.map do |file|
+        collect_lints(file, linter_selector, config)
+      end.flatten
 
-      SlimLint::Report.new(@lints, files)
+      SlimLint::Report.new(lints, files)
     end
 
     private
@@ -41,14 +40,16 @@ module SlimLint
     # @param file [String] path to file to lint
     # @param linter_selector [SlimLint::LinterSelector]
     # @param config [SlimLint::Configuration]
-    def find_lints(file, linter_selector, config)
-      document = SlimLint::Document.new(File.read(file), file: file, config: config)
-
-      linter_selector.linters_for_file(file).each do |linter|
-        @lints += linter.run(document)
+    def collect_lints(file, linter_selector, config)
+      begin
+        document = SlimLint::Document.new(File.read(file), file: file, config: config)
+      rescue Slim::Parser::SyntaxError => ex
+        return [SlimLint::Lint.new(nil, file, ex.line, ex.error, :error)]
       end
-    rescue Slim::Parser::SyntaxError => ex
-      @lints << SlimLint::Lint.new(nil, file, ex.line, ex.error, :error)
+
+      linter_selector.linters_for_file(file).map do |linter|
+        linter.run(document)
+      end.flatten
     end
 
     # Returns the list of files that should be linted given the specified

@@ -23,7 +23,7 @@ module SlimLint
     #
     # @param source [String] Slim code to parse
     # @param options [Hash]
-    # @option file [String] file name of document that was parsed
+    # @option options :file [String] file name of document that was parsed
     # @raise [Slim::Parser::Error] if there was a problem parsing the document
     def initialize(source, options)
       @config = options[:config]

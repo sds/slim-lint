@@ -4,12 +4,12 @@ module SlimLint
     # Runs the appropriate linters against the desired files given the specified
     # options.
     #
-    # @param options [Hash]
-    # @option config_file [String] path of configuration file to load
-    # @option config [SlimLint::Configuration] configuration to use
-    # @option excluded_files [Array<String>]
-    # @option included_linters [Array<String>]
-    # @option excluded_linters [Array<String>]
+    # @param [Hash] options
+    # @option options :config_file [String] path of configuration file to load
+    # @option options :config [SlimLint::Configuration] configuration to use
+    # @option options :excluded_files [Array<String>]
+    # @option options :included_linters [Array<String>]
+    # @option options :excluded_linters [Array<String>]
     # @return [SlimLint::Report] a summary of all lints found
     def run(options = {})
       config = load_applicable_config(options)

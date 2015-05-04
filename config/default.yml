@@ -34,9 +34,11 @@ linters:
       - Lint/EndAlignment
       - Lint/Void
       - Metrics/LineLength
+      - Style/AlignHash
       - Style/AlignParameters
       - Style/BlockNesting
       - Style/FileName
+      - Style/FirstParameterIndentation
       - Style/IfUnlessModifier
       - Style/IndentationConsistency
       - Style/IndentationWidth

@@ -5,12 +5,6 @@ module SlimLint
   # This is mostly copied from Slim::Engine, with some filters and generators
   # omitted.
   class RubyExtractEngine < Temple::Engine
-    define_options sort_attrs: true,
-                   format: :xhtml,
-                   attr_quote: '"',
-                   merge_attrs: { 'class' => ' ' },
-                   default_tag: 'div'
-
     filter :Encoding
     filter :RemoveBOM
 
@@ -23,14 +17,11 @@ module SlimLint
     # matter in this case.
     use Slim::Embedded
     use Slim::Interpolation
-    use Slim::Splat::Filter
+    use SlimLint::Filters::SplatProcessor
     use Slim::DoInserter
     use Slim::EndInserter
-    use Slim::Controls
-    html :AttributeSorter
-    html :AttributeMerger
-    use Slim::CodeAttributes
-    filter :ControlFlow
+    use SlimLint::Filters::ControlProcessor
+    use SlimLint::Filters::AttributeProcessor
     filter :MultiFlattener
     filter :StaticMerger
 

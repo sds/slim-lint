@@ -12,9 +12,11 @@ module SlimLint
       processed_sexp = SlimLint::RubyExtractEngine.new.call(document.source)
 
       extractor = SlimLint::RubyExtractor.new
-      extracted_ruby = extractor.extract(processed_sexp)
+      extracted_source = extractor.extract(processed_sexp)
 
-      find_lints(extracted_ruby, extractor.source_map) unless extracted_ruby.empty?
+      next if extracted_source.source.empty?
+
+      find_lints(extracted_source.source, extracted_source.source_map)
     end
 
     private

@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Fix Ruby code extraction to result in fewer false positives from `RuboCop`
+
 ## 0.3.0
 
 * Add support for `include`/`exclude` options on linters, allowing a list of

@@ -19,6 +19,7 @@ Metrics/AbcSize:
 # We break this rule to write S-expressions more succinctly.
 Style/AlignArray:
   Exclude:
+    - 'lib/slim_lint/filters/**/*.rb'
     - 'lib/slim_lint/linter/**/*.rb'
     - 'spec/slim_lint/**/*.rb'
 

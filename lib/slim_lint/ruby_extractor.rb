@@ -30,16 +30,20 @@ module SlimLint
     include SexpVisitor
     extend SexpVisitor::DSL
 
-    # Map of generated Ruby source code lines and their corresponding lines in
-    # the original document.
-    attr_reader :source_map
+    # Stores the extracted source and a map of lines of generated source to the
+    # original source that created them.
+    #
+    # @attr_reader source [String] generated source code
+    # @attr_reader source_map [Hash] map of line numbers from generated source
+    #   to original source line number
+    RubySource = Struct.new(:source, :source_map)
 
     # Extracts Ruby code from Sexp representing a Slim document.
     #
     # @param sexp [SlimLint::Sexp]
     def extract(sexp)
       trigger_pattern_callbacks(sexp)
-      @source_lines.join("\n")
+      RubySource.new(@source_lines.join("\n"), @source_map)
     end
 
     on_start do |_sexp|
@@ -79,14 +83,14 @@ module SlimLint
     def append(code, sexp)
       return if code.empty?
 
-      @source_lines << code
       original_line = sexp.line
 
       # For code that spans multiple lines, the resulting code will span
       # multiple lines, so we need to create a mapping for each line.
-      (code.count("\n") + 1).times do
+      code.split("\n").each_with_index do |line, index|
+        @source_lines << line
         @line_count += 1
-        @source_map[@line_count] = original_line
+        @source_map[@line_count] = original_line + index
       end
     end
   end

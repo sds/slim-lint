@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.4.0
 
 * Fix Ruby code extraction to result in fewer false positives from `RuboCop`
 * Fix `ConsecutiveControlStatements` to not report control statements with

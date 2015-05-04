@@ -2,6 +2,9 @@ module SlimLint
   # Chooses the appropriate linters to run given the specified configuration.
   class LinterSelector
     # Creates a selector using the given configuration and additional options.
+    #
+    # @param config [SlimLint::Configuration]
+    # @param options [Hash]
     def initialize(config, options)
       @config = config
       @options = options

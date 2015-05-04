@@ -3,6 +3,8 @@
 ## master (unreleased)
 
 * Fix Ruby code extraction to result in fewer false positives from `RuboCop`
+* Fix `ConsecutiveControlStatements` to not report control statements with
+  nested content (i.e. `if`/`elsif`/`else`)
 
 ## 0.3.0
 

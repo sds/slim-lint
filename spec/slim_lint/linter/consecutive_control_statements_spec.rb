@@ -51,4 +51,19 @@ describe SlimLint::Linter::ConsecutiveControlStatements do
     it { should report_lint line: 2 }
     it { should report_lint line: 6 }
   end
+
+  context 'when a large if/elsif/else statement exists' do
+    let(:slim) { <<-SLIM }
+      p Hello world
+      - if some_condition
+        - some_code
+      - elsif some_other_condition
+        - some_other_code
+      - else
+        - some_else_code
+      a href="link"
+    SLIM
+
+    it { should_not report_lint }
+  end
 end

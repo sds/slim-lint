@@ -16,8 +16,11 @@ module SlimLint
     # Initializes a linter with the specified configuration.
     #
     # @param config [Hash] configuration for this linter
-    def initialize(config)
+    # @param options [Hash]
+    # @option (see Runner#run)
+    def initialize(config, options = {})
       @config = config
+      @options = options
       @lints = []
     end
 
@@ -40,7 +43,7 @@ module SlimLint
 
     private
 
-    attr_reader :config, :document
+    attr_reader :config, :options, :document
 
     # Record a lint for reporting back to the user.
     #

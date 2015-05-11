@@ -6,6 +6,7 @@ module SlimLint
     #
     # @param [Hash] options
     # @option options :config_file [String] path of configuration file to load
+    # @option options :rubocop_config_file [String] path of rubocop config file
     # @option options :config [SlimLint::Configuration] configuration to use
     # @option options :excluded_files [Array<String>]
     # @option options :included_linters [Array<String>]
@@ -30,6 +31,7 @@ module SlimLint
     # specified options.
     #
     # @param options [Hash]
+    # @option (see #run)
     # @return [SlimLint::Configuration]
     def load_applicable_config(options)
       if options[:config_file]
@@ -64,6 +66,7 @@ module SlimLint
     #
     # @param config [SlimLint::Configuration]
     # @param options [Hash]
+    # @option (see #run)
     # @return [Array<String>]
     def extract_applicable_files(config, options)
       included_patterns = options[:files]

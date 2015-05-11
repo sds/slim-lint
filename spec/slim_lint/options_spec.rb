@@ -15,6 +15,14 @@ describe SlimLint::Options do
       end
     end
 
+    context 'with a rubocop configuration file specified' do
+      let(:args) { %w[--rubocop-config some-config.yml] }
+
+      it 'sets the `rubocop_config_file` option to that file path' do
+        subject.should include rubocop_config_file: 'some-config.yml'
+      end
+    end
+
     context 'with a list of files to exclude' do
       let(:args) { %w[--exclude some-glob-pattern/*.slim,some-other-pattern.slim] }
 

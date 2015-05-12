@@ -67,6 +67,11 @@ module SlimLint
         @options[:config_file] = conf_file
       end
 
+      parser.on('--rubocop-config config-file', String,
+                'Specify which rubocop configuration file you want to use') do |rubocop_conf_file|
+        @options[:rubocop_config_file] = rubocop_conf_file
+      end
+
       parser.on('-e', '--exclude file,...', Array,
                 'List of file names to exclude') do |files|
         @options[:excluded_files] = files

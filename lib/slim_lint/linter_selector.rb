@@ -41,7 +41,7 @@ module SlimLint
       # linters which are enabled in the configuration
       linters = (included_linters - excluded_linters).map do |linter_class|
         linter_config = config.for_linter(linter_class)
-        linter_class.new(linter_config) if linter_config['enabled']
+        linter_class.new(linter_config, options) if linter_config['enabled']
       end.compact
 
       # Highlight condition where all linters were filtered out, as this was

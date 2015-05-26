@@ -75,7 +75,7 @@ module SlimLint
     # @return [Array<String>]
     def rubocop_settings
       settings = %w[--format SlimLint::OffenseCollector]
-      settings << %w[--config #{ENV['RUBOCOP_CONFIG']}] if ENV['RUBOCOP_CONFIG'].present?
+      settings += ['--config', ENV['RUBOCOP_CONFIG']] if ENV['RUBOCOP_CONFIG']
       settings
     end
   end

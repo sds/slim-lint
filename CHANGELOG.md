@@ -1,5 +1,10 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Add support for `SLIM_LINT_RUBOCOP_CONF` environment variable to `RuboCop`
+  linter, allowing external tools to specify RuboCop configuration to use
+
 ## 0.4.0
 
 * Fix Ruby code extraction to result in fewer false positives from `RuboCop`

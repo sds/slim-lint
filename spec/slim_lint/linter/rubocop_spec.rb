@@ -48,9 +48,9 @@ describe SlimLint::Linter::RuboCop do
     end
   end
 
-  context 'when the RUBOCOP_CONFIG environment variable is specified' do
+  context 'when the SLIM_LINT_RUBOCOP_CONF environment variable is specified' do
     around do |example|
-      SlimLint::Utils.with_environment 'RUBOCOP_CONFIG' => 'some-rubocop.yml' do
+      SlimLint::Utils.with_environment 'SLIM_LINT_RUBOCOP_CONF' => 'some-rubocop.yml' do
         example.run
       end
     end

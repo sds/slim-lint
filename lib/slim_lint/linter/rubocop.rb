@@ -75,7 +75,7 @@ module SlimLint
     # @return [Array<String>]
     def rubocop_flags
       flags = %w[--format SlimLint::OffenseCollector]
-      flags += ['--config', ENV['RUBOCOP_CONFIG']] if ENV['RUBOCOP_CONFIG']
+      flags += ['--config', ENV['SLIM_LINT_RUBOCOP_CONF']] if ENV['SLIM_LINT_RUBOCOP_CONF']
       flags
     end
   end

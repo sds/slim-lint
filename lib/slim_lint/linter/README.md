@@ -145,6 +145,12 @@ the `ignored_cops` option (see [`config/default.yml`](/config/default.yml)
 for the full list of ignored cops). Note that if you modify the list you'll
 need to re-include all the items from the default configuration.
 
+You can also explicitly set which RuboCop configuration to use via the
+`SLIM_LINT_RUBOCOP_CONF` environment variable. This is intended to be used
+by external tools which run the linter on files in temporary directories
+separate from the directory where the Slim template originally resided (and
+thus where the normal `.rubocop.yml` would be picked up).
+
 ## TagCase
 
 Reports tag names with uppercase characters.

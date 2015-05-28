@@ -51,7 +51,7 @@ module SlimLint
     # @param file [String]
     # @return [Array<RuboCop::Cop::Offense>]
     def lint_file(rubocop, file)
-      rubocop.run(rubocop_settings << file)
+      rubocop.run(rubocop_flags << file)
       OffenseCollector.offenses
     end
 
@@ -70,13 +70,13 @@ module SlimLint
       end
     end
 
-    # Returns settings for the rubocop CLI
+    # Returns flags that will be passed to RuboCop CLI.
     #
     # @return [Array<String>]
-    def rubocop_settings
-      settings = %w[--format SlimLint::OffenseCollector]
-      settings += ['--config', ENV['RUBOCOP_CONFIG']] if ENV['RUBOCOP_CONFIG']
-      settings
+    def rubocop_flags
+      flags = %w[--format SlimLint::OffenseCollector]
+      flags += ['--config', ENV['RUBOCOP_CONFIG']] if ENV['RUBOCOP_CONFIG']
+      flags
     end
   end
 

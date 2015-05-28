@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'securerandom'
 
 describe SlimLint::Utils do
   describe 'any_glob_matches?' do
@@ -111,6 +112,48 @@ describe SlimLint::Utils do
             described_class.for_consecutive_items(items, matches_proc, min_items, &block)
           end.to yield_successive_args([true, true, true])
         end
+      end
+    end
+  end
+
+  describe '.with_environment' do
+    let(:var_name) { "SLIM_LINT_TEST_VAR_#{SecureRandom.hex}" }
+
+    shared_examples_for 'with_environment' do
+      it 'sets the value of the variable within the block' do
+        described_class.with_environment var_name => 'modified_value' do
+          ENV[var_name].should == 'modified_value'
+        end
+      end
+    end
+
+    context 'when setting an environment variable that was not already set' do
+      it_should_behave_like 'with_environment'
+
+      it 'deletes the value once the block has exited' do
+        described_class.with_environment var_name => 'modified_value' do
+          # Do something...
+        end
+
+        ENV[var_name].should be_nil
+      end
+    end
+
+    context 'when setting an environment variable that was already set' do
+      around do |example|
+        ENV[var_name] = 'previous_value'
+        example.run
+        ENV.delete(var_name)
+      end
+
+      it_should_behave_like 'with_environment'
+
+      it 'restores the old value once the block has exited' do
+        described_class.with_environment var_name => 'modified_value' do
+          # Do something...
+        end
+
+        ENV[var_name].should == 'previous_value'
       end
     end
   end

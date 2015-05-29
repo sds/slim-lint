@@ -66,7 +66,7 @@ module SlimLint
         @lints << Lint.new(self,
                            document.file,
                            source_map[offense.line],
-                           "#{offense.cop_name}: #{offense.message}")
+                           offense.message)
       end
     end
 

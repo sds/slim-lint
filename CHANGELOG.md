@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Change required Ruby version from 1.9.3+ to 2.0.0+
+
 ## 0.5.0
 
 * Add support for `SLIM_LINT_RUBOCOP_CONF` environment variable to `RuboCop`

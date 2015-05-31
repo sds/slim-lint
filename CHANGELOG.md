@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.5.0
 
 * Add support for `SLIM_LINT_RUBOCOP_CONF` environment variable to `RuboCop`
   linter, allowing external tools to specify RuboCop configuration to use

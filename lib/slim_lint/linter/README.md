@@ -151,6 +151,17 @@ by external tools which run the linter on files in temporary directories
 separate from the directory where the Slim template originally resided (and
 thus where the normal `.rubocop.yml` would be picked up).
 
+### Displaying Cop Names
+
+You can display the name of the cop by adding the following to your
+`.rubocop.yml` configuration:
+
+```yaml
+AllCops:
+  DisplayCopNames: true
+
+```
+
 ## TagCase
 
 Reports tag names with uppercase characters.

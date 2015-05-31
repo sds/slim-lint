@@ -4,6 +4,7 @@
 
 * Add support for `SLIM_LINT_RUBOCOP_CONF` environment variable to `RuboCop`
   linter, allowing external tools to specify RuboCop configuration to use
+* Change required Ruby version from 2.0.0+ to 1.9.3+
 
 ## 0.4.0
 

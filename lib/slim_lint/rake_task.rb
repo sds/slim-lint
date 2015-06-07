@@ -1,5 +1,6 @@
 require 'rake'
 require 'rake/tasklib'
+require 'slim_lint/constants'
 
 module SlimLint
   # Rake task interface for slim-lint command line interface.
@@ -112,7 +113,6 @@ module SlimLint
     #
     # @return [String]
     def default_description
-      require 'slim_lint/constants'
       description = "Run `#{SlimLint::APP_NAME}"
       description += " --config #{config}" if config
       description += " #{files.join(' ')}" if files.any?

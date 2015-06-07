@@ -3,6 +3,7 @@
 ## master (unreleased)
 
 * Change required Ruby version from 1.9.3+ to 2.0.0+
+* Fix rake task integration to not crash when running `rake -T`
 
 ## 0.5.0
 

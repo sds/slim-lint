@@ -112,6 +112,7 @@ module SlimLint
     #
     # @return [String]
     def default_description
+      require 'slim_lint/constants'
       description = "Run `#{SlimLint::APP_NAME}"
       description += " --config #{config}" if config
       description += " #{files.join(' ')}" if files.any?

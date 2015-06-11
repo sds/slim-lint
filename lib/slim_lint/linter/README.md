@@ -159,7 +159,6 @@ You can display the name of the cop by adding the following to your
 ```yaml
 AllCops:
   DisplayCopNames: true
-
 ```
 
 ## TagCase

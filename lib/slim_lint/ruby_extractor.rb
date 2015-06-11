@@ -41,6 +41,7 @@ module SlimLint
     # Extracts Ruby code from Sexp representing a Slim document.
     #
     # @param sexp [SlimLint::Sexp]
+    # @return [SlimLint::RubyExtractor::RubySource]
     def extract(sexp)
       trigger_pattern_callbacks(sexp)
       RubySource.new(@source_lines.join("\n"), @source_map)

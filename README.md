@@ -20,6 +20,7 @@ your [SCM hooks](https://github.com/brigade/overcommit).
 * [Usage](#usage)
 * [Configuration](#configuration)
 * [Linters](#linters)
+* [Editor Integration](#editor-integration)
 * [Git Integration](#git-integration)
 * [Rake Integration](#rake-integration)
 * [Documentation](#documentation)
@@ -131,6 +132,13 @@ You can find detailed documentation on all supported linters by following the
 link below:
 
 ### [» Linters Documentation](lib/slim_lint/linter/README.md)
+
+## Editor Integration
+
+### Sublime Text
+
+Install the
+[Sublime slim-lint plugin](https://sublime.wbond.net/packages/SublimeLinter-slim-lint).
 
 ## Git Integration
 

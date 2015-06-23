@@ -203,6 +203,21 @@ describe SlimLint::CLI do
         output.should include SlimLint::BUG_REPORT_URL
       end
 
+      it 'displays the Slim-Lint version' do
+        subject
+        output.should include "Slim-Lint version: #{SlimLint::VERSION}"
+      end
+
+      it 'displays the RuboCop version' do
+        subject
+        output.should include "RuboCop version: #{Gem.loaded_specs['rubocop'].version}"
+      end
+
+      it 'displays the Ruby version' do
+        subject
+        output.should include "Ruby version: #{RUBY_VERSION}"
+      end
+
       it { should == Sysexits::EX_SOFTWARE }
     end
   end

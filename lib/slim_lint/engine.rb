@@ -28,6 +28,16 @@ module SlimLint
     #
     # @param source [String] source code to parse
     # @return [SlimLint::Sexp] parsed Sexp
-    alias_method :parse, :call
+    def parse(source)
+      call(source)
+    rescue ::Slim::Parser::SyntaxError => ex
+      # Convert to our own exception type to isolate from upstream changes
+      error = SlimLint::Exceptions::ParseError.new(ex.error,
+                                                   ex.file,
+                                                   ex.line,
+                                                   ex.lineno,
+                                                   ex.column)
+      raise error
+    end
   end
 end

@@ -8,7 +8,15 @@ describe SlimLint::Engine do
       let(:source) { '%haml?' }
 
       it 'raises an error' do
-        expect { subject }.to raise_error Slim::Parser::SyntaxError
+        expect { subject }.to raise_error SlimLint::Exceptions::ParseError
+      end
+
+      it 'includes the line number in the exception' do
+        begin
+          subject
+        rescue SlimLint::Exceptions::ParseError => ex
+          ex.lineno.should == 1
+        end
       end
     end
 

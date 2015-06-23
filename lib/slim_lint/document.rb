@@ -35,7 +35,7 @@ module SlimLint
     private
 
     # @param source [String] Slim code to parse
-    # @raise [Slim::Parser::Error] if there was a problem parsing the document
+    # @raise [SlimLint::Exceptions::ParseError] if there was a problem parsing the document
     def process_source(source)
       @source = strip_frontmatter(source)
       @source_lines = @source.split("\n")

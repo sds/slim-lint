@@ -1,6 +1,9 @@
 # Load all slim-lint modules necessary to parse and lint a file.
 # Ordering here can be important depending on class references in each module.
 
+# Need to load slim before we can reference some classes or define filters
+require 'slim'
+
 require 'slim_lint/constants'
 require 'slim_lint/exceptions'
 require 'slim_lint/configuration'
@@ -12,9 +15,6 @@ require 'slim_lint/file_finder'
 require 'slim_lint/linter_registry'
 require 'slim_lint/logger'
 require 'slim_lint/version'
-
-# Need to load slim before we can define filters
-require 'slim'
 
 # Load all filters (required by SlimLint::Engine)
 Dir[File.expand_path('slim_lint/filters/*.rb', File.dirname(__FILE__))].each do |file|

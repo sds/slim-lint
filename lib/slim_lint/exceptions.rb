@@ -9,6 +9,9 @@ module SlimLint::Exceptions
   # Raised when an invalid file path is specified
   class InvalidFilePath < StandardError; end
 
+  # Raised when the Slim parser is unable to parse a template.
+  class ParseError < ::Slim::Parser::SyntaxError; end
+
   # Raised when attempting to execute `Runner` with options that would result in
   # no linters being enabled.
   class NoLintersError < StandardError; end

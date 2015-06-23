@@ -37,11 +37,20 @@ module SlimLint
     # @param source [String] Slim code to parse
     # @raise [SlimLint::Exceptions::ParseError] if there was a problem parsing the document
     def process_source(source)
+      @source = process_encoding(source)
       @source = strip_frontmatter(source)
       @source_lines = @source.split("\n")
 
       engine = SlimLint::Engine.new(file: @file)
       @sexp = engine.parse(source)
+    end
+
+    # Ensure the string's encoding is valid.
+    #
+    # @param source [String]
+    # @return [String] source encoded in a valid encoding
+    def process_encoding(source)
+      ::Temple::Filters::Encoding.new.call(source)
     end
 
     # Removes YAML frontmatter

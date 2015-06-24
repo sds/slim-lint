@@ -94,6 +94,10 @@ module SlimLint
       parser.on_tail('-v', '--version', 'Display version') do
         @options[:version] = true
       end
+
+      parser.on_tail('-V', '--verbose-version', 'Display verbose version information') do
+        @options[:verbose_version] = true
+      end
     end
   end
 end

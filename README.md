@@ -67,6 +67,7 @@ Command Line Flag         | Description
 `--show-linters`          | Show all registered linters
 `-h`/`--help`             | Show command line flag documentation
 `-v`/`--version`          | Show version
+`-V`/`--verbose-version`  | Show detailed version information
 
 ## Configuration
 

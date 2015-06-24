@@ -146,6 +146,35 @@ describe SlimLint::CLI do
       end
     end
 
+    context 'when passed the --verbose-version flag' do
+      let(:args) { ['--verbose-version'] }
+
+      it 'displays the application name' do
+        subject
+        output.should include SlimLint::APP_NAME
+      end
+
+      it 'displays the version' do
+        subject
+        output.should include SlimLint::VERSION
+      end
+
+      it 'displays the Slim version' do
+        subject
+        output.should include "slim #{Gem.loaded_specs['slim'].version}"
+      end
+
+      it 'displays the RuboCop version' do
+        subject
+        output.should include "rubocop #{Gem.loaded_specs['rubocop'].version}"
+      end
+
+      it 'displays the Ruby version' do
+        subject
+        output.should include RUBY_DESCRIPTION
+      end
+    end
+
     context 'when a ConfigurationError is raised' do
       before do
         cli.stub(:act_on_options).and_raise(SlimLint::Exceptions::ConfigurationError)

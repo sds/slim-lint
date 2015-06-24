@@ -5,6 +5,8 @@
 * Change required Ruby version from 1.9.3+ to 2.0.0+
 * Fix rake task integration to not crash when running `rake -T`
 * Improve bug reporting instructions in error message
+* Add `-V/--verbose-version` flag to display `slim`, `rubocop`, and `ruby`
+  version information in addition to output of `-v/--version` flag
 
 ## 0.5.0
 

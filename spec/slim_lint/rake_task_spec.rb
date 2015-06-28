@@ -35,7 +35,7 @@ describe SlimLint::RakeTask do
     let(:slim) { '%tag' }
 
     it 'raises an error' do
-      expect { run_task }.to raise_error
+      expect { run_task }.to raise_error RuntimeError
     end
   end
 end

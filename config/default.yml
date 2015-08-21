@@ -37,6 +37,7 @@ linters:
       - Style/AlignHash
       - Style/AlignParameters
       - Style/BlockNesting
+      - Style/ExtraSpacing
       - Style/FileName
       - Style/FirstParameterIndentation
       - Style/IfUnlessModifier

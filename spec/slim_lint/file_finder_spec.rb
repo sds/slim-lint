@@ -73,6 +73,18 @@ describe SlimLint::FileFinder do
           end
 
           it { should == ['some-dir/test.slim'] }
+
+          context 'and those Slim files are excluded explicitly' do
+            let(:excluded_patterns) { ['some-dir/test.slim'] }
+
+            it { should == [] }
+          end
+
+          context 'and those Slim files are excluded via glob' do
+            let(:excluded_patterns) { ['some-dir/*'] }
+
+            it { should == [] }
+          end
         end
 
         context 'and they contain more directories with files with recognized extensions' do
@@ -96,6 +108,44 @@ describe SlimLint::FileFinder do
       context 'and those directories do not exist' do
         it 'raises an error' do
           expect { subject }.to raise_error SlimLint::Exceptions::InvalidFilePath
+        end
+      end
+
+      context 'and the directory is the current directory' do
+        let(:patterns) { ['.'] }
+
+        context 'and the directory contains Slim files' do
+          before do
+            `touch test.slim`
+          end
+
+          it { should == ['test.slim'] }
+
+          context 'and those Slim files are excluded explicitly' do
+            let(:excluded_patterns) { ['test.slim'] }
+
+            it { should == [] }
+          end
+
+          context 'and those Slim files are excluded explicitly with leading slash' do
+            let(:excluded_patterns) { ['./test.slim'] }
+
+            it { should == [] }
+          end
+
+          context 'and those Slim files are excluded via glob' do
+            let(:excluded_patterns) { ['test.*'] }
+
+            it { should == [] }
+          end
+        end
+
+        context 'and directory contain files with some other extension' do
+          before do
+            `touch test.txt`
+          end
+
+          it { should == [] }
         end
       end
     end

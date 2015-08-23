@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Fix `exclude` option to work with paths prefixed with `./`
+
 ## 0.6.0
 
 * Change required Ruby version from 1.9.3+ to 2.0.0+

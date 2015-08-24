@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.6.1
 
 * Fix `exclude` option to work with paths prefixed with `./`
 

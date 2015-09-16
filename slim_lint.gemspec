@@ -17,7 +17,8 @@ Gem::Specification.new do |s|
   s.executables      = ['slim-lint']
 
   s.files            = Dir['config/**.yml'] +
-                       Dir['lib/**/*.rb']
+                       Dir['lib/**/*.rb'] +
+                       ['LICENSE.md']
 
   s.required_ruby_version = '>= 2.0.0'
 

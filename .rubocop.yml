@@ -94,5 +94,8 @@ Style/MultilineOperationIndentation:
 Style/TrivialAccessors:
   Enabled: false
 
-Style/TrailingComma:
+Style/TrailingCommaInArguments:
+  Enabled: false
+
+Style/TrailingCommaInLiteral:
   Enabled: false

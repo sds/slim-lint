@@ -6,7 +6,7 @@ module SlimLint
   class FileFinder
     # List of extensions of files to include under a directory when a directory
     # is specified instead of a file.
-    VALID_EXTENSIONS = %w[.slim]
+    VALID_EXTENSIONS = %w[.slim].freeze
 
     # Create a file finder using the specified configuration.
     #

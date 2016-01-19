@@ -4,8 +4,8 @@ require 'yaml'
 module SlimLint
   # Manages configuration file loading.
   class ConfigurationLoader
-    DEFAULT_CONFIG_PATH = File.join(SlimLint::HOME, 'config', 'default.yml')
-    CONFIG_FILE_NAME = '.slim-lint.yml'
+    DEFAULT_CONFIG_PATH = File.join(SlimLint::HOME, 'config', 'default.yml').freeze
+    CONFIG_FILE_NAME = '.slim-lint.yml'.freeze
 
     class << self
       # Load configuration file given the current working directory the

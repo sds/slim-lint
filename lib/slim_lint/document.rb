@@ -2,7 +2,7 @@ module SlimLint
   # Represents a parsed Slim document and its associated metadata.
   class Document
     # File name given to source code parsed from just a string.
-    STRING_SOURCE = '(string)'
+    STRING_SOURCE = '(string)'.freeze
 
     # @return [SlimLint::Configuration] Configuration used to parse template
     attr_reader :config

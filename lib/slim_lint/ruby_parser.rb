@@ -1,4 +1,5 @@
-require 'astrolabe/builder'
+require 'rubocop'
+require 'rubocop/ast_node/builder'
 require 'parser/current'
 
 module SlimLint
@@ -10,7 +11,7 @@ module SlimLint
   class RubyParser
     # Creates a reusable parser.
     def initialize
-      @builder = ::Astrolabe::Builder.new
+      @builder = ::RuboCop::Node::Builder.new
       @parser = ::Parser::CurrentRuby.new(@builder)
     end
 

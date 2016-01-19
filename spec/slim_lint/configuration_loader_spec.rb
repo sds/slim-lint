@@ -50,7 +50,7 @@ describe SlimLint::ConfigurationLoader do
 
     it 'loads the default config file' do
       described_class.should_receive(:load_from_file)
-        .with(SlimLint::ConfigurationLoader::DEFAULT_CONFIG_PATH)
+                     .with(SlimLint::ConfigurationLoader::DEFAULT_CONFIG_PATH)
       subject
     end
   end
@@ -126,9 +126,8 @@ describe SlimLint::ConfigurationLoader do
       let(:hash) { { 'skip_frontmatter' => true } }
 
       it 'extends the default configuration' do
-        subject.should ==
-          described_class.default_configuration
-                         .merge(SlimLint::Configuration.new(hash))
+        subject.should == described_class.default_configuration
+                          .merge(SlimLint::Configuration.new(hash))
       end
     end
   end

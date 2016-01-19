@@ -53,9 +53,10 @@ describe SlimLint::Runner do
       end
 
       it 'passes the global exclude patterns to the FileFinder' do
-        SlimLint::FileFinder.any_instance.should_receive(:find)
-                                         .with(files, ['exclude-this-file.slim'])
-                                         .and_return([])
+        SlimLint::FileFinder.any_instance
+                            .should_receive(:find)
+                            .with(files, ['exclude-this-file.slim'])
+                            .and_return([])
         subject
       end
     end

@@ -13,9 +13,7 @@ module DirectorySpecHelpers
     tmpdir = Dir.mktmpdir.tap do |path|
       Dir.chdir(path) do
         Dir.mkdir(name)
-        Dir.chdir(name) do
-          block.call if block_given?
-        end
+        Dir.chdir(name, &block) if block_given?
       end
     end
 

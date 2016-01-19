@@ -84,11 +84,12 @@ module SlimLint
         output << "\n"
         output += indentation
 
-        if nested_sexp.is_a?(SlimLint::Sexp)
-          output += nested_sexp.display(depth + 1)
-        else
-          output += nested_sexp.inspect
-        end
+        output +=
+          if nested_sexp.is_a?(SlimLint::Sexp)
+            nested_sexp.display(depth + 1)
+          else
+            nested_sexp.inspect
+          end
 
         # Add trailing comma unless this is the last item
         output += ',' if index < length - 1

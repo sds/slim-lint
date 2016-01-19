@@ -20,12 +20,7 @@ module SlimLint
     # @param other [Object]
     # @return [Boolean]
     def ==(other)
-      case other
-      when Atom
-        @value == other.instance_variable_get(:@value)
-      else
-        @value == other
-      end
+      @value == (other.is_a?(Atom) ? other.instance_variable_get(:@value) : other)
     end
 
     # Returns whether this atom matches the given Sexp pattern.

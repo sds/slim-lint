@@ -18,7 +18,7 @@ describe SlimLint::RubyExtractor do
         | Hello world
       SLIM
 
-      its(:source) { should == 'puts' }
+      its(:source) { should == '_slim_lint_puts_0' }
       its(:source_map) { should == { 1 => 1 } }
     end
 
@@ -29,7 +29,7 @@ describe SlimLint::RubyExtractor do
           world
       SLIM
 
-      its(:source) { should == 'puts' }
+      its(:source) { should == '_slim_lint_puts_0' }
       its(:source_map) { should == { 1 => 2 } }
     end
 
@@ -38,7 +38,7 @@ describe SlimLint::RubyExtractor do
         ' Hello world
       SLIM
 
-      its(:source) { should == 'puts' }
+      its(:source) { should == '_slim_lint_puts_0' }
       its(:source_map) { should == { 1 => 1 } }
     end
 
@@ -47,7 +47,7 @@ describe SlimLint::RubyExtractor do
         <p><b>Hello world!</b></p>
       SLIM
 
-      its(:source) { should == 'puts' }
+      its(:source) { should == '_slim_lint_puts_0' }
       its(:source_map) { should == { 1 => 1 } }
     end
 
@@ -107,7 +107,7 @@ describe SlimLint::RubyExtractor do
         /! This line will appear
       SLIM
 
-      its(:source) { should == 'puts' }
+      its(:source) { should == '_slim_lint_puts_0' }
       its(:source_map) { should == { 1 => 1 } }
     end
 
@@ -117,7 +117,7 @@ describe SlimLint::RubyExtractor do
           Get a better browser
       SLIM
 
-      its(:source) { should == "puts\nputs" }
+      its(:source) { should == "_slim_lint_puts_0\n_slim_lint_puts_1" }
       its(:source_map) { should == { 1 => 2, 2 => 2 } }
     end
 
@@ -126,7 +126,7 @@ describe SlimLint::RubyExtractor do
         doctype xml
       SLIM
 
-      its(:source) { should == 'puts' }
+      its(:source) { should == '_slim_lint_puts_0' }
       its(:source_map) { should == { 1 => 1 } }
     end
 
@@ -135,7 +135,7 @@ describe SlimLint::RubyExtractor do
         p A paragraph
       SLIM
 
-      its(:source) { should == "puts\nputs" }
+      its(:source) { should == "_slim_lint_puts_0\n_slim_lint_puts_1" }
       its(:source_map) { should == { 1 => 1, 2 => 1 } }
     end
 
@@ -144,7 +144,14 @@ describe SlimLint::RubyExtractor do
         p A \#{adjective} paragraph for \#{noun}
       SLIM
 
-      its(:source) { should == "puts\nputs\nadjective\nputs\nnoun" }
+      its(:source) { should == normalize_indent(<<-RUBY).chomp }
+      _slim_lint_puts_0
+      _slim_lint_puts_1
+      adjective
+      _slim_lint_puts_2
+      noun
+      RUBY
+
       its(:source_map) { should == { 1 => 1, 2 => 1, 3 => 1, 4 => 1, 5 => 1 } }
     end
 
@@ -153,7 +160,7 @@ describe SlimLint::RubyExtractor do
         p class="highlight"
       SLIM
 
-      its(:source) { should == "puts\nputs" }
+      its(:source) { should == "_slim_lint_puts_0\n_slim_lint_puts_1" }
       its(:source_map) { should == { 1 => 1, 2 => 1 } }
     end
 
@@ -163,7 +170,7 @@ describe SlimLint::RubyExtractor do
       SLIM
 
       its(:source) { should == normalize_indent(<<-RUBY).chomp }
-        puts
+        _slim_lint_puts_0
         user.class
         user.id
       RUBY
@@ -177,9 +184,9 @@ describe SlimLint::RubyExtractor do
       SLIM
 
       its(:source) { should == normalize_indent(<<-RUBY).chomp }
-        puts
+        _slim_lint_puts_0
         some_dynamic_tag
-        puts
+        _slim_lint_puts_1
       RUBY
 
       its(:source_map) { should == { 1 => 1, 2 => 1, 3 => 1 } }
@@ -193,7 +200,7 @@ describe SlimLint::RubyExtractor do
 
       its(:source) { should == normalize_indent(<<-RUBY).chomp }
         if condition_true?
-        puts
+        _slim_lint_puts_0
         end
       RUBY
 
@@ -210,9 +217,9 @@ describe SlimLint::RubyExtractor do
 
       its(:source) { should == normalize_indent(<<-RUBY).chomp }
         if condition_true?
-        puts
+        _slim_lint_puts_0
         else
-        puts
+        _slim_lint_puts_1
         end
       RUBY
 
@@ -231,11 +238,11 @@ describe SlimLint::RubyExtractor do
 
       its(:source) { should == normalize_indent(<<-RUBY).chomp }
         if condition_true?
-        puts
+        _slim_lint_puts_0
         elsif something_else?
-        puts
+        _slim_lint_puts_1
         else
-        puts
+        _slim_lint_puts_2
         end
       RUBY
 
@@ -254,9 +261,9 @@ describe SlimLint::RubyExtractor do
 
       its(:source) { should == normalize_indent(<<-RUBY).chomp }
         if condition_true?
-        puts
+        _slim_lint_puts_0
         else
-        puts
+        _slim_lint_puts_1
         end
         following_statement
         another_statement

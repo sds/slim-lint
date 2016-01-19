@@ -51,18 +51,19 @@ module SlimLint
       @source_lines = []
       @source_map = {}
       @line_count = 0
+      @dummy_puts_count = 0
     end
 
     on [:html, :doctype] do |sexp|
-      append('puts', sexp)
+      append_dummy_puts(sexp)
     end
 
     on [:html, :tag] do |sexp|
-      append('puts', sexp)
+      append_dummy_puts(sexp)
     end
 
     on [:static] do |sexp|
-      append('puts', sexp)
+      append_dummy_puts(sexp)
     end
 
     on [:dynamic] do |sexp|
@@ -93,6 +94,11 @@ module SlimLint
         @line_count += 1
         @source_map[@line_count] = original_line + index
       end
+    end
+
+    def append_dummy_puts(sexp)
+      append("_slim_lint_puts_#{@dummy_puts_count}", sexp)
+      @dummy_puts_count += 1
     end
   end
 end

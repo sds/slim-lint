@@ -1,5 +1,12 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Fix compatibility issues with Astrolabe gem by updating minimum RuboCop
+  version to 0.36.0
+* Fix `RuboCop` linter to not erroneously report
+  `Style/IdenticalConditionalBranches` warnings
+
 ## 0.6.1
 
 * Fix `exclude` option to work with paths prefixed with `./`

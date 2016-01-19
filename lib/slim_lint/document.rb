@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Represents a parsed Slim document and its associated metadata.
   class Document

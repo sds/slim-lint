@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Global application constants.
 module SlimLint
   HOME = File.expand_path(File.join(File.dirname(__FILE__), '..', '..')).freeze

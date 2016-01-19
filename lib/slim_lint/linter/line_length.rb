@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Checks for lines longer than a maximum number of columns.
   class Linter::LineLength < Linter

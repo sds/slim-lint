@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Checks for unnecessary uses of the `div` tag where a class name or ID
   # already implies a div.

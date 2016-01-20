@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.7.0
 
 * Fix compatibility issues with Astrolabe gem by updating minimum RuboCop
   version to 0.36.0

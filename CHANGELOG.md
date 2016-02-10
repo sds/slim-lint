@@ -1,5 +1,10 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Fix `RuboCop` linter to not report `FrozenStringLiteralComment` cops
+  as these are noisy in Slim templates
+
 ## 0.7.0
 
 * Fix compatibility issues with Astrolabe gem by updating minimum RuboCop

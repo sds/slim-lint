@@ -39,6 +39,7 @@ linters:
       - Style/BlockNesting
       - Style/FileName
       - Style/FirstParameterIndentation
+      - Style/FrozenStringLiteralComment
       - Style/IfUnlessModifier
       - Style/IndentationConsistency
       - Style/IndentationWidth

@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.7.1
 
 * Fix `RuboCop` linter to not report `FrozenStringLiteralComment` cops
   as these are noisy in Slim templates

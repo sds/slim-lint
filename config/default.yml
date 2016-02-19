@@ -43,6 +43,7 @@ linters:
       - Style/IfUnlessModifier
       - Style/IndentationConsistency
       - Style/IndentationWidth
+      - Style/MultilineOperationIndentation
       - Style/Next
       - Style/TrailingBlankLines
       - Style/TrailingWhitespace

@@ -2,8 +2,9 @@
 
 ## 0.7.1
 
-* Fix `RuboCop` linter to not report `FrozenStringLiteralComment` cops
-  as these are noisy in Slim templates
+* Fix default config. of `RuboCop` linter to not report `FrozenStringLiteralComment` cops
+  as these are noisy in Slim templates. If you override .slim-lint.yml you will have to
+  add this ignore config to it.
 
 ## 0.7.0
 

@@ -29,6 +29,8 @@ linters:
     enabled: true
     # These cops are incredibly noisy since the Ruby we extract from Slim
     # templates isn't well-formatted, so we ignore them.
+    # WARNING: If you define this list in your own .slim-lint.yml file, you'll
+    # be overriding the list defined here.
     ignored_cops:
       - Lint/BlockAlignment
       - Lint/EndAlignment

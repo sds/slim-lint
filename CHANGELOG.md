@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.7.2
 
 * Relax `rake` gem dependency to allow rake 11.x.x
 

@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Relax `rake` gem dependency to allow rake 11.x.x
+
 ## 0.7.1
 
 * Fix `RuboCop` linter to not report `FrozenStringLiteralComment` cops

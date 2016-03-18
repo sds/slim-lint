@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.0.0'
 
   s.add_dependency 'slim', '~> 3.0'
-  s.add_dependency 'rake', '~> 10.0'
+  s.add_dependency 'rake', '>= 10', '< 12'
   s.add_dependency 'rubocop', '>= 0.36.0'
   s.add_dependency 'sysexits', '~> 1.1'
 

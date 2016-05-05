@@ -64,7 +64,9 @@ Command Line Flag         | Description
 `-i`/`--include-linter`   | Specify which linters you specifically want to run
 `-x`/`--exclude-linter`   | Specify which linters you _don't_ want to run
 `--[no-]color`            | Whether to output in color
+`--reporter [reporter]`   | Specify which output formatter to use
 `--show-linters`          | Show all registered linters
+`--show-reporters`        | Show all available reporters
 `-h`/`--help`             | Show command line flag documentation
 `-v`/`--version`          | Show version
 `-V`/`--verbose-version`  | Show detailed version information

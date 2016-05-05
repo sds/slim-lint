@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Add `Checkstyle` reporter
+
 ## 0.7.2
 
 * Relax `rake` gem dependency to allow rake 11.x.x

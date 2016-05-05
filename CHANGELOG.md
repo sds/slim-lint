@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.8.0
 
 * Add `Checkstyle` reporter
 

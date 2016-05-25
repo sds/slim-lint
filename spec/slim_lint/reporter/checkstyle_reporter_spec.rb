@@ -58,7 +58,8 @@ describe SlimLint::Reporter::CheckstyleReporter do
           "<error line='#{lint_data[0][:line]}' "\
           "message='#{lint_data[0][:description]}' "\
           "severity='#{lint_data[0][:severity]}' "\
-          "source='slim-lint'/>")
+          "source='slim-lint'/>"
+        )
       end
     end
   end

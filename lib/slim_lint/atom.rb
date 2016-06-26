@@ -82,5 +82,13 @@ module SlimLint
         @value.respond_to?(method_sym, include_private)
       end
     end
+
+    # Return number of newline found inside value.
+    #
+    # @return [Integer]
+    def lines
+      return 0 unless @value.is_a? String
+      @value.count("\n")
+    end
   end
 end

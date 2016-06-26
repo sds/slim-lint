@@ -127,7 +127,7 @@ describe SlimLint::Atom do
     end
 
     context 'when value is string without \n' do
-      let(:value) { ["foo"] }
+      let(:value) { ['foo'] }
       subject { described_class.new(value).lines }
 
       it { should == 0 }

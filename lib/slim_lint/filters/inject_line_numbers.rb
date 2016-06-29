@@ -21,7 +21,8 @@ module SlimLint::Filters
     private
 
     # Traverses an {Sexp}, annotating it with line numbers by searching for
-    # newline abstractions within it.
+    # newline abstractions within it and "\n" inside the value of SlimLint::Atom
+    # object.
     #
     # @param sexp [SlimLint::Sexp]
     def traverse(sexp)
@@ -33,6 +34,7 @@ module SlimLint::Filters
       end
 
       sexp.each do |nested_sexp|
+        @line_number += nested_sexp.lines if nested_sexp.is_a?(SlimLint::Atom)
         traverse(nested_sexp) if nested_sexp.is_a?(SlimLint::Sexp)
       end
     end

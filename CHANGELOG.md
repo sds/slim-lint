@@ -1,5 +1,10 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Fix line numbers reported when Ruby code spans multiple lines in a single
+  control/code statement
+
 ## 0.8.0
 
 * Add `Checkstyle` reporter

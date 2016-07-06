@@ -117,27 +117,4 @@ describe SlimLint::Atom do
       end
     end
   end
-
-  describe '#lines' do
-    context 'when value is not string' do
-      let(:value) { [:foo] }
-      subject { described_class.new(value).lines }
-
-      it { should == 0 }
-    end
-
-    context 'when value is string without \n' do
-      let(:value) { ['foo'] }
-      subject { described_class.new(value).lines }
-
-      it { should == 0 }
-    end
-
-    context 'when value is string with \n' do
-      let(:value) { "foo\nbar\nbaz\nqux" }
-      subject { described_class.new(value).lines }
-
-      it { should == 3 }
-    end
-  end
 end

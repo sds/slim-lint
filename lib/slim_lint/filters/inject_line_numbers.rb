@@ -20,22 +20,21 @@ module SlimLint::Filters
 
     private
 
-    # Traverses an {Sexp}, annotating it with line numbers by searching for
-    # newline abstractions within it and "\n" inside the value of SlimLint::Atom
-    # object.
+    # Traverses an {Sexp}, annotating it with line numbers.
     #
     # @param sexp [SlimLint::Sexp]
     def traverse(sexp)
       sexp.line = @line_number
 
-      if sexp == NEWLINE_SEXP
+      case sexp
+      when SlimLint::Atom
+        @line_number += sexp.count("\n") if sexp.respond_to?(:count)
+      when NEWLINE_SEXP
         @line_number += 1
-        return
-      end
-
-      sexp.each do |nested_sexp|
-        @line_number += nested_sexp.lines if nested_sexp.is_a?(SlimLint::Atom)
-        traverse(nested_sexp) if nested_sexp.is_a?(SlimLint::Sexp)
+      else
+        sexp.each do |nested_sexp|
+          traverse(nested_sexp)
+        end
       end
     end
   end

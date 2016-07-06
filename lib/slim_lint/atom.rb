@@ -4,6 +4,10 @@ module SlimLint
   # This creates a light wrapper around literal values of S-expressions so we
   # can make an {Atom} quack like a {Sexp} without being an {Sexp}.
   class Atom
+    # Stores the line number of the code in the original document that this Atom
+    # came from.
+    attr_accessor :line
+
     # Creates an atom from the specified value.
     #
     # @param value [Object]
@@ -81,14 +85,6 @@ module SlimLint
       else
         @value.respond_to?(method_sym, include_private)
       end
-    end
-
-    # Return number of newline found inside value.
-    #
-    # @return [Integer]
-    def lines
-      return 0 unless @value.is_a? String
-      @value.count("\n")
     end
   end
 end

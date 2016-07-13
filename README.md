@@ -143,6 +143,23 @@ link below:
 Install the
 [Sublime slim-lint plugin](https://sublime.wbond.net/packages/SublimeLinter-slim-lint).
 
+### Emacs
+
+If you use flycheck, add the following snippet of Emacs Lisp to your init file to define a slim-lint checker.
+
+```elisp
+(flycheck-define-checker slim-lint
+  "A SLIM linter
+See URL `https://github.com/sds/slim-lint'."
+  :command ("slim-lint" "--reporter=checkstyle"
+            source-original)
+  :error-parser flycheck-parse-checkstyle
+  :modes (slim-mode)
+  :next-checkers ((info . slim)))
+
+(add-to-list 'flycheck-checkers 'slim-lint)
+```
+
 ## Git Integration
 
 If you'd like to integrate `slim-lint` into your Git workflow, check out

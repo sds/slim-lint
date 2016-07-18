@@ -145,20 +145,8 @@ Install the
 
 ### Emacs
 
-If you use flycheck, add the following snippet of Emacs Lisp to your init file to define a slim-lint checker.
-
-```elisp
-(flycheck-define-checker slim-lint
-  "A SLIM linter
-See URL `https://github.com/sds/slim-lint'."
-  :command ("slim-lint" "--reporter=checkstyle"
-            source-original)
-  :error-parser flycheck-parse-checkstyle
-  :modes (slim-mode)
-  :next-checkers ((info . slim)))
-
-(add-to-list 'flycheck-checkers 'slim-lint)
-```
+If you use Flycheck, support for `slim-lint` is included as of version
+20160718.215 installed from MELPA.
 
 ## Git Integration
 

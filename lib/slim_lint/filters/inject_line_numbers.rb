@@ -28,7 +28,7 @@ module SlimLint::Filters
 
       case sexp
       when SlimLint::Atom
-        @line_number += sexp.count("\n") if sexp.respond_to?(:count)
+        @line_number += sexp.strip.count("\n") if sexp.respond_to?(:count)
       when NEWLINE_SEXP
         @line_number += 1
       else

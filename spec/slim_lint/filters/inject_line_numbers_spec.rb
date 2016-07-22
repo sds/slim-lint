@@ -25,5 +25,21 @@ describe SlimLint::Filters::InjectLineNumbers do
         subject[2][2].line.should == 5
       end
     end
+
+    context 'when a Sexp has atoms with \n in front' do
+      let(:sexp) do
+        SlimLint::Sexp.new([:one, [:newline], ["\ntwo", [:newline], ["\nthree\nfour", 5]]])
+      end
+
+      it 'calculates line numbers correctly' do
+        subject.line.should == 1
+        subject[1].line.should == 1
+        subject[2][0].line.should == 2
+        subject[2][1].line.should == 2
+        subject[2][2].line.should == 3
+        subject[2][2][0].line.should == 3
+        subject[2][2][1].line.should == 4
+      end
+    end
   end
 end

@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.8.2
 
 * Additional fix for line numbers reported when Ruby code spans multiple
   lines in a single control/code statement

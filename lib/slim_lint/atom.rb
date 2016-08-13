@@ -73,6 +73,12 @@ module SlimLint
       end
     end
 
+    # @param method_name [String,Symbol] method name
+    # @param args [Array]
+    def respond_to_missing?(method_name, *args)
+      @value.__send__(:respond_to_missing?, method_name, *args) || super
+    end
+
     # Return whether this {Atom} or the value it wraps responds to the given
     # message.
     #

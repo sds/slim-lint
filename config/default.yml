@@ -45,6 +45,13 @@ linters:
       - Style/IfUnlessModifier
       - Style/IndentationConsistency
       - Style/IndentationWidth
+      - Style/MultilineArrayBraceLayout
+      - Style/MultilineAssignmentLayout
+      - Style/MultilineHashBraceLayout
+      - Style/MultilineMethodCallBraceLayout
+      - Style/MultilineMethodDefinitionBraceLayout
+      - Style/MultilineMethodCallIndentation
+      - Style/MultilineOperationIndentation
       - Style/Next
       - Style/TrailingBlankLines
       - Style/TrailingWhitespace

@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Disable `Metrics/BlockLength` RuboCop cop by default
+
 ## 0.8.2
 
 * Additional fix for line numbers reported when Ruby code spans multiple

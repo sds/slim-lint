@@ -2,6 +2,7 @@
 
 ## master (unreleased)
 
+* Disable `Style/Multiline*` cops by default
 * Disable `Metrics/BlockLength` RuboCop cop by default
 
 ## 0.8.2

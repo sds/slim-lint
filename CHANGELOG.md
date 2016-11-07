@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.8.3
 
 * Disable `Style/Multiline*` cops by default
 * Disable `Metrics/BlockLength` RuboCop cop by default

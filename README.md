@@ -148,6 +148,11 @@ Install the
 If you use Flycheck, support for `slim-lint` is included as of version
 20160718.215 installed from MELPA.
 
+### Atom
+
+Install the [`linter-slim-lint`](https://github.com/mattaschmann/linter-slim-lint)
+plugin by running `apm install linter-slim-lint`.
+
 ## Git Integration
 
 If you'd like to integrate `slim-lint` into your Git workflow, check out

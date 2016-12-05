@@ -166,18 +166,6 @@ AllCops:
 
 Reports detection of tabs used for indentation.
 
-**Bad**
-```slim
-.container
-	p Hello World
-```
-
-**Good**
-```slim
-.container
-  p Hello World
-```
-
 ## TagCase
 
 Reports tag names with uppercase characters.

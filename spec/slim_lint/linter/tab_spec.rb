@@ -3,7 +3,7 @@ require 'spec_helper'
 describe SlimLint::Linter::Tab do
   include_context 'linter'
 
-  context 'when a file contains tags' do
+  context 'when a file contains tabs' do
     let(:slim) { <<-SLIM }
       .container
       	p Hello World

@@ -12,6 +12,8 @@ PreCommit:
 
   HardTabs:
     enabled: true
+    exclude:
+      - 'spec/slim_lint/linter/tab_spec.rb'
 
   RuboCop:
     enabled: true

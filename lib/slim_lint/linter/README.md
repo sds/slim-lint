@@ -8,6 +8,7 @@ Below is a list of linters supported by `slim-lint`, ordered alphabetically.
 * [LineLength](#linelength)
 * [RedundantDiv](#redundantdiv)
 * [RuboCop](#rubocop)
+* [Tab](#tab)
 * [TagCase](#tagcase)
 * [TrailingWhitespace](#trailingwhitespace)
 
@@ -160,6 +161,10 @@ You can display the name of the cop by adding the following to your
 AllCops:
   DisplayCopNames: true
 ```
+
+## Tab
+
+Reports detection of tabs used for indentation.
 
 ## TagCase
 

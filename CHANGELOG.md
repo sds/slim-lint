@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.10.0
 
 * Relax rake gem constraint to allow 12.x
 

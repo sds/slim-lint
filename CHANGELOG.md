@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.9.0
 
 * Fix `skip_frontmatter` option
 * Add `Tab` linter which reports the use of hard tabs as indentation

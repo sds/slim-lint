@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Relax rake gem constraint to allow 12.x
+
 ## 0.9.0
 
 * Fix `skip_frontmatter` option

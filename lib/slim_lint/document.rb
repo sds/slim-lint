@@ -44,7 +44,7 @@ module SlimLint
       @source_lines = @source.split("\n")
 
       engine = SlimLint::Engine.new(file: @file)
-      @sexp = engine.parse(source)
+      @sexp = engine.parse(@source)
     end
 
     # Ensure the string's encoding is valid.

@@ -58,6 +58,9 @@ linters:
       - Style/TrailingWhitespace
       - Style/WhileUntilModifier
 
+  Tab:
+    enabled: true
+
   TagCase:
     enabled: true
 

@@ -6,7 +6,7 @@ describe SlimLint::Linter::Tab do
   context 'when a file contains tabs' do
     let(:slim) { <<-SLIM }
       .container
-      	p Hello World
+      \tp Hello World
     SLIM
 
     it { should_not report_lint line: 1 }

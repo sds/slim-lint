@@ -1,5 +1,10 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Fix `skip_frontmatter` option
+* Add `Tab` linter which reports the use of hard tabs as indentation
+
 ## 0.8.3
 
 * Disable `Style/Multiline*` cops by default

@@ -1,9 +1,9 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.11.0
 
-* Update minimum RuboCop version to 0.47.0+ due to breaking change in
-  RuboCop AST interface
+* Update minimum RuboCop version to 0.47.0+ due to [breaking change in
+  RuboCop AST interface](https://github.com/bbatsov/rubocop/commit/48f1637eb36)
 
 ## 0.10.0
 

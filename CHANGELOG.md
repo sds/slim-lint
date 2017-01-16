@@ -1,5 +1,10 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Update minimum RuboCop version to 0.47.0+ due to breaking change in
+  RuboCop AST interface
+
 ## 0.10.0
 
 * Relax rake gem constraint to allow 12.x

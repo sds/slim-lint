@@ -7,6 +7,10 @@ Lint/AssignmentInCondition:
 Lint/Void:
   Enabled: false
 
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*.rb'
+
 Metrics/LineLength:
   Max: 100
 

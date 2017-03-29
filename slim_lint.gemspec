@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'slim', '~> 3.0'
   s.add_dependency 'rake', '>= 10', '< 13'
-  s.add_dependency 'rubocop', '>= 0.47.0'
+  s.add_dependency 'rubocop', '>= 0.48.0'
   s.add_dependency 'sysexits', '~> 1.1'
 
   s.add_development_dependency 'rspec', '~> 3.0'

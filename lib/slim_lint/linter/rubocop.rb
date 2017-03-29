@@ -34,7 +34,7 @@ module SlimLint
       filename = "#{File.basename(original_filename)}.slim_lint.tmp"
       directory = File.dirname(original_filename)
 
-      Tempfile.open(filename, directory) do |f|
+      Tempfile.open([filename, '.rb'], directory) do |f|
         begin
           f.write(ruby)
           f.close

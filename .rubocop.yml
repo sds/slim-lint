@@ -106,3 +106,11 @@ Style/TrailingCommaInArguments:
 
 Style/TrailingCommaInLiteral:
   Enabled: false
+
+# Disabling some new rubocop 0.48 cops to avoid distracting clutter in a PR
+# (Should be enabled and auto-corrected in a follow-up PR.)
+Style/InverseMethods:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false

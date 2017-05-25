@@ -127,7 +127,7 @@ describe SlimLint::ConfigurationLoader do
 
       it 'extends the default configuration' do
         subject.should == described_class.default_configuration
-                          .merge(SlimLint::Configuration.new(hash))
+                                         .merge(SlimLint::Configuration.new(hash))
       end
     end
   end

@@ -1,3 +1,16 @@
+# We break this rule to write S-expressions more succinctly.
+Layout/AlignArray:
+  Exclude:
+    - 'lib/slim_lint/filters/**/*.rb'
+    - 'lib/slim_lint/linter/**/*.rb'
+    - 'spec/slim_lint/**/*.rb'
+
+Layout/DotPosition:
+  EnforcedStyle: leading
+
+Layout/MultilineOperationIndentation:
+  Enabled: false
+
 Lint/AmbiguousRegexpLiteral:
   Enabled: false
 
@@ -20,13 +33,6 @@ Metrics/MethodLength:
 Metrics/AbcSize:
   Max: 16
 
-# We break this rule to write S-expressions more succinctly.
-Style/AlignArray:
-  Exclude:
-    - 'lib/slim_lint/filters/**/*.rb'
-    - 'lib/slim_lint/linter/**/*.rb'
-    - 'spec/slim_lint/**/*.rb'
-
 # Enforcing this results in a lot of unnecessary indentation.
 Style/ClassAndModuleChildren:
   Enabled: false
@@ -37,9 +43,6 @@ Style/CollectionMethods:
 Style/Documentation:
   Exclude:
     - 'spec/**/*'
-
-Style/DotPosition:
-  EnforcedStyle: leading
 
 Style/Encoding:
   EnforcedStyle: when_needed
@@ -93,9 +96,6 @@ Style/SingleLineBlockParams:
   Enabled: false
 
 Style/SpecialGlobalVars:
-  Enabled: false
-
-Style/MultilineOperationIndentation:
   Enabled: false
 
 Style/TrivialAccessors:

@@ -37,25 +37,25 @@ linters:
       - Lint/Void
       - Metrics/BlockLength
       - Metrics/LineLength
-      - Style/AlignHash
-      - Style/AlignParameters
+      - Layout/AlignHash
+      - Layout/AlignParameters
       - Style/BlockNesting
       - Style/FileName
-      - Style/FirstParameterIndentation
+      - Layout/FirstParameterIndentation
       - Style/FrozenStringLiteralComment
       - Style/IfUnlessModifier
-      - Style/IndentationConsistency
-      - Style/IndentationWidth
-      - Style/MultilineArrayBraceLayout
-      - Style/MultilineAssignmentLayout
-      - Style/MultilineHashBraceLayout
-      - Style/MultilineMethodCallBraceLayout
-      - Style/MultilineMethodDefinitionBraceLayout
-      - Style/MultilineMethodCallIndentation
-      - Style/MultilineOperationIndentation
+      - Layout/IndentationConsistency
+      - Layout/IndentationWidth
+      - Layout/MultilineArrayBraceLayout
+      - Layout/MultilineAssignmentLayout
+      - Layout/MultilineHashBraceLayout
+      - Layout/MultilineMethodCallIndentation
+      - Layout/MultilineMethodCallBraceLayout
+      - Layout/MultilineMethodDefinitionBraceLayout
+      - Layout/MultilineOperationIndentation
       - Style/Next
-      - Style/TrailingBlankLines
-      - Style/TrailingWhitespace
+      - Layout/TrailingBlankLines
+      - Layout/TrailingWhitespace
       - Style/WhileUntilModifier
 
   Tab:

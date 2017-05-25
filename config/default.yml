@@ -32,30 +32,30 @@ linters:
     # WARNING: If you define this list in your own .slim-lint.yml file, you'll
     # be overriding the list defined here.
     ignored_cops:
-      - Lint/BlockAlignment
-      - Lint/EndAlignment
-      - Lint/Void
-      - Metrics/BlockLength
-      - Metrics/LineLength
       - Layout/AlignHash
       - Layout/AlignParameters
-      - Style/BlockNesting
-      - Style/FileName
       - Layout/FirstParameterIndentation
-      - Style/FrozenStringLiteralComment
-      - Style/IfUnlessModifier
       - Layout/IndentationConsistency
       - Layout/IndentationWidth
       - Layout/MultilineArrayBraceLayout
       - Layout/MultilineAssignmentLayout
       - Layout/MultilineHashBraceLayout
-      - Layout/MultilineMethodCallIndentation
       - Layout/MultilineMethodCallBraceLayout
+      - Layout/MultilineMethodCallIndentation
       - Layout/MultilineMethodDefinitionBraceLayout
       - Layout/MultilineOperationIndentation
-      - Style/Next
       - Layout/TrailingBlankLines
       - Layout/TrailingWhitespace
+      - Lint/BlockAlignment
+      - Lint/EndAlignment
+      - Lint/Void
+      - Metrics/BlockLength
+      - Metrics/LineLength
+      - Style/BlockNesting
+      - Style/FileName
+      - Style/FrozenStringLiteralComment
+      - Style/IfUnlessModifier
+      - Style/Next
       - Style/WhileUntilModifier
 
   Tab:

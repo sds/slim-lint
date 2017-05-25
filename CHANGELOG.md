@@ -1,5 +1,10 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Add support for RuboCop 0.49.0
+* Require RuboCop 0.49.0 or newer
+
 ## 0.12.0
 
 * Add support for RuboCop 0.48.0

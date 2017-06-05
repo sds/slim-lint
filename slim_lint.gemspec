@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
                        Dir['lib/**/*.rb'] +
                        ['LICENSE.md']
 
-  s.required_ruby_version = '>= 2.0.0'
+  s.required_ruby_version = '>= 1.9.3'
 
   s.add_dependency 'slim', '~> 3.0'
   s.add_dependency 'rake', '>= 10', '< 13'

@@ -24,7 +24,7 @@ describe SlimLint::RakeTask do
   end
 
   context 'when Slim document is valid' do
-    let(:slim) { 'p Hello world' }
+    let(:slim) { "p Hello world\n" }
 
     it 'executes without error' do
       expect { run_task }.not_to raise_error

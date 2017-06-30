@@ -21,8 +21,9 @@ RSpec::Matchers.define :report_lint do |options|
       end
   end
 
-  failure_message_when_negated do |_linter|
-    'expected that a lint would not be reported'
+  failure_message_when_negated do |linter|
+    'expected that a lint would not be reported' \
+      ", but got `#{linter.lints.first.message}`"
   end
 
   description do

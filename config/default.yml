@@ -64,5 +64,8 @@ linters:
   TagCase:
     enabled: true
 
+  TrailingBlankLines:
+    enabled: true
+
   TrailingWhitespace:
     enabled: true

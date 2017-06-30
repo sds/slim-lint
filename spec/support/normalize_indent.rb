@@ -2,8 +2,8 @@ module IndentNormalizer
   # Strips off excess leading indentation from each line so we can use Heredocs
   # for writing code without having the leading indentation count.
   def normalize_indent(code)
-    leading_indent = code[/^(\s*)/, 1]
-    code.lstrip.gsub(/\n#{leading_indent}/, "\n")
+    leading_indent = code[/^(\s*?)(\n|\S)/, 1]
+    code.gsub(/^#{leading_indent}/, '')
   end
 end
 

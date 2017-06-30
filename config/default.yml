@@ -18,6 +18,9 @@ linters:
   EmptyControlStatement:
     enabled: true
 
+  EmptyLines:
+    enabled: true
+
   RedundantDiv:
     enabled: true
 

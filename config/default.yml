@@ -53,8 +53,8 @@ linters:
       - Lint/EndAlignment
       - Lint/Void
       - Metrics/BlockLength
+      - Metrics/BlockNesting
       - Metrics/LineLength
-      - Style/BlockNesting
       - Style/FileName
       - Style/FrozenStringLiteralComment
       - Style/IfUnlessModifier

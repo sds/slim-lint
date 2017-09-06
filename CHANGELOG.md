@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Disable `Layout/AlignArray` and `Layout/IndentArray` RuboCop cops by default
+
 ## 0.13.0
 
 * Add support for RuboCop 0.49.0

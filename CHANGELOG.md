@@ -2,6 +2,9 @@
 
 ## master (unreleased)
 
+* Add `TrailingBlankLines` linter
+* Add `EmptyLines` linter
+* Fix `Metrics/BlockNesting` RuboCop cop to be disabled by default
 * Disable `Layout/AlignArray` and `Layout/IndentArray` RuboCop cops by default
 
 ## 0.13.0

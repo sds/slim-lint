@@ -33,6 +33,18 @@ Metrics/MethodLength:
 Metrics/AbcSize:
   Max: 16
 
+Naming/FileName:
+  Exclude:
+    - 'bin/slim-lint'
+    - 'Gemfile'
+    - 'Rakefile'
+    - '*.gemspec'
+
+# Renaming `has_something?` to `something?` obfuscates whether it is a "is-a" or
+# a "has-a" relationship.
+Naming/PredicateName:
+  Enabled: false
+
 # Enforcing this results in a lot of unnecessary indentation.
 Style/ClassAndModuleChildren:
   Enabled: false
@@ -49,13 +61,6 @@ Style/Encoding:
 
 Style/FormatString:
   Enabled: false
-
-Style/FileName:
-  Exclude:
-    - 'bin/slim-lint'
-    - 'Gemfile'
-    - 'Rakefile'
-    - '*.gemspec'
 
 Style/GuardClause:
   Enabled: false
@@ -81,11 +86,6 @@ Style/PercentLiteralDelimiters:
     '%w': '[]'
     '%W': '[]'
     '%x': '{}'
-
-# Renaming `has_something?` to `something?` obfuscates whether it is a "is-a" or
-# a "has-a" relationship.
-Style/PredicateName:
-  Enabled: false
 
 Style/SignalException:
   Enabled: false

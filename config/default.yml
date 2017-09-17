@@ -57,7 +57,7 @@ linters:
       - Metrics/BlockLength
       - Metrics/BlockNesting
       - Metrics/LineLength
-      - Style/FileName
+      - Naming/FileName
       - Style/FrozenStringLiteralComment
       - Style/IfUnlessModifier
       - Style/Next

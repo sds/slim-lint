@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.14.0
 
 * Add `TrailingBlankLines` linter
 * Add `EmptyLines` linter

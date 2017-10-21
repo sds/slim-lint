@@ -29,12 +29,7 @@ module SlimLint
     def find_lints(ruby, source_map)
       rubocop = ::RuboCop::CLI.new
 
-      filename =
-        if document.file
-          "#{document.file}.rb"
-        else
-          'ruby_script.rb'
-        end
+      filename = document.file ? "#{document.file}.rb" : 'ruby_script.rb'
 
       with_ruby_from_stdin(ruby) do
         extract_lints_from_offenses(lint_file(rubocop, filename), source_map)

@@ -29,24 +29,24 @@ describe SlimLint::Document do
     end
 
     it 'stores the source code' do
-      subject.source == source
+      subject.source.should == source
     end
 
     it 'stores the individual lines of source code' do
-      subject.source_lines == source.split("\n")
+      subject.source_lines.should == source.split("\n")
     end
 
     context 'when file is explicitly specified' do
       let(:options) { super().merge(file: 'my_file.slim') }
 
       it 'sets the file name' do
-        subject.file == 'my_file.slim'
+        subject.file.should == 'my_file.slim'
       end
     end
 
     context 'when file is not specified' do
-      it 'sets a dummy file name' do
-        subject.file == SlimLint::Document::STRING_SOURCE
+      it 'returns `nil` for the file name' do
+        subject.file.should be_nil
       end
     end
 
@@ -66,7 +66,7 @@ describe SlimLint::Document do
 
       context 'and the source does not contain frontmatter' do
         it 'leaves the source untouched' do
-          subject.source == source
+          subject.source.should == source
         end
       end
     end

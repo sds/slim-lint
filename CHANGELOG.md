@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Improve RuboCop linter to not use temporary files when linting
+
 ## 0.14.0
 
 * Add `TrailingBlankLines` linter

@@ -56,9 +56,6 @@ Style/Documentation:
   Exclude:
     - 'spec/**/*'
 
-Style/Encoding:
-  EnforcedStyle: when_needed
-
 Style/FormatString:
   Enabled: false
 

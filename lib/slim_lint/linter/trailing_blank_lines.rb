@@ -5,6 +5,7 @@ module SlimLint
 
     on_start do |_sexp|
       dummy_node = Struct.new(:line)
+      next if document.source.empty?
 
       if !document.source.end_with?("\n")
         report_lint(dummy_node.new(document.source_lines.size),

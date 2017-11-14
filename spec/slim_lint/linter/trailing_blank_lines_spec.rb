@@ -32,4 +32,10 @@ describe SlimLint::Linter::TrailingBlankLines do
 
     it { should_not report_lint }
   end
+
+  context 'when source is empty' do
+    let(:slim) { '' }
+
+    it { should_not report_lint }
+  end
 end

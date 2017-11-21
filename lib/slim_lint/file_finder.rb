@@ -25,9 +25,7 @@ module SlimLint
       excluded_patterns = excluded_patterns.map { |pattern| normalize_path(pattern) }
 
       extract_files_from(patterns).reject do |file|
-        excluded_patterns.any? do |exclusion_glob|
-          SlimLint::Utils.any_glob_matches?(exclusion_glob, file)
-        end
+        SlimLint::Utils.any_glob_matches?(excluded_patterns, file)
       end
     end
 
@@ -72,7 +70,7 @@ module SlimLint
     # @param path [String]
     # @return [String]
     def normalize_path(path)
-      path.start_with?(".#{File::SEPARATOR}") ? path[2..-1] : path
+      File.expand_path(path.start_with?(".#{File::SEPARATOR}") ? path[2..-1] : path)
     end
 
     # Whether the given file should be treated as a Slim file.

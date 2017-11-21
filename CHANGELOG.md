@@ -3,6 +3,8 @@
 ## master (unreleased)
 
 * Fix `TrailingBlankLines` to ignore empty files
+* Fix `excludes` option to correctly filter files when relative path globs
+  are used
 
 ## 0.15.0
 

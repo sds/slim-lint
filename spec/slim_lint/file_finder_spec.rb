@@ -37,7 +37,7 @@ describe SlimLint::FileFinder do
           `touch test.txt`
         end
 
-        it { should == ['test.txt'] }
+        it { should == [File.expand_path('test.txt')] }
 
         context 'and that file is excluded directly' do
           let(:excluded_patterns) { ['test.txt'] }
@@ -60,7 +60,7 @@ describe SlimLint::FileFinder do
     end
 
     context 'when directories are given' do
-      let(:patterns) { ['some-dir'] }
+      let(:patterns) { [File.expand_path('some-dir')] }
 
       context 'and those directories exist' do
         before do
@@ -72,7 +72,7 @@ describe SlimLint::FileFinder do
             `touch some-dir/test.slim`
           end
 
-          it { should == ['some-dir/test.slim'] }
+          it { should == [File.expand_path('some-dir/test.slim')] }
 
           context 'and those Slim files are excluded explicitly' do
             let(:excluded_patterns) { ['some-dir/test.slim'] }
@@ -93,7 +93,7 @@ describe SlimLint::FileFinder do
             `touch some-dir/more-dir/test.slim`
           end
 
-          it { should == ['some-dir/more-dir/test.slim'] }
+          it { should == [File.expand_path('some-dir/more-dir/test.slim')] }
         end
 
         context 'and they contain files with some other extension' do
@@ -119,7 +119,7 @@ describe SlimLint::FileFinder do
             `touch test.slim`
           end
 
-          it { should == ['test.slim'] }
+          it { should == [File.expand_path('test.slim')] }
 
           context 'and those Slim files are excluded explicitly' do
             let(:excluded_patterns) { ['test.slim'] }
@@ -168,7 +168,7 @@ describe SlimLint::FileFinder do
           `touch 'test*.txt' test1.txt`
         end
 
-        it { should == ['test*.txt'] }
+        it { should == [File.expand_path('test*.txt')] }
       end
 
       context 'and files matching the glob pattern exist' do
@@ -176,12 +176,15 @@ describe SlimLint::FileFinder do
           `touch test1.txt test-some-words.txt`
         end
 
-        it { should == ['test-some-words.txt', 'test1.txt'] }
+        it 'includes all matching files' do
+          should == [File.expand_path('test-some-words.txt'),
+                     File.expand_path('test1.txt')]
+        end
 
         context 'and a glob pattern excludes a file' do
           let(:excluded_patterns) { ['*some*'] }
 
-          it { should == ['test1.txt'] }
+          it { should == [File.expand_path('test1.txt')] }
         end
       end
     end
@@ -193,7 +196,21 @@ describe SlimLint::FileFinder do
         `touch test.slim`
       end
 
-      it { should == ['test.slim'] }
+      it { should == [File.expand_path('test.slim')] }
+    end
+
+    context 'when an absolute file path is given' do
+      let(:patterns) { [File.expand_path('test.slim')] }
+
+      before do
+        `touch test.slim`
+      end
+
+      context 'and a non-absolute exclusion matches the pattern' do
+        let(:excluded_patterns) { ['test.slim'] }
+
+        it { should == [] }
+      end
     end
   end
 end

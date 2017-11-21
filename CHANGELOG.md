@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.15.1
 
 * Fix `TrailingBlankLines` to ignore empty files
 * Fix `excludes` option to correctly filter files when relative path globs

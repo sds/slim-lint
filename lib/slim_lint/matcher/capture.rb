@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint::Matcher
   # Wraps a matcher, taking on the behavior of the wrapped matcher but storing
   # the value that matched so it can be referred to later.

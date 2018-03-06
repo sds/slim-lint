@@ -1,4 +1,6 @@
-$LOAD_PATH << File.expand_path('../lib', __FILE__)
+# frozen_string_literal: true
+
+$LOAD_PATH << File.expand_path('lib', __dir__)
 require 'slim_lint/constants'
 require 'slim_lint/version'
 
@@ -20,7 +22,7 @@ Gem::Specification.new do |s|
                        Dir['lib/**/*.rb'] +
                        ['LICENSE.md']
 
-  s.required_ruby_version = '>= 2.0.0'
+  s.required_ruby_version = '>= 2.2.0'
 
   s.add_dependency 'rake', '>= 10', '< 13'
   s.add_dependency 'rubocop', '>= 0.50.0'

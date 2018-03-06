@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Contains information about a problem or issue with a Slim document.
   class Lint

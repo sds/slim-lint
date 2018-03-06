@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Makes writing tests for linters a lot DRYer by taking any `slim` variable
 # defined via `let` and normalizing it and running the linter against it.
 shared_context 'linter' do

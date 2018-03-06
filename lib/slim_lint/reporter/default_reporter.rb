@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Outputs lints in a simple format with the filename, line number, and lint
   # message.

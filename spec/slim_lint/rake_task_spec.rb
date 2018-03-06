@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'slim_lint/rake_task'
 require 'tempfile'

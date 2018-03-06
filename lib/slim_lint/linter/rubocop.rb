@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'slim_lint/ruby_extractor'
 require 'slim_lint/ruby_extract_engine'
 require 'rubocop'

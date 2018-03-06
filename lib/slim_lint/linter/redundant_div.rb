@@ -6,7 +6,7 @@ module SlimLint
   class Linter::RedundantDiv < Linter
     include LinterRegistry
 
-    MESSAGE = '`div` is redundant when %s attribute shortcut is present'.freeze
+    MESSAGE = '`div` is redundant when %s attribute shortcut is present'
 
     on [:html, :tag, 'div',
          [:html, :attrs,

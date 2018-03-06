@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # This linter looks for trailing blank lines and a final newline.
   class Linter::TrailingBlankLines < Linter

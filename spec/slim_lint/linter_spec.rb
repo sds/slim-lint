@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe SlimLint::Linter do
@@ -33,7 +35,7 @@ describe SlimLint::Linter do
         end
       end
 
-      let(:sexp) { [:ruby, "puts 'Hello world'"] }
+      let(:sexp) { [:ruby, "puts 'Hello world'".dup] }
 
       it 'parses the ruby' do
         subject

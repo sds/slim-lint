@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Checks for trailing whitespace.
   class Linter::TrailingWhitespace < Linter

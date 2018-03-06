@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'slim_lint'
 require 'slim_lint/options'
 
@@ -54,23 +56,23 @@ module SlimLint
 
     # Outputs a message and returns an appropriate error code for the specified
     # exception.
-    def handle_exception(ex)
-      case ex
+    def handle_exception(exception)
+      case exception
       when SlimLint::Exceptions::ConfigurationError
-        log.error ex.message
+        log.error exception.message
         Sysexits::EX_CONFIG
       when SlimLint::Exceptions::InvalidCLIOption
-        log.error ex.message
+        log.error exception.message
         log.log "Run `#{APP_NAME}` --help for usage documentation"
         Sysexits::EX_USAGE
       when SlimLint::Exceptions::InvalidFilePath
-        log.error ex.message
+        log.error exception.message
         Sysexits::EX_NOINPUT
       when SlimLint::Exceptions::NoLintersError
-        log.error ex.message
+        log.error exception.message
         Sysexits::EX_NOINPUT
       else
-        print_unexpected_exception(ex)
+        print_unexpected_exception(exception)
         Sysexits::EX_SOFTWARE
       end
     end
@@ -135,9 +137,9 @@ module SlimLint
 
     # Outputs the backtrace of an exception with instructions on how to report
     # the issue.
-    def print_unexpected_exception(ex) # rubocop:disable Metrics/AbcSize
-      log.bold_error ex.message
-      log.error ex.backtrace.join("\n")
+    def print_unexpected_exception(exception) # rubocop:disable Metrics/AbcSize
+      log.bold_error exception.message
+      log.error exception.backtrace.join("\n")
       log.warning 'Report this bug at ', false
       log.info SlimLint::BUG_REPORT_URL
       log.newline

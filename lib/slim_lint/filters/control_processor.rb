@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint::Filters
   # A dumbed-down version of {Slim::Controls} which doesn't introduce temporary
   # variables and other cruft (which in the context of extracting Ruby code,

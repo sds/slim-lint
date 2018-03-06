@@ -1,4 +1,7 @@
 # We break this rule to write S-expressions more succinctly.
+AllCops:
+  TargetRubyVersion: 2.2
+
 Layout/AlignArray:
   Exclude:
     - 'lib/slim_lint/filters/**/*.rb'
@@ -101,7 +104,10 @@ Style/TrivialAccessors:
 Style/TrailingCommaInArguments:
   Enabled: false
 
-Style/TrailingCommaInLiteral:
+Style/TrailingCommaInArrayLiteral:
+  Enabled: false
+
+Style/TrailingCommaInHashLiteral:
   Enabled: false
 
 # Disabling some new rubocop 0.48 cops to avoid distracting clutter in a PR
@@ -110,4 +116,7 @@ Style/InverseMethods:
   Enabled: false
 
 Style/SymbolArray:
+  Enabled: false
+
+Style/MutableConstant:
   Enabled: false

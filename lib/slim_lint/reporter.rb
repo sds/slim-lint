@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Abstract lint reporter. Subclass and override {#display_report} to
   # implement a custom lint reporter.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Searches for tags with uppercase characters.
   class Linter::TagCase < Linter

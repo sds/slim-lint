@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint::Matcher
   # Will match anything, acting as a wildcard.
   class Anything < Base

@@ -2,5 +2,5 @@
 
 # Defines the gem version.
 module SlimLint
-  VERSION = '0.15.1'.freeze
+  VERSION = '0.15.1'
 end

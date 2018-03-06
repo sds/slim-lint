@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Holds the list of captures, providing a convenient interface for accessing
   # the values and unwrapping them on your behalf.

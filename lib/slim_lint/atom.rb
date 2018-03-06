@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Represents an atomic, childless, literal value within an S-expression.
   #

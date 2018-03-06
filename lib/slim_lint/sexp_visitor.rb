@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Provides an interface which when included allows a class to visit nodes in
   # the Sexp of a Slim document.

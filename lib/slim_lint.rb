@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Load all slim-lint modules necessary to parse and lint a file.
 # Ordering here can be important depending on class references in each module.
 

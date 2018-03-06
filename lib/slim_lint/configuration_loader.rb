@@ -7,7 +7,7 @@ module SlimLint
   # Manages configuration file loading.
   class ConfigurationLoader
     DEFAULT_CONFIG_PATH = File.join(SlimLint::HOME, 'config', 'default.yml').freeze
-    CONFIG_FILE_NAME = '.slim-lint.yml'.freeze
+    CONFIG_FILE_NAME = '.slim-lint.yml'
 
     class << self
       # Load configuration file given the current working directory the
@@ -25,7 +25,7 @@ module SlimLint
 
       # Loads the built-in default configuration.
       def default_configuration
-        @default_config ||= load_from_file(DEFAULT_CONFIG_PATH)
+        @default_configuration ||= load_from_file(DEFAULT_CONFIG_PATH)
       end
 
       # Loads a configuration, ensuring it extends the default configuration.

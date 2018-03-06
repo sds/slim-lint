@@ -80,7 +80,7 @@ module SlimLint
     # @return [String]
     def display(depth = 1) # rubocop:disable Metrics/AbcSize
       indentation = ' ' * 2 * depth
-      output = '['
+      output = '['.dup
 
       each_with_index do |nested_sexp, index|
         output << "\n"

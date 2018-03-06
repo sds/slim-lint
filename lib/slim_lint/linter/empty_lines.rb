@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # This linter checks for two or more consecutive blank lines
   # and for the first blank line in file.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Searches for control statements with no code.
   class Linter::EmptyControlStatement < Linter

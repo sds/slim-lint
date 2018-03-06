@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Stores runtime configuration for the application.
   #

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Searches for more than an allowed number of consecutive control code
   # statements that could be condensed into a :ruby filter.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Generates a {SlimLint::Sexp} suitable for consumption by the
   # {RubyExtractor}.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint::Filters
   # Converts a Temple S-expression comprised of {Array}s into {SlimLint::Sexp}s.
   #

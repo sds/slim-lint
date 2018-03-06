@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe SlimLint::ConfigurationLoader do
@@ -45,7 +47,7 @@ describe SlimLint::ConfigurationLoader do
 
     before do
       # Ensure cache is cleared
-      described_class.instance_variable_set(:@default_config, nil)
+      described_class.instance_variable_set(:@default_configuration, nil)
     end
 
     it 'loads the default config file' do

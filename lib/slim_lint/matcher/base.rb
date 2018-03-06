@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint::Matcher
   # Represents a Sexp pattern implementing complex matching logic.
   #

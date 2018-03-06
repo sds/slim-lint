@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Searches for tab indentation
   class Linter::Tab < Linter
     include LinterRegistry
 
-    MSG = 'Tab detected'.freeze
+    MSG = 'Tab detected'
 
     on_start do |_sexp|
       dummy_node = Struct.new(:line)

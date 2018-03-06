@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Symbolic expression which represents tree-structured data.
   #

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Temple engine used to generate a {Sexp} parse tree for use by linters.
   #

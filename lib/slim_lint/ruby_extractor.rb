@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Utility class for extracting Ruby script from a Slim template that can then
   # be linted with a Ruby linter (i.e. is "legal" Ruby).

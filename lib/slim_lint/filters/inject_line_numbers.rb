@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint::Filters
   # Traverses a Temple S-expression (that has already been converted to
   # {SlimLint::Sexp} instances) and annotates them with line numbers.

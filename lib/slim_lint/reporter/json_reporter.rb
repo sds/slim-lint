@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Outputs report as a JSON document.
   class Reporter::JsonReporter < Reporter

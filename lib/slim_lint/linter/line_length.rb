@@ -5,7 +5,7 @@ module SlimLint
   class Linter::LineLength < Linter
     include LinterRegistry
 
-    MSG = 'Line is too long. [%d/%d]'.freeze
+    MSG = 'Line is too long. [%d/%d]'
 
     on_start do |_sexp|
       max_length = config['max']

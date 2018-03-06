@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint::Filters
   # A dumbed-down version of {Slim::CodeAttributes} which doesn't introduce any
   # temporary variables or other cruft.

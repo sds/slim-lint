@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SlimLint
   # Searches for control statements with only comments.
   class Linter::CommentControlStatement < Linter

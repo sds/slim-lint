@@ -28,6 +28,10 @@ linters:
     enabled: true
     max: 80
 
+  FileLength:
+    enabled: false
+    max: 300
+
   RuboCop:
     enabled: true
     # These cops are incredibly noisy since the Ruby we extract from Slim

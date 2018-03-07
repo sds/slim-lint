@@ -5,6 +5,7 @@ Below is a list of linters supported by `slim-lint`, ordered alphabetically.
 * [CommentControlStatement](#commentcontrolstatement)
 * [ConsecutiveControlStatements](#consecutivecontrolstatements)
 * [EmptyControlStatement](#emptycontrolstatement)
+* [FileLength](#filelength)
 * [LineLength](#linelength)
 * [RedundantDiv](#redundantdiv)
 * [RuboCop](#rubocop)
@@ -76,6 +77,23 @@ p Something else
 p Something
 p Something else
 ```
+
+## FileLength
+
+Option | Description
+-------|-----------------------------------------------------------------
+`max`  | Maximum number of lines a single file can have. (default `300`)
+
+You can configure this amount via the `max`
+option on the linter, e.g. by adding the following to your `.slim-lint.yml`:
+
+```yaml
+linters:
+  FileLength:
+    max: 100
+```
+
+Long files are harder to read and usually indicative of complexity.
 
 ## LineLength
 

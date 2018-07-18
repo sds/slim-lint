@@ -151,7 +151,7 @@ describe SlimLint::Linter::ControlStatementSpacing do
 
   # OK
 
-  context 'ruby code that contains an equal sign without spacingh' do
+  context 'ruby code that contains an equal sign without spacing' do
     let(:slim) { 'div = ok=1' }
 
     it { should_not report_lint }

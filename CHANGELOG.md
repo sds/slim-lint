@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Add `ControlStatementSpacing` linter
+
 ## 0.15.1
 
 * Fix `TrailingBlankLines` to ignore empty files

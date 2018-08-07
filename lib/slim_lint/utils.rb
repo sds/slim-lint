@@ -15,8 +15,9 @@ module SlimLint
     # @param file [String]
     # @return [Boolean]
     def any_glob_matches?(globs_or_glob, file)
+      path = File.expand_path(file)
       Array(globs_or_glob).any? do |glob|
-        ::File.fnmatch?(glob, file,
+        ::File.fnmatch?(File.expand_path(glob), path,
                         ::File::FNM_PATHNAME | # Wildcards don't match path separators
                         ::File::FNM_DOTMATCH)  # `*` wildcard matches dotfiles
       end

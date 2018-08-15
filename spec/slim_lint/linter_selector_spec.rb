@@ -151,6 +151,15 @@ describe SlimLint::LinterSelector do
         end
       end
 
+      context 'and the file matches the exclude pattern and the file is absolute path' do
+        let(:file) { File.expand_path('some-file.slim') }
+        let(:exclude_pattern) { 'some-*.slim' }
+
+        it 'excludes the linter' do
+          subject.map(&:class).should == []
+        end
+      end
+
       context 'and the file matches both the include and exclude patterns' do
         let(:include_pattern) { '**/*-file.slim' }
         let(:exclude_pattern) { '**/some-*.slim' }

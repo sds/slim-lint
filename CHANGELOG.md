@@ -1,8 +1,9 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.16.0
 
 * Add `ControlStatementSpacing` linter
+* Allow Slim 4.x
 
 ## 0.15.1
 

@@ -11,6 +11,9 @@ linters:
   CommentControlStatement:
     enabled: true
 
+  ControlStatementSpacing:
+    enabled: true
+
   ConsecutiveControlStatements:
     enabled: true
     max_consecutive: 2

@@ -1,5 +1,10 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Fix `ControlStatementSpacing` to support other output operators `=>`, `=<>`,
+  and `=<`
+
 ## 0.16.0
 
 * Add `ControlStatementSpacing` linter

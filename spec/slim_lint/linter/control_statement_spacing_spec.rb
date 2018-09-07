@@ -175,6 +175,66 @@ describe SlimLint::Linter::ControlStatementSpacing do
     it { should_not report_lint }
   end
 
+  context 'when leading whitespace (=<) is used' do
+    context 'and it has appropriate spacing' do
+      let(:slim) { 'title =< "Something"' }
+
+      it { should_not report_lint }
+    end
+
+    context 'and it lacks spacing on the left' do
+      let(:slim) { 'title=< "Something"' }
+
+      it { should report_lint }
+    end
+
+    context 'and it lacks spacing on the right' do
+      let(:slim) { 'title =<"Something"' }
+
+      it { should report_lint }
+    end
+  end
+
+  context 'when trailing whitespace (=>) is used' do
+    context 'and it has appropriate spacing' do
+      let(:slim) { 'title => "Something"' }
+
+      it { should_not report_lint }
+    end
+
+    context 'and it lacks spacing on the left' do
+      let(:slim) { 'title=> "Something"' }
+
+      it { should report_lint }
+    end
+
+    context 'and it lacks spacing on the right' do
+      let(:slim) { 'title =>"Something"' }
+
+      it { should report_lint }
+    end
+  end
+
+  context 'when whitespace (=<>) is used' do
+    context 'and it has appropriate spacing' do
+      let(:slim) { 'title =<> "Something"' }
+
+      it { should_not report_lint }
+    end
+
+    context 'and it lacks spacing on the left' do
+      let(:slim) { 'title=<> "Something"' }
+
+      it { should report_lint }
+    end
+
+    context 'and it lacks spacing on the right' do
+      let(:slim) { 'title =<>"Something"' }
+
+      it { should report_lint }
+    end
+  end
+
   context 'when HTML escape disabling (==) is used' do
     context 'and it has appropriate spacing' do
       let(:slim) { 'title == "Something"' }
@@ -190,6 +250,66 @@ describe SlimLint::Linter::ControlStatementSpacing do
 
     context 'and it lacks spacing on the right' do
       let(:slim) { 'title =="Something"' }
+
+      it { should report_lint }
+    end
+  end
+
+  context 'when HTML escape disabling with leading whitespace (==<) is used' do
+    context 'and it has appropriate spacing' do
+      let(:slim) { 'title ==< "Something"' }
+
+      it { should_not report_lint }
+    end
+
+    context 'and it lacks spacing on the left' do
+      let(:slim) { 'title==< "Something"' }
+
+      it { should report_lint }
+    end
+
+    context 'and it lacks spacing on the right' do
+      let(:slim) { 'title ==<"Something"' }
+
+      it { should report_lint }
+    end
+  end
+
+  context 'when HTML escape disabling with trailing whitespace (==>) is used' do
+    context 'and it has appropriate spacing' do
+      let(:slim) { 'title ==> "Something"' }
+
+      it { should_not report_lint }
+    end
+
+    context 'and it lacks spacing on the left' do
+      let(:slim) { 'title==> "Something"' }
+
+      it { should report_lint }
+    end
+
+    context 'and it lacks spacing on the right' do
+      let(:slim) { 'title ==>"Something"' }
+
+      it { should report_lint }
+    end
+  end
+
+  context 'when HTML escape disabling with whitespace (==<>) is used' do
+    context 'and it has appropriate spacing' do
+      let(:slim) { 'title ==<> "Something"' }
+
+      it { should_not report_lint }
+    end
+
+    context 'and it lacks spacing on the left' do
+      let(:slim) { 'title==<> "Something"' }
+
+      it { should report_lint }
+    end
+
+    context 'and it lacks spacing on the right' do
+      let(:slim) { 'title ==<>"Something"' }
 
       it { should report_lint }
     end

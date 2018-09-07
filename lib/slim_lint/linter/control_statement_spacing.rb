@@ -17,7 +17,7 @@ module SlimLint
       ruby = captures[:ruby]
       line = line.sub(ruby, 'x')
 
-      next if line =~ /[^ ] ==? [^ ]/
+      next if line =~ /[^ ] ==?<?>? [^ ]/
       report_lint(sexp, MESSAGE)
     end
   end

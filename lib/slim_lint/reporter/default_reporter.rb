@@ -12,6 +12,15 @@ module SlimLint
         print_type(lint)
         print_message(lint)
       end
+
+      finding = if report.lints.empty?
+        'no offenses detected'
+      else
+        "#{report.lints.count} offenses detected"
+      end
+
+      count = report.files.count
+      log.log("#{count} #{count == 1 ? 'file' : 'files'} inspected, #{finding}")
     end
 
     private

@@ -45,6 +45,7 @@ linters:
       - Layout/AlignArray
       - Layout/AlignHash
       - Layout/AlignParameters
+      - Layout/EmptyLineAfterGuardClause
       - Layout/FirstParameterIndentation
       - Layout/IndentArray
       - Layout/IndentationConsistency
@@ -66,7 +67,6 @@ linters:
       - Metrics/BlockNesting
       - Metrics/LineLength
       - Naming/FileName
-      - Style/EmptyLineAfterGuardClause
       - Style/FrozenStringLiteralComment
       - Style/IfUnlessModifier
       - Style/Next

@@ -6,12 +6,14 @@ Below is a list of linters supported by `slim-lint`, ordered alphabetically.
 * [ConsecutiveControlStatements](#consecutivecontrolstatements)
 * [ControlStatementSpacing](#controlstatementspacing)
 * [EmptyControlStatement](#emptycontrolstatement)
+* [EmptyLines](#emptylines)
 * [FileLength](#filelength)
 * [LineLength](#linelength)
 * [RedundantDiv](#redundantdiv)
 * [RuboCop](#rubocop)
 * [Tab](#tab)
 * [TagCase](#tagcase)
+* [TrailingBlankLines](#trailingblanklines)
 * [TrailingWhitespace](#trailingwhitespace)
 
 ## CommentControlStatement
@@ -135,11 +137,6 @@ h1.title = Hello, world
 h1.title =Hello, world
 ```
 
-**Good**
-```slim
-h1.title=Hello, World
-```
-
 ## EmptyControlStatement
 
 Reports control statements with no code.
@@ -154,6 +151,25 @@ p Something else
 **Good**
 ```slim
 p Something
+p Something else
+```
+
+## EmptyLines
+
+Reports two or more consecutive blank lin
+
+**Bad**
+```slim
+p Something
+
+
+p Something else
+```
+
+**Good**
+```slim
+p Something
+
 p Something else
 ```
 
@@ -283,6 +299,10 @@ While the HTML standard does not require lowercase tag names, they are a
 _de facto_ standard and are used in almost all documentation and specifications
 available online. However, lowercase tags are required for XHTML documents, so
 using them consistently results in more portable code.
+
+## TrailingBlankLines
+
+Reports trailing blank lines.
 
 ## TrailingWhitespace
 

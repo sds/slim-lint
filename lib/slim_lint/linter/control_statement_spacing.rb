@@ -5,10 +5,22 @@ module SlimLint
   class Linter::ControlStatementSpacing < Linter
     include LinterRegistry
 
-    MESSAGE = 'Please add a space before and after the `=`'
+    MESSAGES = {
+      :before => 'Please add a space before the `=` only',
+      :after  => 'Please add a space after the `=` only',
+      :both   => 'Please add a space before and after the `=`',
+      :none   => 'Please remove spaces before and after the `=`',
+    }
+    STYLES = {
+      :before => /[^ ] ==?<?>?[^ =<>]/,
+      :after  => /[^ =]==?<?>? [^ ]/,
+      :both   => /[^ ] ==?<?>? [^ ]/,
+      :none   => /[^ =]==?<?>?[^ =<>]/
+    }
 
     on [:html, :tag, anything, [],
          [:slim, :output, anything, capture(:ruby, anything)]] do |sexp|
+      style = config.fetch('style', 'both').to_sym
 
       # Fetch original Slim code that contains an element with a control statement.
       line = document.source_lines[sexp.line() - 1]
@@ -17,8 +29,8 @@ module SlimLint
       ruby = captures[:ruby]
       line = line.sub(ruby, 'x')
 
-      next if line =~ /[^ ] ==?<?>? [^ ]/
-      report_lint(sexp, MESSAGE)
+      next if line =~ STYLES[style]
+      report_lint(sexp, MESSAGES[style])
     end
   end
 end

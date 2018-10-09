@@ -4,6 +4,7 @@ Below is a list of linters supported by `slim-lint`, ordered alphabetically.
 
 * [CommentControlStatement](#commentcontrolstatement)
 * [ConsecutiveControlStatements](#consecutivecontrolstatements)
+* [ControlStatementSpacing](#controlstatementspacing)
 * [EmptyControlStatement](#emptycontrolstatement)
 * [FileLength](#filelength)
 * [LineLength](#linelength)
@@ -60,6 +61,84 @@ ruby:
 
 Large blocks of code in templates make them difficult to read and are usually
 a smell. It is best to extract these into separate helpers whenever possible.
+
+## ControlStatementSpacing
+
+Option   | Description
+---------|---------------------------------------------------------
+`style`  | Where whitespace is required around control statements.
+
+Reports the presence or absense of whitespace around control statements.
+
+```yaml
+linters:
+  ControlStatementSpacing:
+    style: both
+```
+
+---
+
+##### *style: both (default)*
+
+**Bad**
+```slim
+h1.title= Hello, World
+h1.title=Hello, world
+h1.title =Hello, world
+```
+
+**Good**
+```slim
+h1.title = Hello, World
+```
+
+---
+
+##### *style: before*
+
+**Bad**
+```slim
+h1.title= Hello, World
+h1.title=Hello, world
+h1.title = Hello, world
+```
+
+**Good**
+```slim
+h1.title =Hello, World
+```
+
+---
+
+##### *style: after*
+
+**Bad**
+```slim
+h1.title = Hello, World
+h1.title=Hello, world
+h1.title =Hello, world
+```
+
+**Good**
+```slim
+h1.title= Hello, World
+```
+
+---
+
+##### *style: none*
+
+**Bad**
+```slim
+h1.title= Hello, World
+h1.title = Hello, world
+h1.title =Hello, world
+```
+
+**Good**
+```slim
+h1.title=Hello, World
+```
 
 ## EmptyControlStatement
 

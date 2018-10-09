@@ -5,313 +5,1337 @@ require 'spec_helper'
 describe SlimLint::Linter::ControlStatementSpacing do
   include_context 'linter'
 
-  context 'element missing space before =' do
-    let(:slim) { 'div= bad' }
+  context 'with config style "both"' do
+    let(:config) do
+      SlimLint::ConfigurationLoader.load_hash({
+        'linters' => {
+          'ControlStatementSpacing' => {
+            'enabled' => true,
+            'style' => 'both'
+          }
+        }
+      }).for_linter(described_class)
+    end
 
-    it { should report_lint }
-  end
+    context 'element missing space before =' do
+      let(:slim) { 'div= bad' }
 
-  context 'element missing space after =' do
-    let(:slim) { 'div =bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'element missing space after =' do
+      let(:slim) { 'div =bad' }
 
-  context 'element missing space around =' do
-    let(:slim) { 'div=bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'element missing space around =' do
+      let(:slim) { 'div=bad' }
 
-  context 'element too much space before =' do
-    let(:slim) { 'div  =bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'element too much space before =' do
+      let(:slim) { 'div  =bad' }
 
-  context 'element too much space after =' do
-    let(:slim) { 'div=  bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'element too much space after =' do
+      let(:slim) { 'div=  bad' }
 
-  context 'id missing space before =' do
-    let(:slim) { '#submit= bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'id missing space before =' do
+      let(:slim) { '#submit= bad' }
 
-  context 'id missing space after =' do
-    let(:slim) { '#submit =bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'id missing space after =' do
+      let(:slim) { '#submit =bad' }
 
-  context 'id missing space around =' do
-    let(:slim) { '#submit=bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'id missing space around =' do
+      let(:slim) { '#submit=bad' }
 
-  context 'id and class missing space around =' do
-    let(:slim) { '.some-class#submit=bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'id and class missing space around =' do
+      let(:slim) { '.some-class#submit=bad' }
 
-  context 'id too much space before =' do
-    let(:slim) { '#submit  =bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'id too much space before =' do
+      let(:slim) { '#submit  =bad' }
 
-  context 'id too much space after =' do
-    let(:slim) { '#submit=  bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'id too much space after =' do
+      let(:slim) { '#submit=  bad' }
 
-  context 'class missing space before =' do
-    let(:slim) { '.klass= bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'class missing space before =' do
+      let(:slim) { '.klass= bad' }
 
-  context 'class missing space after =' do
-    let(:slim) { '.klass =bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'class missing space after =' do
+      let(:slim) { '.klass =bad' }
 
-  context 'class missing space around =' do
-    let(:slim) { '.klass=bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'class missing space around =' do
+      let(:slim) { '.klass=bad' }
 
-  context 'class too much space before =' do
-    let(:slim) { '.klass  =bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'class too much space before =' do
+      let(:slim) { '.klass  =bad' }
 
-  context 'class too much space after =' do
-    let(:slim) { '.klass=  bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'class too much space after =' do
+      let(:slim) { '.klass=  bad' }
 
-  context 'class with hyphen missing space before =' do
-    let(:slim) { '.some-klass= bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'class with hyphen missing space before =' do
+      let(:slim) { '.some-klass= bad' }
 
-  context 'class with hyphen missing space after =' do
-    let(:slim) { '.some-klass =bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'class with hyphen missing space after =' do
+      let(:slim) { '.some-klass =bad' }
 
-  context 'class with hyphen missing space around =' do
-    let(:slim) { '.some-klass=bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'class with hyphen missing space around =' do
+      let(:slim) { '.some-klass=bad' }
 
-  context 'class with hyphen too much space before =' do
-    let(:slim) { '.some-klass  =bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'class with hyphen too much space before =' do
+      let(:slim) { '.some-klass  =bad' }
 
-  context 'class with hyphen too much space after =' do
-    let(:slim) { '.some-klass=  bad' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'class with hyphen too much space after =' do
+      let(:slim) { '.some-klass=  bad' }
 
-  context 'ruby code that contains a properly formatted equal sign' do
-    let(:slim) { 'div =bad = 1' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'ruby code that contains a properly formatted equal sign' do
+      let(:slim) { 'div =bad = 1' }
 
-  context 'ruby code that contains a properly formatted equal sign' do
-    let(:slim) { 'div= bad = 1' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'ruby code that contains a properly formatted equal sign' do
+      let(:slim) { 'div= bad = 1' }
 
-  context 'ruby code that contains a properly formatted equal sign' do
-    let(:slim) { 'div  = bad = 1' }
+      it { should report_lint }
+    end
 
-    it { should report_lint }
-  end
+    context 'ruby code that contains a properly formatted equal sign' do
+      let(:slim) { 'div  = bad = 1' }
 
-  # OK
+      it { should report_lint }
+    end
 
-  context 'ruby code that contains an equal sign without spacing' do
-    let(:slim) { 'div = ok=1' }
+    # OK
 
-    it { should_not report_lint }
-  end
-
-  context 'element with hyphen' do
-    let(:slim) { 'div - ok' }
-
-    it { should_not report_lint }
-  end
-
-  context 'control statement without element' do
-    let(:slim) { '= ok' }
-
-    it { should_not report_lint }
-  end
-
-  context 'attribute with equal sign without spacing' do
-    let(:slim) { 'a href=ok' }
-
-    it { should_not report_lint }
-  end
-
-  context 'when leading whitespace (=<) is used' do
-    context 'and it has appropriate spacing' do
-      let(:slim) { 'title =< "Something"' }
+    context 'ruby code that contains an equal sign without spacing' do
+      let(:slim) { 'div = ok=1' }
 
       it { should_not report_lint }
     end
 
-    context 'and it lacks spacing on the left' do
-      let(:slim) { 'title=< "Something"' }
-
-      it { should report_lint }
-    end
-
-    context 'and it lacks spacing on the right' do
-      let(:slim) { 'title =<"Something"' }
-
-      it { should report_lint }
-    end
-  end
-
-  context 'when trailing whitespace (=>) is used' do
-    context 'and it has appropriate spacing' do
-      let(:slim) { 'title => "Something"' }
+    context 'element with hyphen' do
+      let(:slim) { 'div - ok' }
 
       it { should_not report_lint }
     end
 
-    context 'and it lacks spacing on the left' do
-      let(:slim) { 'title=> "Something"' }
-
-      it { should report_lint }
-    end
-
-    context 'and it lacks spacing on the right' do
-      let(:slim) { 'title =>"Something"' }
-
-      it { should report_lint }
-    end
-  end
-
-  context 'when whitespace (=<>) is used' do
-    context 'and it has appropriate spacing' do
-      let(:slim) { 'title =<> "Something"' }
+    context 'control statement without element' do
+      let(:slim) { '= ok' }
 
       it { should_not report_lint }
     end
 
-    context 'and it lacks spacing on the left' do
-      let(:slim) { 'title=<> "Something"' }
-
-      it { should report_lint }
-    end
-
-    context 'and it lacks spacing on the right' do
-      let(:slim) { 'title =<>"Something"' }
-
-      it { should report_lint }
-    end
-  end
-
-  context 'when HTML escape disabling (==) is used' do
-    context 'and it has appropriate spacing' do
-      let(:slim) { 'title == "Something"' }
+    context 'attribute with equal sign without spacing' do
+      let(:slim) { 'a href=ok' }
 
       it { should_not report_lint }
     end
 
-    context 'and it lacks spacing on the left' do
-      let(:slim) { 'title== "Something"' }
+    context 'when leading whitespace (=<) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title =< "Something"' }
 
-      it { should report_lint }
+        it { should_not report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title=< "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title =<"Something"' }
+
+        it { should report_lint }
+      end
     end
 
-    context 'and it lacks spacing on the right' do
-      let(:slim) { 'title =="Something"' }
+    context 'when trailing whitespace (=>) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title => "Something"' }
 
-      it { should report_lint }
+        it { should_not report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title=> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title =>"Something"' }
+
+        it { should report_lint }
+      end
+    end
+
+    context 'when whitespace (=<>) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title =<> "Something"' }
+
+        it { should_not report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title=<> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title =<>"Something"' }
+
+        it { should report_lint }
+      end
+    end
+
+    context 'when HTML escape disabling (==) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title == "Something"' }
+
+        it { should_not report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title== "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title =="Something"' }
+
+        it { should report_lint }
+      end
+    end
+
+    context 'when HTML escape disabling with leading whitespace (==<) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title ==< "Something"' }
+
+        it { should_not report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title==< "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title ==<"Something"' }
+
+        it { should report_lint }
+      end
+    end
+
+    context 'when HTML escape disabling with trailing whitespace (==>) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title ==> "Something"' }
+
+        it { should_not report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title==> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title ==>"Something"' }
+
+        it { should report_lint }
+      end
+    end
+
+    context 'when HTML escape disabling with whitespace (==<>) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title ==<> "Something"' }
+
+        it { should_not report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title==<> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title ==<>"Something"' }
+
+        it { should report_lint }
+      end
     end
   end
 
-  context 'when HTML escape disabling with leading whitespace (==<) is used' do
-    context 'and it has appropriate spacing' do
-      let(:slim) { 'title ==< "Something"' }
+  context 'with config style "after"' do
+    let(:config) do
+      SlimLint::ConfigurationLoader.load_hash({
+        'linters' => {
+          'ControlStatementSpacing' => {
+            'enabled' => true,
+            'style' => 'after'
+          }
+        }
+      }).for_linter(described_class)
+    end
+
+    context 'element missing space before =' do
+      let(:slim) { 'div= bad' }
 
       it { should_not report_lint }
     end
 
-    context 'and it lacks spacing on the left' do
-      let(:slim) { 'title==< "Something"' }
+    context 'element missing space after =' do
+      let(:slim) { 'div =bad' }
 
       it { should report_lint }
     end
 
-    context 'and it lacks spacing on the right' do
-      let(:slim) { 'title ==<"Something"' }
+    context 'element missing space around =' do
+      let(:slim) { 'div=bad' }
 
       it { should report_lint }
     end
-  end
 
-  context 'when HTML escape disabling with trailing whitespace (==>) is used' do
-    context 'and it has appropriate spacing' do
-      let(:slim) { 'title ==> "Something"' }
+    context 'element too much space before =' do
+      let(:slim) { 'div  =bad' }
+
+      it { should report_lint }
+    end
+
+    context 'element too much space after =' do
+      let(:slim) { 'div=  bad' }
+
+      it { should report_lint }
+    end
+
+    context 'id missing space before =' do
+      let(:slim) { '#submit= bad' }
 
       it { should_not report_lint }
     end
 
-    context 'and it lacks spacing on the left' do
-      let(:slim) { 'title==> "Something"' }
+    context 'id missing space after =' do
+      let(:slim) { '#submit =bad' }
 
       it { should report_lint }
     end
 
-    context 'and it lacks spacing on the right' do
-      let(:slim) { 'title ==>"Something"' }
+    context 'id missing space around =' do
+      let(:slim) { '#submit=bad' }
 
       it { should report_lint }
     end
-  end
 
-  context 'when HTML escape disabling with whitespace (==<>) is used' do
-    context 'and it has appropriate spacing' do
-      let(:slim) { 'title ==<> "Something"' }
+    context 'id and class missing space around =' do
+      let(:slim) { '.some-class#submit=bad' }
+
+      it { should report_lint }
+    end
+
+    context 'id too much space before =' do
+      let(:slim) { '#submit  =bad' }
+
+      it { should report_lint }
+    end
+
+    context 'id too much space after =' do
+      let(:slim) { '#submit=  bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class missing space before =' do
+      let(:slim) { '.klass= bad' }
 
       it { should_not report_lint }
     end
 
-    context 'and it lacks spacing on the left' do
-      let(:slim) { 'title==<> "Something"' }
+    context 'class missing space after =' do
+      let(:slim) { '.klass =bad' }
 
       it { should report_lint }
     end
 
-    context 'and it lacks spacing on the right' do
-      let(:slim) { 'title ==<>"Something"' }
+    context 'class missing space around =' do
+      let(:slim) { '.klass=bad' }
 
       it { should report_lint }
+    end
+
+    context 'class too much space before =' do
+      let(:slim) { '.klass  =bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class too much space after =' do
+      let(:slim) { '.klass=  bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class with hyphen missing space before =' do
+      let(:slim) { '.some-klass= bad' }
+
+      it { should_not report_lint }
+    end
+
+    context 'class with hyphen missing space after =' do
+      let(:slim) { '.some-klass =bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class with hyphen missing space around =' do
+      let(:slim) { '.some-klass=bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class with hyphen too much space before =' do
+      let(:slim) { '.some-klass  =bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class with hyphen too much space after =' do
+      let(:slim) { '.some-klass=  bad' }
+
+      it { should report_lint }
+    end
+
+    context 'ruby code that contains a properly formatted equal sign' do
+      let(:slim) { 'div =bad = 1' }
+
+      it { should report_lint }
+    end
+
+    context 'ruby code that contains a properly formatted equal sign' do
+      let(:slim) { 'div= bad = 1' }
+
+      it { should_not report_lint }
+    end
+
+    context 'ruby code that contains a properly formatted equal sign' do
+      let(:slim) { 'div  = bad = 1' }
+
+      it { should report_lint }
+    end
+
+    # OK
+
+    context 'ruby code that contains an equal sign without spacing' do
+      let(:slim) { 'div = ok=1' }
+
+      it { should report_lint }
+    end
+
+    context 'element with hyphen' do
+      let(:slim) { 'div - ok' }
+
+      it { should_not report_lint }
+    end
+
+    context 'control statement without element' do
+      let(:slim) { '= ok' }
+
+      it { should_not report_lint }
+    end
+
+    context 'attribute with equal sign without spacing' do
+      let(:slim) { 'a href=ok' }
+
+      it { should_not report_lint }
+    end
+
+    context 'when leading whitespace (=<) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title =< "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title=< "Something"' }
+
+        it { should_not report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title =<"Something"' }
+
+        it { should report_lint }
+      end
+    end
+
+    context 'when trailing whitespace (=>) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title => "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title=> "Something"' }
+
+        it { should_not report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title =>"Something"' }
+
+        it { should report_lint }
+      end
+    end
+
+    context 'when whitespace (=<>) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title =<> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title=<> "Something"' }
+
+        it { should_not report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title =<>"Something"' }
+
+        it { should report_lint }
+      end
+    end
+
+    context 'when HTML escape disabling (==) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title == "Something"' }
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title== "Something"' }
+
+        it { should_not report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title =="Something"' }
+
+        it { should report_lint }
+      end
+    end
+
+    context 'when HTML escape disabling with leading whitespace (==<) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title ==< "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title==< "Something"' }
+
+        it { should_not report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title ==<"Something"' }
+
+        it { should report_lint }
+      end
+    end
+
+    context 'when HTML escape disabling with trailing whitespace (==>) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title ==> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title==> "Something"' }
+
+        it { should_not report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title ==>"Something"' }
+
+        it { should report_lint }
+      end
+    end
+
+    context 'when HTML escape disabling with whitespace (==<>) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title ==<> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title==<> "Something"' }
+
+        it { should_not report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title ==<>"Something"' }
+
+        it { should report_lint }
+      end
     end
   end
+
+  context 'with config style "before"' do
+    let(:config) do
+      SlimLint::ConfigurationLoader.load_hash({
+        'linters' => {
+          'ControlStatementSpacing' => {
+            'enabled' => true,
+            'style' => 'before'
+          }
+        }
+      }).for_linter(described_class)
+    end
+
+    context 'element missing space before =' do
+      let(:slim) { 'div= bad' }
+
+      it { should report_lint }
+    end
+
+    context 'element missing space after =' do
+      let(:slim) { 'div =bad' }
+
+      it { should_not report_lint }
+    end
+
+    context 'element missing space around =' do
+      let(:slim) { 'div=bad' }
+
+      it { should report_lint }
+    end
+
+    context 'element too much space before =' do
+      let(:slim) { 'div  =bad' }
+
+      it { should report_lint }
+    end
+
+    context 'element too much space after =' do
+      let(:slim) { 'div=  bad' }
+
+      it { should report_lint }
+    end
+
+    context 'id missing space before =' do
+      let(:slim) { '#submit= bad' }
+
+      it { should report_lint }
+    end
+
+    context 'id missing space after =' do
+      let(:slim) { '#submit =bad' }
+
+      it { should_not report_lint }
+    end
+
+    context 'id missing space around =' do
+      let(:slim) { '#submit=bad' }
+
+      it { should report_lint }
+    end
+
+    context 'id and class missing space around =' do
+      let(:slim) { '.some-class#submit=bad' }
+
+      it { should report_lint }
+    end
+
+    context 'id too much space before =' do
+      let(:slim) { '#submit  =bad' }
+
+      it { should report_lint }
+    end
+
+    context 'id too much space after =' do
+      let(:slim) { '#submit=  bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class missing space before =' do
+      let(:slim) { '.klass= bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class missing space after =' do
+      let(:slim) { '.klass =bad' }
+
+      it { should_not report_lint }
+    end
+
+    context 'class missing space around =' do
+      let(:slim) { '.klass=bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class too much space before =' do
+      let(:slim) { '.klass  =bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class too much space after =' do
+      let(:slim) { '.klass=  bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class with hyphen missing space before =' do
+      let(:slim) { '.some-klass= bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class with hyphen missing space after =' do
+      let(:slim) { '.some-klass =bad' }
+
+      it { should_not report_lint }
+    end
+
+    context 'class with hyphen missing space around =' do
+      let(:slim) { '.some-klass=bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class with hyphen too much space before =' do
+      let(:slim) { '.some-klass  =bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class with hyphen too much space after =' do
+      let(:slim) { '.some-klass=  bad' }
+
+      it { should report_lint }
+    end
+
+    context 'ruby code that contains a properly formatted equal sign' do
+      let(:slim) { 'div =bad = 1' }
+
+      it { should_not report_lint }
+    end
+
+    context 'ruby code that contains a properly formatted equal sign' do
+      let(:slim) { 'div= bad = 1' }
+
+      it { should report_lint }
+    end
+
+    context 'ruby code that contains a properly formatted equal sign' do
+      let(:slim) { 'div  = bad = 1' }
+
+      it { should report_lint }
+    end
+
+    # OK
+
+    context 'ruby code that contains an equal sign without spacing' do
+      let(:slim) { 'div = ok=1' }
+
+      it { should report_lint }
+    end
+
+    context 'element with hyphen' do
+      let(:slim) { 'div - ok' }
+
+      it { should_not report_lint }
+    end
+
+    context 'control statement without element' do
+      let(:slim) { '= ok' }
+
+      it { should_not report_lint }
+    end
+
+    context 'attribute with equal sign without spacing' do
+      let(:slim) { 'a href=ok' }
+
+      it { should_not report_lint }
+    end
+
+    context 'when leading whitespace (=<) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title =< "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title=< "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title =<"Something"' }
+
+        it { should_not report_lint }
+      end
+    end
+
+    context 'when trailing whitespace (=>) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title => "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title=> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title =>"Something"' }
+
+        it { should_not report_lint }
+      end
+    end
+
+    context 'when whitespace (=<>) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title =<> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title=<> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title =<>"Something"' }
+
+        it { should_not report_lint }
+      end
+    end
+
+    context 'when HTML escape disabling (==) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title == "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title== "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title =="Something"' }
+
+        it { should_not report_lint }
+      end
+    end
+
+    context 'when HTML escape disabling with leading whitespace (==<) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title ==< "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title==< "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title ==<"Something"' }
+
+        it { should_not report_lint }
+      end
+    end
+
+    context 'when HTML escape disabling with trailing whitespace (==>) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title ==> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title==> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title ==>"Something"' }
+
+        it { should_not report_lint }
+      end
+    end
+
+    context 'when HTML escape disabling with whitespace (==<>) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title ==<> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title==<> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title ==<>"Something"' }
+
+        it { should_not report_lint }
+      end
+    end
+  end
+
+  context 'with config style "none"' do
+    let(:config) do
+      SlimLint::ConfigurationLoader.load_hash({
+        'linters' => {
+          'ControlStatementSpacing' => {
+            'enabled' => true,
+            'style' => 'none'
+          }
+        }
+      }).for_linter(described_class)
+    end
+
+    context 'element missing space before =' do
+      let(:slim) { 'div= bad' }
+
+      it { should report_lint }
+    end
+
+    context 'element missing space after =' do
+      let(:slim) { 'div =bad' }
+
+      it { should report_lint }
+    end
+
+    context 'element missing space around =' do
+      let(:slim) { 'div=bad' }
+
+      it { should_not report_lint }
+    end
+
+    context 'element too much space before =' do
+      let(:slim) { 'div  =bad' }
+
+      it { should report_lint }
+    end
+
+    context 'element too much space after =' do
+      let(:slim) { 'div=  bad' }
+
+      it { should report_lint }
+    end
+
+    context 'id missing space before =' do
+      let(:slim) { '#submit= bad' }
+
+      it { should report_lint }
+    end
+
+    context 'id missing space after =' do
+      let(:slim) { '#submit =bad' }
+
+      it { should report_lint }
+    end
+
+    context 'id missing space around =' do
+      let(:slim) { '#submit=bad' }
+
+      it { should_not report_lint }
+    end
+
+    context 'id and class missing space around =' do
+      let(:slim) { '.some-class#submit=bad' }
+
+      it { should_not report_lint }
+    end
+
+    context 'id too much space before =' do
+      let(:slim) { '#submit  =bad' }
+
+      it { should report_lint }
+    end
+
+    context 'id too much space after =' do
+      let(:slim) { '#submit=  bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class missing space before =' do
+      let(:slim) { '.klass= bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class missing space after =' do
+      let(:slim) { '.klass =bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class missing space around =' do
+      let(:slim) { '.klass=bad' }
+
+      it { should_not report_lint }
+    end
+
+    context 'class too much space before =' do
+      let(:slim) { '.klass  =bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class too much space after =' do
+      let(:slim) { '.klass=  bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class with hyphen missing space before =' do
+      let(:slim) { '.some-klass= bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class with hyphen missing space after =' do
+      let(:slim) { '.some-klass =bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class with hyphen missing space around =' do
+      let(:slim) { '.some-klass=bad' }
+
+      it { should_not report_lint }
+    end
+
+    context 'class with hyphen too much space before =' do
+      let(:slim) { '.some-klass  =bad' }
+
+      it { should report_lint }
+    end
+
+    context 'class with hyphen too much space after =' do
+      let(:slim) { '.some-klass=  bad' }
+
+      it { should report_lint }
+    end
+
+    context 'ruby code that contains a properly formatted equal sign' do
+      let(:slim) { 'div =bad = 1' }
+
+      it { should report_lint }
+    end
+
+    context 'ruby code that contains a properly formatted equal sign' do
+      let(:slim) { 'div= bad = 1' }
+
+      it { should report_lint }
+    end
+
+    context 'ruby code that contains a properly formatted equal sign' do
+      let(:slim) { 'div  = bad = 1' }
+
+      it { should report_lint }
+    end
+
+    # OK
+
+    context 'ruby code that contains an equal sign without spacing' do
+      let(:slim) { 'div = ok=1' }
+
+      it { should report_lint }
+    end
+
+    context 'element with hyphen' do
+      let(:slim) { 'div - ok' }
+
+      it { should_not report_lint }
+    end
+
+    context 'control statement without element' do
+      let(:slim) { '= ok' }
+
+      it { should_not report_lint }
+    end
+
+    context 'attribute with equal sign without spacing' do
+      let(:slim) { 'a href=ok' }
+
+      it { should_not report_lint }
+    end
+
+    context 'when leading whitespace (=<) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title =< "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title=< "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title =<"Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on left and right' do
+        let(:slim) { 'title=<"Something"' }
+
+        it { should_not report_lint }
+      end
+    end
+
+    context 'when trailing whitespace (=>) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title => "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title=> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title =>"Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on left and right' do
+        let(:slim) { 'title=>"Something"' }
+
+        it { should_not report_lint }
+      end
+    end
+
+    context 'when whitespace (=<>) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title =<> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title=<> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title =<>"Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on left and right' do
+        let(:slim) { 'title=<>"Something"' }
+
+        it { should_not report_lint }
+      end
+    end
+
+    context 'when HTML escape disabling (==) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title == "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title== "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title =="Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on left and right' do
+        let(:slim) { 'title=="Something"' }
+
+        it { should_not report_lint }
+      end
+    end
+
+    context 'when HTML escape disabling with leading whitespace (==<) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title ==< "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title==< "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title ==<"Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on left and right' do
+        let(:slim) { 'title==<"Something"' }
+
+        it { should_not report_lint }
+      end
+    end
+
+    context 'when HTML escape disabling with trailing whitespace (==>) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title ==> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title==> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title ==>"Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on left and right' do
+        let(:slim) { 'title==>"Something"' }
+
+        it { should_not report_lint }
+      end
+    end
+
+    context 'when HTML escape disabling with whitespace (==<>) is used' do
+      context 'and it has appropriate spacing' do
+        let(:slim) { 'title ==<> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the left' do
+        let(:slim) { 'title==<> "Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on the right' do
+        let(:slim) { 'title ==<>"Something"' }
+
+        it { should report_lint }
+      end
+
+      context 'and it lacks spacing on left and right' do
+        let(:slim) { 'title==<>"Something"' }
+
+        it { should_not report_lint }
+      end
+    end
+  end
+
 end

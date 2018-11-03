@@ -153,6 +153,11 @@ If you use Flycheck, support for `slim-lint` is included as of version
 Install the [`linter-slim-lint`](https://github.com/mattaschmann/linter-slim-lint)
 plugin by running `apm install linter-slim-lint`.
 
+### Visual Studio Code
+
+Install the
+[VS Code slim-lint plugin](https://marketplace.visualstudio.com/items?itemName=aliariff.slim-lint).
+
 ## Git Integration
 
 If you'd like to integrate `slim-lint` into your Git workflow, check out

@@ -35,7 +35,7 @@ describe SlimLint::Linter do
         end
       end
 
-      let(:sexp) { [:ruby, "puts 'Hello world'".dup] }
+      let(:sexp) { [:ruby, +"puts 'Hello world'"] }
 
       it 'parses the ruby' do
         subject

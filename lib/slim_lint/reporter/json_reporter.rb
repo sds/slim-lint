@@ -25,9 +25,9 @@ module SlimLint
     def metadata
       {
         slim_lint_version: SlimLint::VERSION,
-        ruby_engine:      RUBY_ENGINE,
-        ruby_patchlevel:  RUBY_PATCHLEVEL.to_s,
-        ruby_platform:    RUBY_PLATFORM,
+        ruby_engine: RUBY_ENGINE,
+        ruby_patchlevel: RUBY_PATCHLEVEL.to_s,
+        ruby_platform: RUBY_PLATFORM,
       }
     end
 

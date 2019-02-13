@@ -6,16 +6,16 @@ module SlimLint
     include LinterRegistry
 
     MESSAGES = {
-      :before => 'Please add a space before the `=` only',
-      :after  => 'Please add a space after the `=` only',
-      :both   => 'Please add a space before and after the `=`',
-      :none   => 'Please remove spaces before and after the `=`',
+      before: 'Please add a space before the `=` only'.freeze,
+      after: 'Please add a space after the `=` only'.freeze,
+      both: 'Please add a space before and after the `=`'.freeze,
+      none: 'Please remove spaces before and after the `=`'.freeze,
     }
     STYLES = {
-      :before => /[^ ] ==?<?>?[^ =<>]/,
-      :after  => /[^ =]==?<?>? [^ ]/,
-      :both   => /[^ ] ==?<?>? [^ ]/,
-      :none   => /[^ =]==?<?>?[^ =<>]/
+      before: /[^ ] ==?<?>?[^ =<>]/,
+      after: /[^ =]==?<?>? [^ ]/,
+      both: /[^ ] ==?<?>? [^ ]/,
+      none: /[^ =]==?<?>?[^ =<>]/
     }
 
     on [:html, :tag, anything, [],

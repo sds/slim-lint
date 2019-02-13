@@ -7,14 +7,14 @@ describe SlimLint::Linter::ControlStatementSpacing do
 
   context 'with config style "both"' do
     let(:config) do
-      SlimLint::ConfigurationLoader.load_hash({
+      SlimLint::ConfigurationLoader.load_hash(
         'linters' => {
           'ControlStatementSpacing' => {
             'enabled' => true,
             'style' => 'both'
           }
         }
-      }).for_linter(described_class)
+      ).for_linter(described_class)
     end
 
     context 'element missing space before =' do
@@ -330,14 +330,14 @@ describe SlimLint::Linter::ControlStatementSpacing do
 
   context 'with config style "after"' do
     let(:config) do
-      SlimLint::ConfigurationLoader.load_hash({
+      SlimLint::ConfigurationLoader.load_hash(
         'linters' => {
           'ControlStatementSpacing' => {
             'enabled' => true,
             'style' => 'after'
           }
         }
-      }).for_linter(described_class)
+      ).for_linter(described_class)
     end
 
     context 'element missing space before =' do
@@ -652,14 +652,14 @@ describe SlimLint::Linter::ControlStatementSpacing do
 
   context 'with config style "before"' do
     let(:config) do
-      SlimLint::ConfigurationLoader.load_hash({
+      SlimLint::ConfigurationLoader.load_hash(
         'linters' => {
           'ControlStatementSpacing' => {
             'enabled' => true,
             'style' => 'before'
           }
         }
-      }).for_linter(described_class)
+      ).for_linter(described_class)
     end
 
     context 'element missing space before =' do
@@ -975,14 +975,14 @@ describe SlimLint::Linter::ControlStatementSpacing do
 
   context 'with config style "none"' do
     let(:config) do
-      SlimLint::ConfigurationLoader.load_hash({
+      SlimLint::ConfigurationLoader.load_hash(
         'linters' => {
           'ControlStatementSpacing' => {
             'enabled' => true,
             'style' => 'none'
           }
         }
-      }).for_linter(described_class)
+      ).for_linter(described_class)
     end
 
     context 'element missing space before =' do
@@ -1337,5 +1337,4 @@ describe SlimLint::Linter::ControlStatementSpacing do
       end
     end
   end
-
 end

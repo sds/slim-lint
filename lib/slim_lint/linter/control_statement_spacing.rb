@@ -30,6 +30,7 @@ module SlimLint
       line = line.sub(ruby, 'x')
 
       next if line =~ STYLES[style]
+
       report_lint(sexp, MESSAGES[style])
     end
   end

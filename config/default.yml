@@ -11,12 +11,12 @@ linters:
   CommentControlStatement:
     enabled: true
 
-  ControlStatementSpacing:
-    enabled: true
-
   ConsecutiveControlStatements:
     enabled: true
     max_consecutive: 2
+
+  ControlStatementSpacing:
+    enabled: true
 
   EmptyControlStatement:
     enabled: true
@@ -24,16 +24,16 @@ linters:
   EmptyLines:
     enabled: true
 
-  RedundantDiv:
-    enabled: true
+  FileLength:
+    enabled: false
+    max: 300
 
   LineLength:
     enabled: true
     max: 80
 
-  FileLength:
-    enabled: false
-    max: 300
+  RedundantDiv:
+    enabled: true
 
   RuboCop:
     enabled: true

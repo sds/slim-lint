@@ -42,6 +42,7 @@ linters:
     # WARNING: If you define this list in your own .slim-lint.yml file, you'll
     # be overriding the list defined here.
     ignored_cops:
+      - Layout/AlignArguments
       - Layout/AlignArray
       - Layout/AlignHash
       - Layout/AlignParameters

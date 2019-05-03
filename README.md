@@ -30,7 +30,7 @@ your [SCM hooks](https://github.com/brigade/overcommit).
 
 ## Requirements
 
- * Ruby 2.0.0+
+ * Ruby 2.4+
  * Slim 3.0+
 
 ## Installation

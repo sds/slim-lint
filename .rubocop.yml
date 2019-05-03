@@ -1,6 +1,6 @@
 # We break this rule to write S-expressions more succinctly.
 AllCops:
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.4
 
 Layout/AlignArray:
   Exclude:

@@ -1,5 +1,11 @@
 # Slim-Lint Changelog
 
+## 0.17.0
+
+* Disable `Layout/AlignArguments` and `Layout/InitialIndentation` cops by default
+* Update `EmptyLineAfterGuardClause` cop namespace from `Style` to `Layout` to fix errors
+* Drop support for Ruby 2.3 and older
+
 ## 0.16.1
 
 * Fix `ControlStatementSpacing` to support other output operators `=>`, `=<>`,

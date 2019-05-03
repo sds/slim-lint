@@ -52,8 +52,8 @@ module SlimLint
     def collect_lints(file, linter_selector, config)
       begin
         document = SlimLint::Document.new(File.read(file), file: file, config: config)
-      rescue SlimLint::Exceptions::ParseError => ex
-        return [SlimLint::Lint.new(nil, file, ex.lineno, ex.error, :error)]
+      rescue SlimLint::Exceptions::ParseError => e
+        return [SlimLint::Lint.new(nil, file, e.lineno, e.error, :error)]
       end
 
       linter_selector.linters_for_file(file).map do |linter|

@@ -32,13 +32,13 @@ module SlimLint
     # @return [SlimLint::Sexp] parsed Sexp
     def parse(source)
       call(source)
-    rescue ::Slim::Parser::SyntaxError => ex
+    rescue ::Slim::Parser::SyntaxError => e
       # Convert to our own exception type to isolate from upstream changes
-      error = SlimLint::Exceptions::ParseError.new(ex.error,
-                                                   ex.file,
-                                                   ex.line,
-                                                   ex.lineno,
-                                                   ex.column)
+      error = SlimLint::Exceptions::ParseError.new(e.error,
+                                                   e.file,
+                                                   e.line,
+                                                   e.lineno,
+                                                   e.column)
       raise error
     end
   end

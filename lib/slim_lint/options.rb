@@ -24,10 +24,10 @@ module SlimLint
       @options[:files] = args
 
       @options
-    rescue OptionParser::InvalidOption => ex
+    rescue OptionParser::InvalidOption => e
       raise Exceptions::InvalidCLIOption,
-            ex.message,
-            ex.backtrace
+            e.message,
+            e.backtrace
     end
 
     private

@@ -23,8 +23,8 @@ module SlimLint
     def run(args)
       options = SlimLint::Options.new.parse(args)
       act_on_options(options)
-    rescue StandardError => ex
-      handle_exception(ex)
+    rescue StandardError => e
+      handle_exception(e)
     end
 
     private

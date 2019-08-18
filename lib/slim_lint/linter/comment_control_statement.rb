@@ -11,6 +11,8 @@ module SlimLint
 
       comment = code[/\A\s*#(.*\z)/, 1]
 
+      next if comment =~ /^\s*rubocop:\w+/
+
       report_lint(sexp,
                   "Slim code comments (`/#{comment}`) are preferred over " \
                   "control statement comments (`-##{comment}`)")

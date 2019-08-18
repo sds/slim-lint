@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Fix `CommentControlStatement` to not report `rubocop:{enable,disable}` directives
+
 ## 0.17.0
 
 * Disable `Layout/AlignArguments` and `Layout/InitialIndentation` cops by default

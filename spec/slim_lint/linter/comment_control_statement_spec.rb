@@ -20,4 +20,14 @@ describe SlimLint::Linter::CommentControlStatement do
     it { should report_lint line: 1 }
     it { should report_lint line: 2 }
   end
+
+  context 'when a control statement contains a RuboCop directive' do
+    let(:slim) { <<-SLIM }
+      -# rubocop:disable Metrics/LineLength
+      - some_code
+      -# rubocop:enable Metrics/LineLength
+    SLIM
+
+    it { should_not report_lint }
+  end
 end

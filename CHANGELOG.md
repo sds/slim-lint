@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.17.1
 
 * Fix `CommentControlStatement` to not report `rubocop:{enable,disable}` directives
 

@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Remove explicit dependency on Rake, making it optional as it's only needed for the Rake integration
+
 ## 0.17.1
 
 * Fix `CommentControlStatement` to not report `rubocop:{enable,disable}` directives

@@ -165,8 +165,9 @@ Git hook manager.
 
 ## Rake Integration
 
-To execute `slim-lint` via a [Rake](https://github.com/ruby/rake) task, add the
-following to your `Rakefile`:
+To execute `slim-lint` via a [Rake](https://github.com/ruby/rake) task, make
+sure you have `rake` included in your gem path (e.g. via `Gemfile`), and add
+the following to your `Rakefile`:
 
 ```ruby
 require 'slim_lint/rake_task'

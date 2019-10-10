@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.18.0
 
 * Remove explicit dependency on Rake, making it optional as it's only needed for the Rake integration
 

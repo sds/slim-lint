@@ -110,7 +110,7 @@ describe SlimLint::CLI do
         output.should include 'FakeLinter'
       end
 
-      it { should == Sysexits::EX_OK }
+      it { should == described_class::EX_OK }
     end
 
     context 'when passed the --show-reporters flag' do
@@ -121,7 +121,7 @@ describe SlimLint::CLI do
         output.should include 'default'
       end
 
-      it { should == Sysexits::EX_OK }
+      it { should == described_class::EX_OK }
     end
 
     context 'when passed the --help flag' do
@@ -182,7 +182,7 @@ describe SlimLint::CLI do
         cli.stub(:act_on_options).and_raise(SlimLint::Exceptions::ConfigurationError)
       end
 
-      it { should == Sysexits::EX_CONFIG }
+      it { should == described_class::EX_CONFIG }
     end
 
     context 'when an InvalidCLIOption error is raised' do
@@ -190,7 +190,7 @@ describe SlimLint::CLI do
         cli.stub(:act_on_options).and_raise(SlimLint::Exceptions::InvalidCLIOption)
       end
 
-      it { should == Sysexits::EX_USAGE }
+      it { should == described_class::EX_USAGE }
     end
 
     context 'when an InvalidFilePath error is raised' do
@@ -198,7 +198,7 @@ describe SlimLint::CLI do
         cli.stub(:act_on_options).and_raise(SlimLint::Exceptions::InvalidFilePath)
       end
 
-      it { should == Sysexits::EX_NOINPUT }
+      it { should == described_class::EX_NOINPUT }
     end
 
     context 'when a NoLintersError is raised' do
@@ -206,7 +206,7 @@ describe SlimLint::CLI do
         cli.stub(:act_on_options).and_raise(SlimLint::Exceptions::NoLintersError)
       end
 
-      it { should == Sysexits::EX_NOINPUT }
+      it { should == described_class::EX_NOINPUT }
     end
 
     context 'when an unhandled exception occurs' do
@@ -249,7 +249,7 @@ describe SlimLint::CLI do
         output.should include "Ruby version: #{RUBY_VERSION}"
       end
 
-      it { should == Sysexits::EX_SOFTWARE }
+      it { should == described_class::EX_SOFTWARE }
     end
   end
 end

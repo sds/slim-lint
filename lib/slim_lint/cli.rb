@@ -3,11 +3,18 @@
 require 'slim_lint'
 require 'slim_lint/options'
 
-require 'sysexits'
-
 module SlimLint
   # Command line application interface.
   class CLI # rubocop:disable Metrics/ClassLength
+    # Exit codes
+    # @see https://man.openbsd.org/sysexits.3
+    EX_OK = 0
+    EX_USAGE = 64
+    EX_DATAERR = 65
+    EX_NOINPUT = 67
+    EX_SOFTWARE = 70
+    EX_CONFIG = 78
+
     # Create a CLI that outputs to the specified logger.
     #
     # @param logger [SlimLint::Logger]
@@ -39,16 +46,16 @@ module SlimLint
 
       if options[:help]
         print_help(options)
-        Sysexits::EX_OK
+        EX_OK
       elsif options[:version] || options[:verbose_version]
         print_version(options)
-        Sysexits::EX_OK
+        EX_OK
       elsif options[:show_linters]
         print_available_linters
-        Sysexits::EX_OK
+        EX_OK
       elsif options[:show_reporters]
         print_available_reporters
-        Sysexits::EX_OK
+        EX_OK
       else
         scan_for_lints(options)
       end
@@ -60,20 +67,20 @@ module SlimLint
       case exception
       when SlimLint::Exceptions::ConfigurationError
         log.error exception.message
-        Sysexits::EX_CONFIG
+        EX_CONFIG
       when SlimLint::Exceptions::InvalidCLIOption
         log.error exception.message
         log.log "Run `#{APP_NAME}` --help for usage documentation"
-        Sysexits::EX_USAGE
+        EX_USAGE
       when SlimLint::Exceptions::InvalidFilePath
         log.error exception.message
-        Sysexits::EX_NOINPUT
+        EX_NOINPUT
       when SlimLint::Exceptions::NoLintersError
         log.error exception.message
-        Sysexits::EX_NOINPUT
+        EX_NOINPUT
       else
         print_unexpected_exception(exception)
-        Sysexits::EX_SOFTWARE
+        EX_SOFTWARE
       end
     end
 
@@ -83,7 +90,7 @@ module SlimLint
     def scan_for_lints(options)
       report = Runner.new.run(options)
       print_report(report, options)
-      report.failed? ? Sysexits::EX_DATAERR : Sysexits::EX_OK
+      report.failed? ? EX_DATAERR : EX_OK
     end
 
     # Outputs a report of the linter run using the specified reporter.

@@ -9,7 +9,6 @@ module SlimLint
 
     on [:html, :tag, anything, [],
          [:slim, :output, anything, capture(:ruby, anything)]] do |sexp|
-
       # Fetch original Slim code that contains an element with a control statement.
       line = document.source_lines[sexp.line() - 1]
 

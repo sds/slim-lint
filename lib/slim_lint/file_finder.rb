@@ -38,7 +38,7 @@ module SlimLint
     #
     # @param patterns [Array<String>]
     # @return [Array<String>]
-    def extract_files_from(patterns) # rubocop:disable MethodLength
+    def extract_files_from(patterns) # rubocop:disable Metrics/MethodLength
       files = []
 
       patterns.each do |pattern|

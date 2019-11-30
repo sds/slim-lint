@@ -2,7 +2,7 @@
 AllCops:
   TargetRubyVersion: 2.4
 
-Layout/AlignArray:
+Layout/ArrayAlignment:
   Exclude:
     - 'lib/slim_lint/filters/**/*.rb'
     - 'lib/slim_lint/linter/**/*.rb'

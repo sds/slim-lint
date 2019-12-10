@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.19.0
 
 * Remove dependency on `sysexits` gem
 * Update RuboCop dependency to require `0.77.0` or newer

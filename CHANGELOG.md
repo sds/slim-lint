@@ -3,6 +3,7 @@
 ## master (unreleased)
 
 * Remove dependency on `sysexits` gem
+* Update RuboCop dependency to require `0.77.0` or newer
 
 ## 0.18.0
 

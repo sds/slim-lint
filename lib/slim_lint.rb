@@ -19,7 +19,7 @@ require 'slim_lint/logger'
 require 'slim_lint/version'
 
 # Load all filters (required by SlimLint::Engine)
-Dir[File.expand_path('slim_lint/filters/*.rb', File.dirname(__FILE__))].each do |file|
+Dir[File.expand_path('slim_lint/filters/*.rb', File.dirname(__FILE__))].sort.each do |file|
   require file
 end
 
@@ -37,16 +37,16 @@ require 'slim_lint/runner'
 
 # Load all matchers
 require 'slim_lint/matcher/base'
-Dir[File.expand_path('slim_lint/matcher/*.rb', File.dirname(__FILE__))].each do |file|
+Dir[File.expand_path('slim_lint/matcher/*.rb', File.dirname(__FILE__))].sort.each do |file|
   require file
 end
 
 # Load all linters
-Dir[File.expand_path('slim_lint/linter/*.rb', File.dirname(__FILE__))].each do |file|
+Dir[File.expand_path('slim_lint/linter/*.rb', File.dirname(__FILE__))].sort.each do |file|
   require file
 end
 
 # Load all reporters
-Dir[File.expand_path('slim_lint/reporter/*.rb', File.dirname(__FILE__))].each do |file|
+Dir[File.expand_path('slim_lint/reporter/*.rb', File.dirname(__FILE__))].sort.each do |file|
   require file
 end

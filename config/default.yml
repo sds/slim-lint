@@ -53,6 +53,7 @@ linters:
       - Layout/IndentationConsistency
       - Layout/IndentationWidth
       - Layout/InitialIndentation
+      - Layout/LineLength
       - Layout/MultilineArrayBraceLayout
       - Layout/MultilineAssignmentLayout
       - Layout/MultilineHashBraceLayout
@@ -66,7 +67,6 @@ linters:
       - Lint/Void
       - Metrics/BlockLength
       - Metrics/BlockNesting
-      - Metrics/LineLength
       - Naming/FileName
       - Style/FrozenStringLiteralComment
       - Style/IfUnlessModifier

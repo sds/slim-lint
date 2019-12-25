@@ -11,6 +11,9 @@ Layout/ArrayAlignment:
 Layout/DotPosition:
   EnforcedStyle: leading
 
+Layout/LineLength:
+  Max: 100
+
 Layout/MultilineOperationIndentation:
   Enabled: false
 
@@ -26,9 +29,6 @@ Lint/Void:
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*.rb'
-
-Metrics/LineLength:
-  Max: 100
 
 Metrics/MethodLength:
   Max: 20

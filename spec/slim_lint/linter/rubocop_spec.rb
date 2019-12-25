@@ -45,7 +45,7 @@ describe SlimLint::Linter::RuboCop do
     end
 
     context 'and the offence is from an ignored cop' do
-      let(:cop_name) { 'Metrics/LineLength' }
+      let(:cop_name) { 'Layout/LineLength' }
       it { should_not report_lint }
     end
   end

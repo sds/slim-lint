@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.20.0
 
 * Update minimum RuboCop version to 0.78.0 due to renaming of various cops and namespaces
 

@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## 0.20.1
+
+* Disable `Style/IdenticalConditionalBranches` cop by default
+
 ## 0.20.0
 
 * Update minimum RuboCop version to 0.78.0 due to renaming of various cops and namespaces

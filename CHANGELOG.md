@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.20.2
 
 * Ignore `Style/WhileUntilDo` RuboCop cop by default
 

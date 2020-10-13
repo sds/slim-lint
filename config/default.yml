@@ -72,6 +72,7 @@ linters:
       - Style/IdenticalConditionalBranches
       - Style/IfUnlessModifier
       - Style/Next
+      - Style/WhileUntilDo
       - Style/WhileUntilModifier
 
   Tab:

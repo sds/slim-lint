@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Ignore `Style/WhileUntilDo` RuboCop cop by default
+
 ## 0.20.1
 
 * Disable `Style/IdenticalConditionalBranches` cop by default

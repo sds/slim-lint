@@ -18,6 +18,10 @@ linters:
   ControlStatementSpacing:
     enabled: true
 
+  EmbeddedEngines:
+    enabled: true
+    forbidden_engines: []
+
   EmptyControlStatement:
     enabled: true
 

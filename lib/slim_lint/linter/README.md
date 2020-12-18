@@ -5,6 +5,7 @@ Below is a list of linters supported by `slim-lint`, ordered alphabetically.
 * [CommentControlStatement](#commentcontrolstatement)
 * [ConsecutiveControlStatements](#consecutivecontrolstatements)
 * [ControlStatementSpacing](#controlstatementspacing)
+* [EmbeddedEngines](#embeddedengines)
 * [EmptyControlStatement](#emptycontrolstatement)
 * [EmptyLines](#emptylines)
 * [FileLength](#filelength)
@@ -76,6 +77,29 @@ div= some_code
 **Good**
 ```slim
 div = some_code
+```
+
+## EmbeddedEngines
+
+Reports forbidden [embedded engines](https://github.com/slim-template/slim#embedded-engines-markdown-) if listed.
+
+Option | Description
+-------|-----------------------------------------------------------------
+`forbidden_engines`  | List of forbidden embedded engines. (default [])
+
+```yaml
+linters:
+  EmbeddedEngines:
+    forbidden_engines:
+      - javascript
+```
+
+**Bad for above configuration**
+```slim
+p Something
+
+javascript:
+  alert('foo')
 ```
 
 ## EmptyControlStatement

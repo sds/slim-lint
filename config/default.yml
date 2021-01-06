@@ -19,7 +19,7 @@ linters:
     enabled: true
 
   EmbeddedEngines:
-    enabled: true
+    enabled: false
     forbidden_engines: []
 
   EmptyControlStatement:

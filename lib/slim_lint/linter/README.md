@@ -90,6 +90,7 @@ Option | Description
 ```yaml
 linters:
   EmbeddedEngines:
+    enabled: true
     forbidden_engines:
       - javascript
 ```

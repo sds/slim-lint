@@ -48,16 +48,28 @@ describe SlimLint::Reporter::JsonReporter do
       let(:lines)        { [502, 724] }
       let(:descriptions) { ['Description of lint 1', 'Description of lint 2'] }
       let(:severities)   { [:warning, :error] }
+      let(:linters) { [double(name: 'SomeLinter'), nil] }
 
       let(:lints) do
         filenames.each_with_index.map do |filename, index|
-          SlimLint::Lint.new(nil, filename, lines[index], descriptions[index], severities[index])
+          SlimLint::Lint.new(linters[index], filename, lines[index], descriptions[index],
+                             severities[index])
         end
       end
 
       it 'list of files contains files with offenses' do
         subject
         output['files'].map { |f| f['path'] }.sort.should eq filenames.sort
+      end
+
+      it 'list of offenses' do
+        subject
+        output['files'].sort_by { |f| f['path'] }.map { |f| f['offenses'] }.should eq [
+          [{ 'linter' => nil, 'location' => { 'line' => 724 },
+             'message' => 'Description of lint 2', 'severity' => 'error' }],
+          [{ 'linter' => 'SomeLinter', 'location' => { 'line' => 502 },
+             'message' => 'Description of lint 1', 'severity' => 'warning' }],
+        ]
       end
 
       it_behaves_like 'output format specification'

@@ -45,6 +45,7 @@ module SlimLint
         location: {
           line: offense.line,
         },
+        linter: offense.linter&.name,
       }
     end
   end

@@ -41,6 +41,14 @@ describe SlimLint::Options do
       end
     end
 
+    context 'with input from stdin' do
+      let(:args) { %w[--stdin-file-path file1.slim] }
+
+      it 'sets the `stdin_file_path` option to passed file name' do
+        subject.should include stdin_file_path: 'file1.slim'
+      end
+    end
+
     context 'with a reporter option' do
       context 'for a reporter that exists' do
         let(:args) { %w[--reporter Json] }

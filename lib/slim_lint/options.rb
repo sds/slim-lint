@@ -73,6 +73,11 @@ module SlimLint
                 'List of file names to exclude') do |files|
         @options[:excluded_files] = files
       end
+
+      parser.on('--stdin-file-path file', String,
+                'Pipe source from STDIN, using file in offense reports.') do |file|
+        @options[:stdin_file_path] = file
+      end
     end
 
     # Register informational flags.

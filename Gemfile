@@ -14,3 +14,6 @@ gem 'rake'
 gem 'rubocop', '0.78.0'
 
 gem 'coveralls', require: false
+
+# On Ruby 3, rexml is only a gem
+gem 'rexml' if RUBY_VERSION > '3'

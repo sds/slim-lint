@@ -15,18 +15,17 @@ module SlimLint
     # @return [SlimLint::Report] a summary of all lints found
     def run(options = {})
       config = load_applicable_config(options)
-      files = extract_applicable_files(config, options)
-
       linter_selector = SlimLint::LinterSelector.new(config, options)
 
-      lints =
-        if options[:stdin_file_path].nil?
-          files.map do |file|
-            collect_lints(File.read(file), file, linter_selector, config)
-          end.flatten
-        else
-          collect_lints($stdin.read, options[:stdin_file_path], linter_selector, config)
-        end
+      if options[:stdin_file_path].nil?
+        files = extract_applicable_files(config, options)
+        lints = files.map do |file|
+          collect_lints(File.read(file), file, linter_selector, config)
+        end.flatten
+      else
+        files = [options[:stdin_file_path]]
+        lints = collect_lints($stdin.read, options[:stdin_file_path], linter_selector, config)
+      end
 
       SlimLint::Report.new(lints, files)
     end

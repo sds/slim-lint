@@ -1,5 +1,12 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Add `linter` field to `JSONReporter`
+* Add `EmbeddedEngines` linter
+* Add `EmacsReporter` reporter
+* Add `--stdin-file-path` option for specifying the name of a file passed via standard input
+
 ## 0.20.2
 
 * Ignore `Style/WhileUntilDo` RuboCop cop by default

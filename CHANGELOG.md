@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.21.0
 
 * Add `linter` field to `JSONReporter`
 * Add `EmbeddedEngines` linter

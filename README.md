@@ -62,6 +62,7 @@ Command Line Flag         | Description
 `-e`/`--exclude`          | Exclude one or more files from being linted
 `-i`/`--include-linter`   | Specify which linters you specifically want to run
 `-x`/`--exclude-linter`   | Specify which linters you _don't_ want to run
+`--stdin-file-path [file]`| Pipe source from STDIN, using file in offense reports
 `--[no-]color`            | Whether to output in color
 `--reporter [reporter]`   | Specify which output formatter to use
 `--show-linters`          | Show all registered linters

@@ -15,13 +15,17 @@ module SlimLint
     # @return [SlimLint::Report] a summary of all lints found
     def run(options = {})
       config = load_applicable_config(options)
-      files = extract_applicable_files(config, options)
-
       linter_selector = SlimLint::LinterSelector.new(config, options)
 
-      lints = files.map do |file|
-        collect_lints(file, linter_selector, config)
-      end.flatten
+      if options[:stdin_file_path].nil?
+        files = extract_applicable_files(config, options)
+        lints = files.map do |file|
+          collect_lints(File.read(file), file, linter_selector, config)
+        end.flatten
+      else
+        files = [options[:stdin_file_path]]
+        lints = collect_lints($stdin.read, options[:stdin_file_path], linter_selector, config)
+      end
 
       SlimLint::Report.new(lints, files)
     end
@@ -49,14 +53,14 @@ module SlimLint
     # @param file [String] path to file to lint
     # @param linter_selector [SlimLint::LinterSelector]
     # @param config [SlimLint::Configuration]
-    def collect_lints(file, linter_selector, config)
+    def collect_lints(file_content, file_name, linter_selector, config)
       begin
-        document = SlimLint::Document.new(File.read(file), file: file, config: config)
+        document = SlimLint::Document.new(file_content, file: file_name, config: config)
       rescue SlimLint::Exceptions::ParseError => e
         return [SlimLint::Lint.new(nil, file, e.lineno, e.error, :error)]
       end
 
-      linter_selector.linters_for_file(file).map do |linter|
+      linter_selector.linters_for_file(file_name).map do |linter|
         linter.run(document)
       end.flatten
     end

@@ -57,7 +57,7 @@ module SlimLint
       begin
         document = SlimLint::Document.new(file_content, file: file_name, config: config)
       rescue SlimLint::Exceptions::ParseError => e
-        return [SlimLint::Lint.new(nil, file, e.lineno, e.error, :error)]
+        return [SlimLint::Lint.new(nil, file_name, e.lineno, e.error, :error)]
       end
 
       linter_selector.linters_for_file(file_name).map do |linter|

@@ -51,6 +51,7 @@ linters:
       - Layout/BlockAlignment
       - Layout/EmptyLineAfterGuardClause
       - Layout/EndAlignment
+      - Layout/FirstArgumentIndentation
       - Layout/FirstArrayElementIndentation
       - Layout/FirstParameterIndentation
       - Layout/HashAlignment

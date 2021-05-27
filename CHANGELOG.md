@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## 0.21.1
+
+* Fix handling of Slim documents with parse error
+
 ## 0.21.0
 
 * Add `linter` field to `JSONReporter`

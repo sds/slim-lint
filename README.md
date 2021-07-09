@@ -129,6 +129,24 @@ leading frontmatter to the template for their own tracking purposes.
 skip_frontmatter: true
 ```
 
+### Disabling Linters For Specific Code
+
+#### Slim-lint linters
+
+To disable a slim-lint linter, you can use a slim comment:
+```slim
+/ slim-lint:disable TagCase
+IMG src="images/cat.gif"
+/ slim-lint:enable TagCase
+```
+
+### Rubocop cops
+To disable Rubocop cop, you can use a coment control statement:
+```slim
+- # rubocop:disable Rails/OutputSafety
+p = raw(@blog.content)
+- # rubocop:enable Rails/OutputSafety
+```
 ## Linters
 
 You can find detailed documentation on all supported linters by following the

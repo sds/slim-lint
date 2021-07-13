@@ -58,6 +58,7 @@ linters:
       - Layout/IndentationConsistency
       - Layout/IndentationWidth
       - Layout/InitialIndentation
+      - Layout/LineEndStringConcatenationIndentation
       - Layout/LineLength
       - Layout/MultilineArrayBraceLayout
       - Layout/MultilineAssignmentLayout

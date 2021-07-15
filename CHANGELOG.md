@@ -1,5 +1,11 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Disable RuboCop `Layout/FirstArgumentIndentation`
+* Disable RuboCop `Layout/LineEndStringConcatenationIndentation`
+* Add support for disabling linters on specific lines
+
 ## 0.21.1
 
 * Fix handling of Slim documents with parse error

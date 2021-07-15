@@ -49,6 +49,8 @@ module SlimLint
     # @param node [#line] node to extract the line number from
     # @param message [String] error/warning to display to the user
     def report_lint(node, message)
+      return if disabled_for_line?(node.line)
+
       @lints << SlimLint::Lint.new(self, @document.file, node.line, message)
     end
 
@@ -59,6 +61,33 @@ module SlimLint
     def parse_ruby(source)
       @ruby_parser ||= SlimLint::RubyParser.new
       @ruby_parser.parse(source)
+    end
+
+    def disabled_for_line?(line)
+      disabled_lines.include?(line)
+    end
+
+    def disabled_lines
+      @disabled_lines ||= begin
+        currently_disabled = false
+        @document.source_lines.each_with_index.reduce([]) do |lines, pair|
+          line = pair[0]
+          line_number = pair[1] + 1
+
+          if line =~ %r{/ slim-lint:disable #{linter_name}}
+            currently_disabled = true
+          elsif line =~ %r{/ slim-lint:enable #{linter_name}}
+            currently_disabled = false
+          elsif currently_disabled
+            lines << line_number
+          end
+          lines
+        end
+      end
+    end
+
+    def linter_name
+      @linter_name ||= self.class.name.split('::').last
     end
   end
 end

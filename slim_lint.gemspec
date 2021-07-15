@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rubocop', '>= 0.78.0'
   s.add_runtime_dependency 'slim', ['>= 3.0', '< 5.0']
 
+  s.add_development_dependency 'pry', '~> 0.13'
   s.add_development_dependency 'rspec', '~> 3.0'
   s.add_development_dependency 'rspec-its', '~> 1.0'
 end

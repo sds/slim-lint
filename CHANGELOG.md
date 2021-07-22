@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.22.0
 
 * Disable RuboCop `Layout/FirstArgumentIndentation`
 * Disable RuboCop `Layout/LineEndStringConcatenationIndentation`

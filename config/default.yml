@@ -49,6 +49,7 @@ linters:
       - Layout/ArgumentAlignment
       - Layout/ArrayAlignment
       - Layout/BlockAlignment
+      - Layout/ClosingParenthesisIndentation
       - Layout/EmptyLineAfterGuardClause
       - Layout/EndAlignment
       - Layout/FirstArgumentIndentation

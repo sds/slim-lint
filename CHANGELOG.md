@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Fix `CommentControlStatement` to not report `Template Dependency:` directives
+
 ## 0.22.0
 
 * Disable RuboCop `Layout/FirstArgumentIndentation`

@@ -30,4 +30,13 @@ describe SlimLint::Linter::CommentControlStatement do
 
     it { should_not report_lint }
   end
+
+  context 'when a control statement contains a Rails Template Dependency directive' do
+    let(:slim) { <<-SLIM }
+      -# Template Dependency: some/partial
+      = render some_helper_method_that_returns_a_partial_name
+    SLIM
+
+    it { should_not report_lint }
+  end
 end

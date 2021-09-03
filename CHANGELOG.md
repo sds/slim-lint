@@ -3,6 +3,9 @@
 ## master (unreleased)
 
 * Fix `CommentControlStatement` to not report `Template Dependency:` directives
+* Fix handling of disabled lines when running across multiple files
+* Add `Layout/ClosingParenthesisIndentation` to list of ignored RuboCop cops
+* Add `Layout/FirstHashElementIndentation` to list of ignored RuboCop cops
 
 ## 0.22.0
 

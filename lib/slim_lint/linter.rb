@@ -29,6 +29,7 @@ module SlimLint
     def run(document)
       @document = document
       @lints = []
+      @disabled_lines = nil
       trigger_pattern_callbacks(document.sexp)
       @lints
     end

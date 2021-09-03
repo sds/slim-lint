@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.22.1
 
 * Fix `CommentControlStatement` to not report `Template Dependency:` directives
 * Fix handling of disabled lines when running across multiple files

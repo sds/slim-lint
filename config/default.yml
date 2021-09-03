@@ -54,6 +54,7 @@ linters:
       - Layout/EndAlignment
       - Layout/FirstArgumentIndentation
       - Layout/FirstArrayElementIndentation
+      - Layout/FirstHashElementIndentation
       - Layout/FirstParameterIndentation
       - Layout/HashAlignment
       - Layout/IndentationConsistency

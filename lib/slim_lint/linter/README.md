@@ -241,6 +241,11 @@ AllCops:
   DisplayCopNames: true
 ```
 
+## Standard
+
+This linter integrates with [Standard](https://github.com/testdouble/standard),
+which is a set of conventions built atop Rubocop.
+
 ## Tab
 
 Reports detection of tabs used for indentation.

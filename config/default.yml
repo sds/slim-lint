@@ -45,6 +45,7 @@ linters:
     # templates isn't well-formatted, so we ignore them.
     # WARNING: If you define this list in your own .slim-lint.yml file, you'll
     # be overriding the list defined here.
+    # TODO: Narrow this list to essentials.
     ignored_cops:
       - Layout/ArgumentAlignment
       - Layout/ArrayAlignment
@@ -82,6 +83,9 @@ linters:
       - Style/Next
       - Style/WhileUntilDo
       - Style/WhileUntilModifier
+
+  Standard:
+    enabled: false
 
   Tab:
     enabled: true

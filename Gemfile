@@ -4,13 +4,8 @@ source 'https://rubygems.org'
 
 gemspec
 
-# Run all pre-commit hooks via Overcommit during CI runs
-gem 'overcommit', '0.52.0'
-
 # Needed for Rake integration tests
 gem 'rake'
-
-gem 'coveralls', require: false
 
 # On Ruby 3, rexml is only a gem
 gem 'rexml' if RUBY_VERSION > '3'

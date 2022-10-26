@@ -152,10 +152,14 @@ module SlimLint
       log.newline
       log.success 'To help fix this issue, please include:'
       log.log '- The above stack trace'
-      log.log '- Slim-Lint version: ', false
+      log.log '- slim-lint-standard version: ', false
       log.info SlimLint::VERSION
       log.log '- RuboCop version: ', false
       log.info Gem.loaded_specs['rubocop'].version
+      if Gem.loaded_specs['standard']
+        log.log '- Standard version: ', false
+        log.info Gem.loaded_specs['standard'].version
+      end
       log.log '- Ruby version: ', false
       log.info RUBY_VERSION
     end

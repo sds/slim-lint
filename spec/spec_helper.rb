@@ -1,14 +1,8 @@
 # frozen_string_literal: true
 
-if ENV['TRAVIS']
-  # When running in Travis, report coverage stats to Coveralls.
-  require 'coveralls'
-  Coveralls.wear!
-else
-  # Otherwise render coverage information in coverage/index.html and display
-  # coverage percentage in the console.
-  require 'simplecov'
-end
+# Render coverage information in coverage/index.html and display coverage
+# percentage in the console.
+require 'simplecov'
 
 require 'slim_lint'
 require 'rspec/its'

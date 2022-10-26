@@ -5,7 +5,7 @@ require 'rake/tasklib'
 require 'slim_lint/constants'
 
 module SlimLint
-  # Rake task interface for slim-lint command line interface.
+  # Rake task interface for slim-lint-standard command line interface.
   #
   # @example
   #   # Add the following to your Rakefile...
@@ -14,7 +14,7 @@ module SlimLint
   #   SlimLint::RakeTask.new do |t|
   #     t.config = 'path/to/custom/slim-lint.yml'
   #     t.files = %w[app/views/**/*.slim custom/*.slim]
-  #     t.quiet = true # Don't display output from slim-lint
+  #     t.quiet = true # Don't display output from slim-lint-standard
   #   end
   #
   #   # ...and then execute from the command line:
@@ -48,8 +48,8 @@ module SlimLint
     # @return [Array<String>]
     attr_accessor :files
 
-    # Whether output from slim-lint should not be displayed to the standard out
-    # stream.
+    # Whether output from slim-lint-standard should not be displayed to the
+    # standard out stream.
     # @return [true,false]
     attr_accessor :quiet
 

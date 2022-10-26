@@ -1,4 +1,4 @@
-Slim-Lint is released under the MIT license.
+`slim-lint-standard` is released under the MIT license.
 
 > Copyright (c) 2015 Shane da Silva. http://shane.io
 >

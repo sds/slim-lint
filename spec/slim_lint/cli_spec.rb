@@ -234,9 +234,9 @@ describe SlimLint::CLI do
         output.should include SlimLint::BUG_REPORT_URL
       end
 
-      it 'displays the Slim-Lint version' do
+      it 'displays the slim-lint-standard version' do
         subject
-        output.should include "Slim-Lint version: #{SlimLint::VERSION}"
+        output.should include "slim-lint-standard version: #{SlimLint::VERSION}"
       end
 
       it 'displays the RuboCop version' do

@@ -1,6 +1,6 @@
 # Linters
 
-Below is a list of linters supported by `slim-lint`, ordered alphabetically.
+Below is a list of linters supported by `slim-lint-standard`, ordered alphabetically.
 
 * [CommentControlStatement](#commentcontrolstatement)
 * [ConsecutiveControlStatements](#consecutivecontrolstatements)
@@ -215,7 +215,7 @@ well-formatted.
 p Hello #{name}!
 ```
 
-**Output from `slim-lint`**
+**Output from `slim-lint-standard`**
 ```
 example.slim:2 [W] Useless assignment to variable - unused_variable
 ```

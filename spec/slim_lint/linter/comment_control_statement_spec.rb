@@ -12,7 +12,7 @@ describe SlimLint::Linter::CommentControlStatement do
   end
 
   context 'when a control statement contains only a comment' do
-    let(:slim) { <<-SLIM }
+    let(:slim) { <<~SLIM }
       -# A comment
       - # Another comment testing leading whitespace
     SLIM
@@ -22,7 +22,7 @@ describe SlimLint::Linter::CommentControlStatement do
   end
 
   context 'when a control statement contains a RuboCop directive' do
-    let(:slim) { <<-SLIM }
+    let(:slim) { <<~SLIM }
       -# rubocop:disable Layout/LineLength
       - some_code
       -# rubocop:enable Layout/LineLength
@@ -32,7 +32,7 @@ describe SlimLint::Linter::CommentControlStatement do
   end
 
   context 'when a control statement contains a Rails Template Dependency directive' do
-    let(:slim) { <<-SLIM }
+    let(:slim) { <<~SLIM }
       -# Template Dependency: some/partial
       = render some_helper_method_that_returns_a_partial_name
     SLIM

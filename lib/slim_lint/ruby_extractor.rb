@@ -53,6 +53,7 @@ module SlimLint
       @source_lines = []
       @source_map = {}
       @line_count = 0
+      @indent = 0
       @dummy_puts_count = 0
     end
 
@@ -62,6 +63,14 @@ module SlimLint
 
     on [:html, :tag] do |sexp|
       append_dummy_puts(sexp)
+    end
+
+    on [:slim_lint, :indent] do |sexp|
+      @indent += 1
+    end
+
+    on [:slim_lint, :outdent] do |sexp|
+      @indent -= 1
     end
 
     on [:static] do |sexp|
@@ -78,6 +87,22 @@ module SlimLint
       append(ruby, sexp)
     end
 
+    on [:slim, :embedded] do |sexp|
+      _, _, name, body, attrs = sexp
+
+      if name.value == "ruby"
+        body.drop(1).each do |subexp|
+          if subexp[0].value == :static
+            append(subexp[1].value, subexp)
+          end
+        end
+      else
+        append_dummy_puts(sexp)
+      end
+
+      :stop
+    end
+
     private
 
     # Append code to the buffer.
@@ -92,13 +117,14 @@ module SlimLint
       # For code that spans multiple lines, the resulting code will span
       # multiple lines, so we need to create a mapping for each line.
       code.split("\n").each_with_index do |line, index|
-        @source_lines << line
+        @source_lines << ("  " * @indent) + line
         @line_count += 1
         @source_map[@line_count] = original_line + index
       end
     end
 
     def append_dummy_puts(sexp)
+      # append("_slim_lint_puts_#{@dummy_puts_count} # #{sexp.start.join(":")} => #{sexp.finish.join(":")}", sexp)
       append("_slim_lint_puts_#{@dummy_puts_count}", sexp)
       @dummy_puts_count += 1
     end

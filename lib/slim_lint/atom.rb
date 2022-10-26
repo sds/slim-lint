@@ -8,13 +8,26 @@ module SlimLint
   class Atom
     # Stores the line number of the code in the original document that this Atom
     # came from.
-    attr_accessor :line
+    attr_accessor :value, :start, :finish
 
     # Creates an atom from the specified value.
     #
     # @param value [Object]
-    def initialize(value)
+    def initialize(value, pos:)
       @value = value
+
+      @start = pos
+
+      if value.is_a?(String)
+        lines = value.count("\n")
+        chars = 0
+        chars = value.lines.last.size - 1 unless value.empty?
+        @finish = [pos[0] + lines, chars + (lines == 0 ? pos[1] : 0)]
+      end
+    end
+
+    def line
+      start[0] if start
     end
 
     # Returns whether this atom is equivalent to another object.
@@ -52,11 +65,20 @@ module SlimLint
       @value.to_s
     end
 
+    def to_array
+      @value
+    end
+
     # Displays a string representation of this {Atom} suitable for debugging.
     #
     # @return [String]
     def inspect
-      "<#Atom #{@value.inspect}>"
+      range = "".dup
+      range << start.join(':') if start
+      range << " => " if start && finish
+      range << finish.join(':') if finish
+
+      "A(#{range}) #{@value.inspect}"
     end
 
     # Redirect methods to the value this {Atom} wraps.

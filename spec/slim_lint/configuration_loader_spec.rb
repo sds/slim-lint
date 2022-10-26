@@ -94,7 +94,7 @@ describe SlimLint::ConfigurationLoader do
       end
 
       context 'and is invalid' do
-        let(:config_file) { normalize_indent(<<-CONF) }
+        let(:config_file) { <<~CONF }
           linters:
             SomeLinter:
             invalid

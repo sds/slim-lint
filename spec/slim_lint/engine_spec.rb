@@ -23,7 +23,7 @@ describe SlimLint::Engine do
     end
 
     context 'with valid source' do
-      let(:source) { normalize_indent(<<-SLIM) }
+      let(:source) { <<~SLIM }
         doctype html
         head
           title My title

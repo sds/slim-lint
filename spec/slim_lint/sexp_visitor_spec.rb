@@ -15,7 +15,7 @@ describe SlimLint::SexpVisitor do
 
   describe '#trigger_pattern_callbacks' do
     let(:sexp) { [:one, [:match, :one], [:two, [:match, :two]]] }
-    subject { visitor.trigger_pattern_callbacks(SlimLint::Sexp.new(sexp)) }
+    subject { visitor.trigger_pattern_callbacks(SlimLint::Sexp.new(*sexp, start: [1, 1], finish: [3, 1])) }
 
     context 'when on_start block is specified' do
       let(:visitor_class) do

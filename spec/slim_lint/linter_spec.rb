@@ -16,7 +16,7 @@ describe SlimLint::Linter do
 
   describe '#run' do
     let(:sexp) { [:one, [:lint], :two, [:lint]] }
-    let(:document) { double(sexp: SlimLint::Sexp.new(sexp), file: 'file.slim', source_lines: []) }
+    let(:document) { double(sexp: SlimLint::Sexp.new(*sexp, start: [1, 1], finish: [2, 3]), file: 'file.slim', source_lines: []) }
     subject { linter.run(document) }
 
     it 'returns the reported lints' do

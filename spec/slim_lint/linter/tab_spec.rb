@@ -6,7 +6,7 @@ describe SlimLint::Linter::Tab do
   include_context 'linter'
 
   context 'when a file contains tabs' do
-    let(:slim) { <<-SLIM }
+    let(:slim) { <<~SLIM }
       .container
       \tp Hello World
     SLIM
@@ -16,7 +16,7 @@ describe SlimLint::Linter::Tab do
   end
 
   context 'when a file does not contain tabs' do
-    let(:slim) { <<-SLIM }
+    let(:slim) { <<~SLIM }
       .container
         p Hello World
     SLIM

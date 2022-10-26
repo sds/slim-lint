@@ -11,26 +11,20 @@ module SlimLint
     filter :RemoveBOM
 
     # Parse into S-expression using Slim parser
-    use Slim::Parser
+    use SlimLint::Parser
 
     # Perform additional processing so extracting Ruby code in {RubyExtractor}
     # is easier. We don't do this for regular linters because some information
     # about the original syntax tree is lost in the process, but that doesn't
     # matter in this case.
-    use Slim::Embedded
-    use Slim::Interpolation
+    use SlimLint::Filters::Interpolation
     use SlimLint::Filters::SplatProcessor
-    use Slim::DoInserter
-    use Slim::EndInserter
+    use SlimLint::Filters::DoInserter
+    use SlimLint::Filters::EndInserter
+    use SlimLint::Filters::AutoIndenter
     use SlimLint::Filters::ControlProcessor
     use SlimLint::Filters::AttributeProcessor
-    filter :MultiFlattener
-    filter :StaticMerger
-
-    # Converts Array-based S-expressions into SlimLint::Sexp objects, and gives
-    # them line numbers so we can easily map from the Ruby source to the
-    # original source
-    use SlimLint::Filters::SexpConverter
-    use SlimLint::Filters::InjectLineNumbers
+    use SlimLint::Filters::MultiFlattener
+    use SlimLint::Filters::StaticMerger
   end
 end

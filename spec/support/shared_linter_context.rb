@@ -12,7 +12,7 @@ shared_context 'linter' do
   subject { described_class.new(config) }
 
   before do
-    document = SlimLint::Document.new(normalize_indent(slim), config: config)
+    document = SlimLint::Document.new(slim, config: config)
     subject.run(document)
   end
 end

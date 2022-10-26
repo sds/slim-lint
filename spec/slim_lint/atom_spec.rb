@@ -5,16 +5,16 @@ require 'spec_helper'
 describe SlimLint::Atom do
   describe '#==' do
     let(:value) { :atom }
-    subject { described_class.new(value) == other }
+    subject { described_class.new(value, pos: [1,1]) == other }
 
     context 'when compared to an equivalent atom' do
-      let(:other) { described_class.new(:atom) }
+      let(:other) { described_class.new(:atom, pos: [1,1]) }
 
       it { should == true }
     end
 
     context 'when compared to a non-equivalent atom' do
-      let(:other) { described_class.new(:mismatch) }
+      let(:other) { described_class.new(:mismatch, pos: [1,1]) }
 
       it { should == false }
     end
@@ -34,7 +34,7 @@ describe SlimLint::Atom do
 
   describe '#match?' do
     let(:value) { :atom }
-    subject { described_class.new(value).match?(pattern) }
+    subject { described_class.new(value, pos: [1,1]).match?(pattern) }
 
     context 'when pattern is an expression' do
       let(:pattern) { [:one, :two] }
@@ -57,21 +57,14 @@ describe SlimLint::Atom do
 
   describe '#to_s' do
     let(:value) { [1, 2, '3'] }
-    subject { described_class.new(value).to_s }
+    subject { described_class.new(value, pos: [1,1]).to_s }
 
     it { should == value.to_s }
   end
 
-  describe '#inspect' do
-    let(:value) { [1, 2, '3'] }
-    subject { described_class.new(value).inspect }
-
-    it { should == "<#Atom #{value.inspect}>" }
-  end
-
   describe '#method_missing' do
     let(:value) { [1, 2, 3] }
-    let(:atom) { described_class.new(value) }
+    let(:atom) { described_class.new(value, pos: [1,1]) }
     subject { atom.send(method_name) }
 
     context 'when the method is not defined by the Atom class' do
@@ -96,7 +89,7 @@ describe SlimLint::Atom do
 
   describe '#respond_to?' do
     let(:value) { [1, 2, 3] }
-    let(:atom) { described_class.new(value) }
+    let(:atom) { described_class.new(value, pos: [1,1]) }
     subject { atom.respond_to?(method_name) }
 
     context 'when the method is defined by the Atom class' do

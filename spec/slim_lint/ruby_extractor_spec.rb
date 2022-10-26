@@ -6,7 +6,7 @@ describe SlimLint::RubyExtractor do
   let(:extractor) { described_class.new }
 
   describe '#extract' do
-    let(:sexp) { SlimLint::RubyExtractEngine.new.call(normalize_indent(slim)) }
+    let(:sexp) { SlimLint::RubyExtractEngine.new.call(slim) }
     subject { extractor.extract(sexp) }
 
     context 'with an empty Slim document' do
@@ -16,7 +16,7 @@ describe SlimLint::RubyExtractor do
     end
 
     context 'with verbatim text' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         | Hello world
       SLIM
 
@@ -25,7 +25,7 @@ describe SlimLint::RubyExtractor do
     end
 
     context 'with verbatim text on multiple lines' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         |
           Hello
           world
@@ -36,7 +36,7 @@ describe SlimLint::RubyExtractor do
     end
 
     context 'with verbatim text with trailing whitespace' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         ' Hello world
       SLIM
 
@@ -45,7 +45,7 @@ describe SlimLint::RubyExtractor do
     end
 
     context 'with inline static HTML' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         <p><b>Hello world!</b></p>
       SLIM
 
@@ -54,7 +54,7 @@ describe SlimLint::RubyExtractor do
     end
 
     context 'with control code' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         - some_expression
       SLIM
 
@@ -63,7 +63,7 @@ describe SlimLint::RubyExtractor do
     end
 
     context 'with output code' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         = some_expression
       SLIM
 
@@ -71,15 +71,32 @@ describe SlimLint::RubyExtractor do
       its(:source_map) { should == { 1 => 1 } }
     end
 
+    context 'with a block of ruby code' do
+      let(:slim) { <<~'SLIM' }
+        ruby:
+          if user.admin?
+            content_for(:navigation, "ADMIN")
+          end
+      SLIM
+
+      its(:source) { should == <<~RUBY.chomp }
+        if user.admin?
+          content_for(:navigation, "ADMIN")
+        end
+      RUBY
+
+      its(:source_map) { { 1 => 2, 2 => 3, 3 => 4 } }
+    end
+
     context 'with output code with block contents' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         = simple_form_for User.new, url: some_url do |f|
           = f.input :email, autofocus: true
       SLIM
 
-      its(:source) { should == normalize_indent(<<-RUBY).chomp }
+      its(:source) { should == <<~RUBY.chomp }
         simple_form_for User.new, url: some_url do |f|
-        f.input :email, autofocus: true
+          f.input :email, autofocus: true
         end
       RUBY
 
@@ -87,7 +104,7 @@ describe SlimLint::RubyExtractor do
     end
 
     context 'with output without escaping' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         == some_expression
       SLIM
 
@@ -96,7 +113,7 @@ describe SlimLint::RubyExtractor do
     end
 
     context 'with a code comment' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         / This line will not appear
       SLIM
 
@@ -105,7 +122,7 @@ describe SlimLint::RubyExtractor do
     end
 
     context 'with an HTML comment' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         /! This line will appear
       SLIM
 
@@ -114,7 +131,7 @@ describe SlimLint::RubyExtractor do
     end
 
     context 'with an Internet Explorer conditional comment' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         /[if IE]
           Get a better browser
       SLIM
@@ -124,7 +141,7 @@ describe SlimLint::RubyExtractor do
     end
 
     context 'with doctype tag' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         doctype xml
       SLIM
 
@@ -133,7 +150,7 @@ describe SlimLint::RubyExtractor do
     end
 
     context 'with an HTML tag' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         p A paragraph
       SLIM
 
@@ -142,11 +159,11 @@ describe SlimLint::RubyExtractor do
     end
 
     context 'with an HTML tag with interpolation' do
-      let(:slim) { <<-SLIM }
-        p A \#{adjective} paragraph for \#{noun}
+      let(:slim) { <<~'SLIM' }
+        p A #{adjective} paragraph for #{noun}
       SLIM
 
-      its(:source) { should == normalize_indent(<<-RUBY).chomp }
+      its(:source) { should == <<~RUBY.chomp }
       _slim_lint_puts_0
       _slim_lint_puts_1
       adjective
@@ -158,7 +175,7 @@ describe SlimLint::RubyExtractor do
     end
 
     context 'with an HTML tag with static attributes' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         p class="highlight"
       SLIM
 
@@ -167,11 +184,11 @@ describe SlimLint::RubyExtractor do
     end
 
     context 'with an HTML tag with Ruby attributes' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         p class=user.class id=user.id
       SLIM
 
-      its(:source) { should == normalize_indent(<<-RUBY).chomp }
+      its(:source) { should == <<~RUBY.chomp }
         _slim_lint_puts_0
         user.class
         user.id
@@ -181,11 +198,11 @@ describe SlimLint::RubyExtractor do
     end
 
     context 'with a dynamic tag splat' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         *some_dynamic_tag Hello World!
       SLIM
 
-      its(:source) { should == normalize_indent(<<-RUBY).chomp }
+      its(:source) { should == <<~RUBY.chomp }
         _slim_lint_puts_0
         some_dynamic_tag
         _slim_lint_puts_1
@@ -195,41 +212,41 @@ describe SlimLint::RubyExtractor do
     end
 
     context 'with an if statement' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         - if condition_true?
           | It's true!
       SLIM
 
-      its(:source) { should == normalize_indent(<<-RUBY).chomp }
+      its(:source) { should == <<~RUBY.chomp }
         if condition_true?
-        _slim_lint_puts_0
+          _slim_lint_puts_0
         end
       RUBY
 
-      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3 } }
+      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 1 } }
     end
 
     context 'with an if/else statement' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         - if condition_true?
           | It's true!
         - else
           | It's false!
       SLIM
 
-      its(:source) { should == normalize_indent(<<-RUBY).chomp }
+      its(:source) { should == <<~RUBY.chomp }
         if condition_true?
-        _slim_lint_puts_0
+          _slim_lint_puts_0
         else
-        _slim_lint_puts_1
+          _slim_lint_puts_1
         end
       RUBY
 
-      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5 } }
+      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 3 } }
     end
 
     context 'with an if/elsif/else statement' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         - if condition_true?
           | It's true!
         - elsif something_else?
@@ -238,21 +255,21 @@ describe SlimLint::RubyExtractor do
           | It's false!
       SLIM
 
-      its(:source) { should == normalize_indent(<<-RUBY).chomp }
+      its(:source) { should == <<~RUBY.chomp }
         if condition_true?
-        _slim_lint_puts_0
+          _slim_lint_puts_0
         elsif something_else?
-        _slim_lint_puts_1
+          _slim_lint_puts_1
         else
-        _slim_lint_puts_2
+          _slim_lint_puts_2
         end
       RUBY
 
-      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7 } }
+      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 5 } }
     end
 
     context 'with an if/else statement with statements following it' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         - if condition_true?
           | It's true!
         - else
@@ -261,27 +278,27 @@ describe SlimLint::RubyExtractor do
         - another_statement
       SLIM
 
-      its(:source) { should == normalize_indent(<<-RUBY).chomp }
+      its(:source) { should == <<~RUBY.chomp }
         if condition_true?
-        _slim_lint_puts_0
+          _slim_lint_puts_0
         else
-        _slim_lint_puts_1
+          _slim_lint_puts_1
         end
         following_statement
         another_statement
       RUBY
 
-      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 5, 7 => 6 } }
+      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 3, 6 => 5, 7 => 6 } }
     end
 
     context 'with an output statement with statements following it' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         = some_output
         - some_statement
         - another_statement
       SLIM
 
-      its(:source) { should == normalize_indent(<<-RUBY).chomp }
+      its(:source) { should == <<~RUBY.chomp }
         some_output
         some_statement
         another_statement
@@ -291,35 +308,75 @@ describe SlimLint::RubyExtractor do
     end
 
     context 'with an output statement that spans multiple lines' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         = some_output 1,
                       2,
                       3
       SLIM
 
-      its(:source) { should == normalize_indent(<<-RUBY).chomp }
+      its(:source) { should == <<~RUBY.chomp }
       some_output 1,
-      2,
-      3
+                  2,
+                  3
       RUBY
 
       its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3 } }
     end
 
     context 'with a control statement that spans multiple lines' do
-      let(:slim) { <<-SLIM }
+      let(:slim) { <<~'SLIM' }
         - some_method 1,
                       2,
                       3
       SLIM
 
-      its(:source) { should == normalize_indent(<<-RUBY).chomp }
+      its(:source) { should == <<~RUBY.chomp }
       some_method 1,
-      2,
-      3
+                  2,
+                  3
       RUBY
 
       its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3 } }
+    end
+
+    context 'with a control statement that spans multiple lines' do
+      let(:slim) { <<~'SLIM' }
+        ruby:
+          do_some_setup
+
+
+        javascript:
+          do_some_javascript
+          more_javascript
+
+
+        css:
+          do_some_css { }
+          more_css { }
+
+
+        = do_some_output
+      SLIM
+
+      its(:source) { should == <<~RUBY.chomp }
+        do_some_setup
+        _slim_lint_puts_0
+        _slim_lint_puts_1
+        do_some_output
+      RUBY
+
+      its(:source_map) { should == { 1 => 2, 2 => 5, 3 => 10, 4 => 15 } }
+    end
+
+    context 'Ruby attribute values retain their whitespace' do
+      let(:slim) { <<~'SLIM' }
+        tag attr=[ :array, :with, :whitespace ]
+      SLIM
+
+      its(:source) { should == <<~RUBY.chomp }
+        _slim_lint_puts_0
+        [ :array, :with, :whitespace ]
+      RUBY
     end
   end
 end

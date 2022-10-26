@@ -6,7 +6,7 @@ describe SlimLint::Linter::ConsecutiveControlStatements do
   include_context 'linter'
 
   context 'when a single control statement exists' do
-    let(:slim) { <<-SLIM }
+    let(:slim) { <<~SLIM }
       p Hello world
       - some_code
       a href="link"
@@ -16,7 +16,7 @@ describe SlimLint::Linter::ConsecutiveControlStatements do
   end
 
   context 'when multiple consecutive control statements under the limit exist' do
-    let(:slim) { <<-SLIM }
+    let(:slim) { <<~SLIM }
       p Hello world
       - some_code
       - some_more_code
@@ -27,7 +27,7 @@ describe SlimLint::Linter::ConsecutiveControlStatements do
   end
 
   context 'when multiple consecutive control statements over the limit exist' do
-    let(:slim) { <<-SLIM }
+    let(:slim) { <<~SLIM }
       p Hello world
       - some_code
       - some_more_code
@@ -39,7 +39,7 @@ describe SlimLint::Linter::ConsecutiveControlStatements do
   end
 
   context 'when multiple groups of consecutive control statements over the limit exist' do
-    let(:slim) { <<-SLIM }
+    let(:slim) { <<~SLIM }
       p Hello world
       - some_code
       - some_more_code
@@ -55,7 +55,7 @@ describe SlimLint::Linter::ConsecutiveControlStatements do
   end
 
   context 'when a large if/elsif/else statement exists' do
-    let(:slim) { <<-SLIM }
+    let(:slim) { <<~SLIM }
       p Hello world
       - if some_condition
         - some_code

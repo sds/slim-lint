@@ -17,12 +17,14 @@ require 'slim_lint/file_finder'
 require 'slim_lint/linter_registry'
 require 'slim_lint/logger'
 require 'slim_lint/version'
+require 'slim_lint/filter'
 
 # Load all filters (required by SlimLint::Engine)
 Dir[File.expand_path('slim_lint/filters/*.rb', File.dirname(__FILE__))].sort.each do |file|
   require file
 end
 
+require 'slim_lint/parser'
 require 'slim_lint/engine'
 require 'slim_lint/document'
 require 'slim_lint/capture_map'

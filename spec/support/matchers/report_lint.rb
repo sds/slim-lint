@@ -4,48 +4,71 @@ RSpec::Matchers.define :report_lint do |options|
   options ||= {}
   count = options[:count]
   expected_line = options[:line]
+  expected_cop = options[:cop]
 
   match do |linter|
-    has_lints?(linter, expected_line, count)
+    has_lints?(linter, count, expected_line, expected_cop)
   end
 
   failure_message do |linter|
-    'expected that a lint would be reported' +
-      (expected_line ? " on line #{expected_line}" : '') +
-      case linter.lints.count
-      when 0
-        ''
-      when 1
-        ", but was on line #{linter.lints.first.line}"
-      else
-        lines = lint_lines(linter)
-        ", but lints were reported on lines #{lines[0...-1].join(', ')} and #{lines.last}"
-      end
+    count_expectation = case count
+    when nil
+      "at least one lint"
+    when 0
+      "no lints"
+    when 1
+      "a lint"
+    else
+      "#{count} lints"
+    end
+
+    line_expectation = " on line #{expected_line}" if expected_line
+    cop_expectation = " of type #{expected_cop}" if expected_cop
+
+    reality = if linter.lints.empty?
+      "but no lints were reported"
+    else
+      [
+        "but the following lints were reported:",
+        *linter.lints.map do |lint|
+          "  * #{lint.message.split(":", 2).first} on line #{lint.line}"
+        end
+      ].join("\n")
+    end
+
+    "expected #{count_expectation} would be reported#{line_expectation}#{cop_expectation}, #{reality}"
   end
 
   failure_message_when_negated do |linter|
-    'expected that a lint would not be reported' \
-      ", but got `#{linter.lints.first.message}`"
+    "expected that a lint would not be reported, but got `#{linter.lints.first.message}`"
   end
 
   description do
     'report a lint' + (expected_line ? " on line #{expected_line}" : '')
   end
 
-  def has_lints?(linter, expected_line, count)
-    if expected_line && count
-      linter.lints.count == count &&
-        lint_lines(linter).all? { |line| line == expected_line }
-    elsif expected_line
-      lint_lines(linter).include?(expected_line)
-    elsif count
+  def has_lints?(linter, count, expected_line, expected_cop)
+    correct_count = if count
       linter.lints.count == count
     else
       linter.lints.count > 0
     end
-  end
 
-  def lint_lines(linter)
-    linter.lints.map(&:line)
+    lints = linter.lints.dup
+
+    correct_line = expected_line.nil? || if count
+      lints.all? { |lint| lint.line == expected_line }
+    else
+      lints.select! { |lint| lint.line == expected_line } if expected_cop
+      lints.any? { |lint| lint.line == expected_line }
+    end
+
+    correct_cop = expected_cop.nil? || if count
+      lints.all? { |lint| lint.message.start_with?("#{expected_cop}:") }
+    else
+      lints.any? { |lint| lint.message.start_with?("#{expected_cop}:") }
+    end
+
+    correct_count && correct_line && correct_cop
   end
 end

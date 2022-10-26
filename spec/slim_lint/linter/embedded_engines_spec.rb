@@ -6,7 +6,7 @@ describe SlimLint::Linter::EmbeddedEngines do
   include_context 'linter'
 
   context 'default configuration' do
-    let(:slim) { <<-SLIM }
+    let(:slim) { <<~SLIM }
       h1 heading
 
       javascript:
@@ -26,7 +26,7 @@ describe SlimLint::Linter::EmbeddedEngines do
       { 'forbidden_engines' => %w[javascript css] }
     end
 
-    let(:slim) { <<-SLIM }
+    let(:slim) { <<~SLIM }
       h1 heading
 
       javascript:

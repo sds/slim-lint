@@ -10,7 +10,7 @@ describe SlimLint::Document do
   end
 
   describe '#initialize' do
-    let(:source) { normalize_indent(<<-SLIM) }
+    let(:source) { <<~SLIM }
       doctype html
       head
         title My title

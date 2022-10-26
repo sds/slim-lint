@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe SlimLint::Sexp do
   describe '#initialize' do
-    subject { described_class.new(arg) }
+    subject { described_class.new(*arg, start: [1, 1], finish: [2, 3]) }
 
     context 'when given an empty array' do
       let(:arg) { [] }
@@ -39,56 +39,56 @@ describe SlimLint::Sexp do
     subject { sexp == other }
 
     context 'when Sexp is a flat expression' do
-      let(:sexp) { described_class.new([:atom, :another_atom]) }
+      let(:sexp) { described_class.new(:atom, :another_atom, start: [1, 1], finish: [2, 3]) }
 
       context 'and is compared to an equivalent expression' do
-        let(:other) { described_class.new([:atom, :another_atom]) }
+        let(:other) { described_class.new(:atom, :another_atom, start: [1, 1], finish: [2, 3]) }
 
         it { should == true }
       end
 
       context 'and is compared to a non-equivalent expression of equal length' do
-        let(:other) { described_class.new([:atom, :something_else]) }
+        let(:other) { described_class.new(:atom, :something_else, start: [1, 1], finish: [2, 3]) }
 
         it { should == false }
       end
 
       context 'and is compared to a non-equivalent expression of different length' do
-        let(:other) { described_class.new([:atom, :another_atom, :something_else]) }
+        let(:other) { described_class.new(:atom, :another_atom, :something_else, start: [1, 1], finish: [2, 3]) }
 
         it { should == false }
       end
 
       context 'and is compared to an atom' do
-        let(:other) { SlimLint::Atom.new(:atom) }
+        let(:other) { SlimLint::Atom.new(:atom, pos: [2, 1]) }
 
         it { should == false }
       end
     end
 
     context 'when Sexp is a nested expression' do
-      let(:sexp) { described_class.new([:one, [:two_one, :two_two], :three]) }
+      let(:sexp) { described_class.new(:one, [:two_one, :two_two], :three, start: [1, 1], finish: [2, 3]) }
 
       context 'and is compared to an equivalent expression' do
-        let(:other) { described_class.new([:one, [:two_one, :two_two], :three]) }
+        let(:other) { described_class.new(:one, [:two_one, :two_two], :three, start: [1, 1], finish: [2, 3]) }
 
         it { should == true }
       end
 
       context 'and is compared to a non-equivalent expression of equal length' do
-        let(:other) { described_class.new([:one, [:two_one, :mismatch], :three]) }
+        let(:other) { described_class.new(:one, [:two_one, :mismatch], :three, start: [1, 1], finish: [2, 3]) }
 
         it { should == false }
       end
 
       context 'and is compared to a non-equivalent expression of different length' do
-        let(:other) { described_class.new([:one, [:mismatch], :three]) }
+        let(:other) { described_class.new(:one, [:mismatch], :three, start: [1, 1], finish: [2, 3]) }
 
         it { should == false }
       end
 
       context 'and is compared to an atom' do
-        let(:other) { SlimLint::Atom.new(:atom) }
+        let(:other) { SlimLint::Atom.new(:atom, pos: [2, 1]) }
 
         it { should == false }
       end
@@ -99,7 +99,7 @@ describe SlimLint::Sexp do
     subject { sexp.match?(pattern) }
 
     context 'when Sexp is an expression' do
-      let(:sexp) { described_class.new([:one, :two, [:three_one, :three_two]]) }
+      let(:sexp) { described_class.new(:one, :two, [:three_one, :three_two], start: [1, 1], finish: [2, 3]) }
 
       context 'and the pattern is an atom' do
         let(:pattern) { :one }
@@ -148,47 +148,6 @@ describe SlimLint::Sexp do
 
         it { should == false }
       end
-    end
-  end
-
-  describe '#inspect' do
-    subject { described_class.new(sexp).inspect }
-
-    context 'when empty' do
-      let(:sexp) { [] }
-
-      it { should == '[]' }
-    end
-
-    context 'when expression is flat' do
-      let(:sexp) { [:one, :two, :three] }
-
-      it { should == normalize_indent(<<-OUTPUT).chomp }
-        [
-          <#Atom :one>,
-          <#Atom :two>,
-          <#Atom :three>
-        ]
-      OUTPUT
-    end
-
-    context 'when expression is nested' do
-      let(:sexp) { [:one, [:two, [:hello, :world], :hey], :three] }
-
-      it { should == normalize_indent(<<-OUTPUT).chomp }
-        [
-          <#Atom :one>,
-          [
-            <#Atom :two>,
-            [
-              <#Atom :hello>,
-              <#Atom :world>
-            ],
-            <#Atom :hey>
-          ],
-          <#Atom :three>
-        ]
-      OUTPUT
     end
   end
 end

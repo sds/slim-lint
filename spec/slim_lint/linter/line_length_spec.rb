@@ -6,7 +6,7 @@ describe SlimLint::Linter::LineLength do
   include_context 'linter'
 
   context 'when a file contains lines which are too long' do
-    let(:slim) { <<-SLIM }
+    let(:slim) { <<~SLIM }
       p
         = link_to 'Foobar', this_is_a_really_really_really_really_really_long_method_name
         | This line is short
@@ -18,7 +18,7 @@ describe SlimLint::Linter::LineLength do
   end
 
   context 'when a file does not contain lines which are too long' do
-    let(:slim) { <<-SLIM }
+    let(:slim) { <<~SLIM }
       p
         = link_to 'Foobar', a_short_method
         | This line is short

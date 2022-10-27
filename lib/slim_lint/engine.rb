@@ -28,11 +28,13 @@ module SlimLint
       call(source)
     rescue ::Slim::Parser::SyntaxError => e
       # Convert to our own exception type to isolate from upstream changes
-      error = SlimLint::Exceptions::ParseError.new(e.error,
-                                                   e.file,
-                                                   e.line,
-                                                   e.lineno,
-                                                   e.column)
+      error = SlimLint::Exceptions::ParseError.new(
+        e.error,
+        e.file,
+        e.line,
+        e.lineno,
+        e.column
+      )
       raise error
     end
   end

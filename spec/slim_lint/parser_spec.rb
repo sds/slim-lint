@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe SlimLint::Parser do
-  context 'has parity with the Slim::Parser' do
-    context 'for line indicators' do
-      context 'like `|`' do
-        specify 'when text blocks starts with the `|` as line indicator' do
+  context "has parity with the Slim::Parser" do
+    context "for line indicators" do
+      context "like `|`" do
+        specify "when text blocks starts with the `|` as line indicator" do
           should parse_identically(<<~'SLIM')
             | Text block
           SLIM
         end
 
-        specify 'multiple lines can be indented beneath the first text line' do
+        specify "multiple lines can be indented beneath the first text line" do
           should parse_identically(<<~'SLIM')
             |  Text
                 block
@@ -24,7 +24,7 @@ describe SlimLint::Parser do
           SLIM
         end
 
-        specify 'the first line of a text block determines the indentation' do
+        specify "the first line of a text block determines the indentation" do
           should parse_identically(<<~'SLIM')
             |
 
@@ -38,14 +38,14 @@ describe SlimLint::Parser do
           SLIM
         end
 
-        specify 'you can nest text blocks beneath tags' do
+        specify "you can nest text blocks beneath tags" do
           should parse_identically(<<~'SLIM')
             body
               | Text
           SLIM
         end
 
-        specify 'you can embed HTML code in the text which is not escaped' do
+        specify "you can embed HTML code in the text which is not escaped" do
           should parse_identically(<<~'SLIM')
             | <a href="http://slim-lang.com">slim-lang.com</a>
           SLIM

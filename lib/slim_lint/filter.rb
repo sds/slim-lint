@@ -104,7 +104,7 @@ module SlimLint
       def empty_exp?(exp)
         case exp[0].value
         when :multi
-          exp[1..-1].all? {|e| empty_exp?(e) }
+          exp[1..].all? { |e| empty_exp?(e) }
         when :newline
           true
         else

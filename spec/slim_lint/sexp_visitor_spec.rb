@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe SlimLint::SexpVisitor do
   let(:visitor_class) do
@@ -13,11 +13,11 @@ describe SlimLint::SexpVisitor do
   let(:visitor) { visitor_class.new }
   subject { visitor }
 
-  describe '#trigger_pattern_callbacks' do
+  describe "#trigger_pattern_callbacks" do
     let(:sexp) { [:one, [:match, :one], [:two, [:match, :two]]] }
     subject { visitor.trigger_pattern_callbacks(SlimLint::Sexp.new(*sexp, start: [1, 1], finish: [3, 1])) }
 
-    context 'when on_start block is specified' do
+    context "when on_start block is specified" do
       let(:visitor_class) do
         Class.new(super()) do
           attr_reader :matches, :root_sexp
@@ -33,19 +33,19 @@ describe SlimLint::SexpVisitor do
         end
       end
 
-      it 'runs the on_start block' do
+      it "runs the on_start block" do
         subject
-        visitor.root_sexp.should == sexp
+        visitor.root_sexp.should eq(sexp)
       end
 
-      context 'and the block does not return :stop' do
-        it 'continues traversing' do
+      context "and the block does not return :stop" do
+        it "continues traversing" do
           subject
-          visitor.matches.count.should == 2
+          visitor.matches.count.should eq(2)
         end
       end
 
-      context 'and the block returns :stop' do
+      context "and the block returns :stop" do
         let(:visitor_class) do
           Class.new(super()) do
             attr_reader :matches
@@ -61,14 +61,14 @@ describe SlimLint::SexpVisitor do
           end
         end
 
-        it 'stops traversing' do
+        it "stops traversing" do
           subject
-          visitor.matches.count.should == 0
+          visitor.matches.count.should eq(0)
         end
       end
     end
 
-    context 'when on [...] block returns :stop' do
+    context "when on [...] block returns :stop" do
       let(:visitor_class) do
         Class.new(super()) do
           attr_reader :matches
@@ -92,13 +92,13 @@ describe SlimLint::SexpVisitor do
           [:match, :included]]
       end
 
-      it 'stops further traversal down that branch of the Sexp' do
+      it "stops further traversal down that branch of the Sexp" do
         subject
-        visitor.matches.count.should == 2
+        visitor.matches.count.should eq(2)
       end
     end
 
-    context 'when on [...] block uses `anything` matcher' do
+    context "when on [...] block uses `anything` matcher" do
       let(:visitor_class) do
         Class.new(super()) do
           attr_reader :matches
@@ -117,13 +117,13 @@ describe SlimLint::SexpVisitor do
           [:match, :almost, :three]]
       end
 
-      it 'runs the block for all matching Sexps' do
+      it "runs the block for all matching Sexps" do
         subject
-        visitor.matches.count.should == 2
+        visitor.matches.count.should eq(2)
       end
     end
 
-    context 'when on [...] block uses `capture` matcher' do
+    context "when on [...] block uses `capture` matcher" do
       let(:visitor_class) do
         Class.new(super()) do
           attr_reader :capture_values, :matches
@@ -144,14 +144,14 @@ describe SlimLint::SexpVisitor do
           [:match, :another, :three]]
       end
 
-      it 'runs the block for all matching Sexps' do
+      it "runs the block for all matching Sexps" do
         subject
-        visitor.matches.count.should == 3
+        visitor.matches.count.should eq(3)
       end
 
-      it 'exposes the captured value to each block run' do
+      it "exposes the captured value to each block run" do
         subject
-        visitor.capture_values.should == [:almost, :again, :another]
+        visitor.capture_values.should eq([:almost, :again, :another])
       end
     end
   end

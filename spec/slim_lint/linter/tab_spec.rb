@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe SlimLint::Linter::Tab do
-  include_context 'linter'
+  include_context "linter"
 
-  context 'when a file contains tabs' do
+  context "when a file contains tabs" do
     let(:slim) { <<~SLIM }
       .container
       \tp Hello World
@@ -15,7 +15,7 @@ describe SlimLint::Linter::Tab do
     it { should report_lint line: 2 }
   end
 
-  context 'when a file does not contain tabs' do
+  context "when a file does not contain tabs" do
     let(:slim) { <<~SLIM }
       .container
         p Hello World

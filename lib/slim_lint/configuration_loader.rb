@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require 'pathname'
-require 'yaml'
+require "pathname"
+require "yaml"
 
 module SlimLint
   # Manages configuration file loading.
   class ConfigurationLoader
-    DEFAULT_CONFIG_PATH = File.join(SlimLint::HOME, 'config', 'default.yml').freeze
-    CONFIG_FILE_NAME = '.slim-lint.yml'
+    DEFAULT_CONFIG_PATH = File.join(SlimLint::HOME, "config", "default.yml").freeze
+    CONFIG_FILE_NAME = ".slim-lint.yml"
 
     class << self
       # Load configuration file given the current working directory the
@@ -38,8 +38,8 @@ module SlimLint
         default_configuration.merge(config)
       rescue Psych::SyntaxError, Errno::ENOENT => e
         raise SlimLint::Exceptions::ConfigurationError,
-              "Unable to load configuration from '#{file}': #{e}",
-              e.backtrace
+          "Unable to load configuration from '#{file}': #{e}",
+          e.backtrace
       end
 
       # Creates a configuration from the specified hash, ensuring it extends the
@@ -61,7 +61,7 @@ module SlimLint
       # @return [SlimLint::Configuration]
       def load_from_file(file)
         hash =
-          if yaml = YAML.load_file(file)
+          if (yaml = YAML.load_file(file))
             yaml.to_hash
           else
             {}
@@ -77,8 +77,8 @@ module SlimLint
       # @return [Array<Pathname>]
       def possible_config_files(directory)
         files = Pathname.new(directory)
-                        .enum_for(:ascend)
-                        .map { |path| path + CONFIG_FILE_NAME }
+          .enum_for(:ascend)
+          .map { |path| path + CONFIG_FILE_NAME }
         files << Pathname.new(CONFIG_FILE_NAME)
       end
     end

@@ -5,14 +5,14 @@ module SlimLint
   class Linter::EmbeddedEngines < Linter
     include LinterRegistry
 
-    MESSAGE = 'Forbidden embedded engine `%s` found'
+    MESSAGE = "Forbidden embedded engine `%s` found"
 
     on_start do |_sexp|
-      forbidden_engines = config['forbidden_engines']
+      forbidden_engines = config["forbidden_engines"]
       dummy_node = Struct.new(:line)
       document.source_lines.each_with_index do |line, index|
         forbidden_engines.each do |forbidden_engine|
-          next unless line =~ /^#{forbidden_engine}.*:\s*$/
+          next unless /^#{forbidden_engine}.*:\s*$/.match?(line)
 
           report_lint(dummy_node.new(index + 1), MESSAGE % forbidden_engine)
         end

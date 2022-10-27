@@ -15,7 +15,7 @@ module SlimLint
         block = Sexp.new(:multi, start: @self.start, finish: @self.finish)
         string = string.to_s
         line, column = @self.start
-        begin
+        loop do
           case string
           when /\A\\#\{/
             # Escaped interpolation
@@ -28,14 +28,13 @@ module SlimLint
             code = code[1..-2] unless escape
 
             match_lines = match.count("\n")
-            code_lines = code.count("\n")
 
             nested = Sexp.new(:multi, start: [line, column], finish: [line, column])
             block << Sexp.new(:slim, :output, escape, Atom.new(code, pos: [line, column + (escape ? 0 : 1)]), nested, start: [line, column], finish: [(line + match_lines), (match_lines == 0 ? column + match.size : 1)])
 
             line += match_lines
             column = (match_lines == 0 ? column + match.size : 1)
-          when /\A([#\\]?[^#\\]*([#\\][^\\#\{][^#\\]*)*)/
+          when /\A([#\\]?[^#\\]*([#\\][^\\{#][^#\\]*)*)/
             # Static text
             text, string = $&, $'
             text_lines = text.count("\n")
@@ -45,7 +44,9 @@ module SlimLint
             line += text_lines
             column = (text_lines == 0 ? column + text.size : 1)
           end
-        end until string.empty?
+
+          break if string.empty?
+        end
 
         block
       end

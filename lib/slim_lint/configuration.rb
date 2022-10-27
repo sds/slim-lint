@@ -41,13 +41,15 @@ module SlimLint
     def for_linter(linter)
       linter_name =
         case linter
-        when Class
-          linter.name.split('::').last
         when SlimLint::Linter
           linter.name
+        when Class
+          linter.name.split("::").last
+        when String
+          linter.split("::").last
         end
 
-      @hash['linters'].fetch(linter_name, {}).dup.freeze
+      @hash["linters"].fetch(linter_name, {}).dup.freeze
     end
 
     # Merges the given configuration with this one, returning a new
@@ -87,20 +89,20 @@ module SlimLint
 
     # Ensures the `exclude` global option is an array.
     def ensure_exclude_option_array_exists
-      @hash['exclude'] = Array(@hash['exclude'])
+      @hash["exclude"] = Array(@hash["exclude"])
     end
 
     # Ensures the `linters` configuration section exists.
     def ensure_linter_section_exists
-      @hash['linters'] ||= {}
+      @hash["linters"] ||= {}
     end
 
     # Ensure `include` and `exclude` options for linters are arrays
     # (since users can specify a single string glob pattern for convenience)
     def ensure_linter_include_exclude_arrays_exist
-      @hash['linters'].each_key do |linter_name|
+      @hash["linters"].each_key do |linter_name|
         %w[include exclude].each do |option|
-          linter_config = @hash['linters'][linter_name]
+          linter_config = @hash["linters"][linter_name]
           linter_config[option] = Array(linter_config[option])
         end
       end

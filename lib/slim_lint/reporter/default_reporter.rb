@@ -18,15 +18,15 @@ module SlimLint
 
     def print_location(lint)
       log.info lint.filename, false
-      log.log ':', false
+      log.log ":", false
       log.bold lint.line, false
     end
 
     def print_type(lint)
       if lint.error?
-        log.error ' [E] ', false
+        log.error " [E] ", false
       else
-        log.warning ' [W] ', false
+        log.warning " [W] ", false
       end
     end
 

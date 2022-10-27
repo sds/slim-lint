@@ -5,10 +5,10 @@ module SlimLint
   class Linter::LineLength < Linter
     include LinterRegistry
 
-    MSG = 'Line is too long. [%d/%d]'
+    MSG = "Line is too long. [%d/%d]"
 
     on_start do |_sexp|
-      max_length = config['max']
+      max_length = config["max"]
       dummy_node = Struct.new(:line)
 
       document.source_lines.each_with_index do |line, index|

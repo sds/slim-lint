@@ -15,7 +15,7 @@ module SlimLint
         exps.each do |exp|
           exp = compile(exp)
           if exp.first == :multi
-            result.concat(exp[1..-1])
+            result.concat(exp[1..])
           else
             result << exp
           end

@@ -11,7 +11,7 @@ module SlimLint
     #
     # @api private
     class EndInserter < Filter
-      IF_RE = /\A(if|begin|unless|else|elsif|when|rescue|ensure)\b|\bdo\s*(\|[^\|]*\|)?\s*$/
+      IF_RE = /\A(if|begin|unless|else|elsif|when|rescue|ensure)\b|\bdo\s*(\|[^|]*\|)?\s*$/
       ELSE_RE = /\A(else|elsif|when|rescue|ensure)\b/
       END_RE = /\Aend\b/
 
@@ -29,12 +29,12 @@ module SlimLint
         exps.each do |exp|
           if control?(exp)
             statement = exp[2].value
-            raise(Temple::FilterError, 'Explicit end statements are forbidden') if statement =~ END_RE
+            raise(Temple::FilterError, "Explicit end statements are forbidden") if END_RE.match?(statement)
 
             # Two control code in a row. If this one is *not*
             # an else block, we should close the previous one.
             if prev_indent && statement !~ ELSE_RE
-              @self << Sexp.new(:code, 'end', start: prev_indent.start, finish: prev_indent.start)
+              @self << Sexp.new(:code, "end", start: prev_indent.start, finish: prev_indent.start)
             end
 
             # Indent if the control code starts a block.
@@ -42,7 +42,7 @@ module SlimLint
           elsif exp[0].value != :newline && prev_indent
             # This is *not* a control code, so we should close the previous one.
             # Ignores newlines because they will be inserted after each line.
-            @self << Sexp.new(:code, 'end', start: prev_indent.start, finish: prev_indent.start)
+            @self << Sexp.new(:code, "end", start: prev_indent.start, finish: prev_indent.start)
             prev_indent = false
           end
 
@@ -51,7 +51,7 @@ module SlimLint
 
         # The last line can be a control code too.
         if prev_indent
-          @self << Sexp.new(:code, 'end', start: prev_indent.start, finish: prev_indent.start)
+          @self << Sexp.new(:code, "end", start: prev_indent.start, finish: prev_indent.start)
         end
 
         @self

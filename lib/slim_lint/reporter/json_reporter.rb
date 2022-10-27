@@ -13,8 +13,8 @@ module SlimLint
         summary: {
           offense_count: lints.length,
           target_file_count: grouped.length,
-          inspected_file_count: report.files.length,
-        },
+          inspected_file_count: report.files.length
+        }
       }
 
       log.log report_hash.to_json
@@ -27,14 +27,14 @@ module SlimLint
         slim_lint_version: SlimLint::VERSION,
         ruby_engine: RUBY_ENGINE,
         ruby_patchlevel: RUBY_PATCHLEVEL.to_s,
-        ruby_platform: RUBY_PLATFORM,
+        ruby_platform: RUBY_PLATFORM
       }
     end
 
     def map_file(file)
       {
         path: file.first,
-        offenses: file.last.map { |o| map_offense(o) },
+        offenses: file.last.map { |o| map_offense(o) }
       }
     end
 
@@ -43,9 +43,9 @@ module SlimLint
         severity: offense.severity,
         message: offense.message,
         location: {
-          line: offense.line,
+          line: offense.line
         },
-        linter: offense.linter&.name,
+        linter: offense.linter&.name
       }
     end
   end

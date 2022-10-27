@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'tmpdir'
+require "tmpdir"
 
 # Helpers for creating temporary directories for testing.
 module DirectorySpecHelpers
@@ -11,11 +11,11 @@ module DirectorySpecHelpers
   # executed with the created directory as the working directory.
   #
   # @return [String] The full path of the directory.
-  def directory(name = 'some-dir', &block)
+  def directory(name = "some-dir", &block)
     tmpdir = Dir.mktmpdir.tap do |path|
       Dir.chdir(path) do
         Dir.mkdir(name)
-        Dir.chdir(name, &block) if block_given?
+        Dir.chdir(name, &block) if block
       end
     end
 

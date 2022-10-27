@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'find'
+require "find"
 
 module SlimLint
   # Finds Slim files that should be linted given a specified list of paths, glob
@@ -38,7 +38,7 @@ module SlimLint
     #
     # @param patterns [Array<String>]
     # @return [Array<String>]
-    def extract_files_from(patterns) # rubocop:disable Metrics/MethodLength
+    def extract_files_from(patterns)
       files = []
 
       patterns.each do |pattern|
@@ -58,7 +58,7 @@ module SlimLint
               # One of the paths specified does not exist; raise a more
               # descriptive exception so we know which one
               raise SlimLint::Exceptions::InvalidFilePath,
-                    "File path '#{pattern}' does not exist"
+                "File path '#{pattern}' does not exist"
             end
           end
         end
@@ -72,7 +72,7 @@ module SlimLint
     # @param path [String]
     # @return [String]
     def normalize_path(path)
-      path.start_with?(".#{File::SEPARATOR}") ? path[2..-1] : path
+      path.start_with?(".#{File::SEPARATOR}") ? path[2..] : path
     end
 
     # Whether the given file should be treated as a Slim file.

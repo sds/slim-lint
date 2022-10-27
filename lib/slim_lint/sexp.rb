@@ -90,12 +90,12 @@ module SlimLint
     #
     # @param depth [Integer] indentation level to display Sexp at
     # @return [String]
-    def display(depth = 1) # rubocop:disable Metrics/AbcSize
-      indentation = ' ' * 2 * depth
-      range = "".dup
-      range << start.join(':') if start
+    def display(depth = 1)
+      indentation = " " * 2 * depth
+      range = +""
+      range << start.join(":") if start
       range << " => " if start && finish
-      range << finish.join(':') if finish
+      range << finish.join(":") if finish
       output = "S(#{range})["
 
       each_with_index do |nested_sexp, index|
@@ -109,11 +109,11 @@ module SlimLint
           end
 
         # Add trailing comma unless this is the last item
-        output += ', ' if index < length - 1
+        output += ", " if index < length - 1
       end
 
-      output << "\n" << ' ' * 2 * (depth - 1) unless empty?
-      output << ']'
+      output << "\n" << " " * 2 * (depth - 1) unless empty?
+      output << "]"
 
       output
     end

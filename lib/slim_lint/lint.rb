@@ -26,10 +26,10 @@ module SlimLint
     # @param message [String]
     # @param severity [Symbol]
     def initialize(linter, filename, line, message, severity = :warning)
-      @linter   = linter
+      @linter = linter
       @filename = filename
-      @line     = line || 0
-      @message  = message
+      @line = line || 0
+      @message = message
       @severity = severity
     end
 

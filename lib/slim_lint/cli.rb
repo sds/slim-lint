@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'slim_lint'
-require 'slim_lint/options'
+require "slim_lint"
+require "slim_lint/options"
 
 module SlimLint
   # Command line application interface.
-  class CLI # rubocop:disable Metrics/ClassLength
+  class CLI
     # Exit codes
     # @see https://man.openbsd.org/sysexits.3
     EX_OK = 0
@@ -30,7 +30,7 @@ module SlimLint
     def run(args)
       options = SlimLint::Options.new.parse(args)
       act_on_options(options)
-    rescue StandardError => e
+    rescue => e
       handle_exception(e)
     end
 
@@ -96,16 +96,16 @@ module SlimLint
     # Outputs a report of the linter run using the specified reporter.
     def print_report(report, options)
       reporter = options.fetch(:reporter,
-                               SlimLint::Reporter::DefaultReporter).new(log)
+        SlimLint::Reporter::DefaultReporter).new(log)
       reporter.display_report(report)
     end
 
     # Outputs a list of all currently available linters.
     def print_available_linters
-      log.info 'Available linters:'
+      log.info "Available linters:"
 
       linter_names = SlimLint::LinterRegistry.linters.map do |linter|
-        linter.name.split('::').last
+        linter.name.split("::").last
       end
 
       linter_names.sort.each do |linter_name|
@@ -115,10 +115,10 @@ module SlimLint
 
     # Outputs a list of currently available reporters.
     def print_available_reporters
-      log.info 'Available reporters:'
+      log.info "Available reporters:"
 
       reporter_names = SlimLint::Reporter.descendants.map do |reporter|
-        reporter.name.split('::').last.sub(/Reporter$/, '').downcase
+        reporter.name.split("::").last.sub(/Reporter$/, "").downcase
       end
 
       reporter_names.sort.each do |reporter_name|
@@ -136,31 +136,31 @@ module SlimLint
       log.log "#{SlimLint::APP_NAME} #{SlimLint::VERSION}"
 
       if options[:verbose_version]
-        log.log "slim #{Gem.loaded_specs['slim'].version}"
-        log.log "rubocop #{Gem.loaded_specs['rubocop'].version}"
+        log.log "slim #{Gem.loaded_specs["slim"].version}"
+        log.log "rubocop #{Gem.loaded_specs["rubocop"].version}"
         log.log RUBY_DESCRIPTION
       end
     end
 
     # Outputs the backtrace of an exception with instructions on how to report
     # the issue.
-    def print_unexpected_exception(exception) # rubocop:disable Metrics/AbcSize
+    def print_unexpected_exception(exception)
       log.bold_error exception.message
       log.error exception.backtrace.join("\n")
-      log.warning 'Report this bug at ', false
+      log.warning "Report this bug at ", false
       log.info SlimLint::BUG_REPORT_URL
       log.newline
-      log.success 'To help fix this issue, please include:'
-      log.log '- The above stack trace'
-      log.log '- slim-lint-standard version: ', false
+      log.success "To help fix this issue, please include:"
+      log.log "- The above stack trace"
+      log.log "- slim-lint-standard version: ", false
       log.info SlimLint::VERSION
-      log.log '- RuboCop version: ', false
-      log.info Gem.loaded_specs['rubocop'].version
-      if Gem.loaded_specs['standard']
-        log.log '- Standard version: ', false
-        log.info Gem.loaded_specs['standard'].version
+      log.log "- RuboCop version: ", false
+      log.info Gem.loaded_specs["rubocop"].version
+      if Gem.loaded_specs["standard"]
+        log.log "- Standard version: ", false
+        log.info Gem.loaded_specs["standard"].version
       end
-      log.log '- Ruby version: ', false
+      log.log "- Ruby version: ", false
       log.info RUBY_VERSION
     end
   end

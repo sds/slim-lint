@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Config comments' do
-  context 'single file' do
-    include_context 'linter'
+describe "Config comments" do
+  context "single file" do
+    include_context "linter"
 
     let(:described_class) { SlimLint::Linter::TagCase }
 
@@ -23,7 +23,7 @@ describe 'Config comments' do
     it { should report_lint line: 7 }
   end
 
-  context 'multiple files' do
+  context "multiple files" do
     # We can't use the 'linter' shared context here because it assumes
     # that the linter is being run on a single file.
 
@@ -31,7 +31,7 @@ describe 'Config comments' do
 
     let(:config) do
       SlimLint::ConfigurationLoader.default_configuration
-                                   .for_linter(described_class)
+        .for_linter(described_class)
     end
 
     subject { described_class.new(config) }

@@ -3,7 +3,7 @@ module SlimLint
     # This filter annotates the sexp with indentation guidance, so that we can
     # generate Ruby code with reasonable indentation semantics.
     class AutoIndenter < Filter
-      BLOCK_REGEX = /(\A(if|unless|else|elsif|when|begin|rescue|ensure|case)\b)|\bdo\s*(\|[^\|]*\|\s*)?\Z/
+      BLOCK_REGEX = /(\A(if|unless|else|elsif|when|begin|rescue|ensure|case)\b)|\bdo\s*(\|[^|]*\|\s*)?\Z/
 
       # Handle control expression `[:slim, :control, code, content]`
       #

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'rubocop'
-require 'rubocop/ast/builder'
-require 'parser/current'
+require "rubocop"
+require "rubocop/ast/builder"
+require "parser/current"
 
 module SlimLint
   # Parser for the Ruby language.
@@ -22,7 +22,7 @@ module SlimLint
     # @param source [String] Ruby source code
     # @return [Array] syntax tree in the form returned by Parser gem
     def parse(source)
-      buffer = ::Parser::Source::Buffer.new('(string)')
+      buffer = ::Parser::Source::Buffer.new("(string)")
       buffer.source = source
 
       @parser.reset

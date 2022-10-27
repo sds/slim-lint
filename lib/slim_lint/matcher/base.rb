@@ -15,7 +15,7 @@ module SlimLint::Matcher
     # @param other [Object]
     # @return [Boolean]
     def match?(*)
-      raise NotImplementedError, 'Matcher must implement `match?`'
+      raise NotImplementedError, "Matcher must implement `match?`"
     end
   end
 end

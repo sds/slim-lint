@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe SlimLint::Linter::RedundantDiv do
-  include_context 'linter'
+  include_context "linter"
 
-  context 'when a div tag has no classes or IDs' do
+  context "when a div tag has no classes or IDs" do
     let(:slim) { <<~SLIM }
       div Hello world
     SLIM
@@ -13,7 +13,7 @@ describe SlimLint::Linter::RedundantDiv do
     it { should_not report_lint }
   end
 
-  context 'when a div tag has a class attribute' do
+  context "when a div tag has a class attribute" do
     let(:slim) { <<~SLIM }
       div class="class" Hello World
     SLIM
@@ -21,7 +21,7 @@ describe SlimLint::Linter::RedundantDiv do
     it { should_not report_lint }
   end
 
-  context 'when a div tag has an id attribute' do
+  context "when a div tag has an id attribute" do
     let(:slim) { <<~SLIM }
       div id="identifier" Hello World
     SLIM
@@ -29,7 +29,7 @@ describe SlimLint::Linter::RedundantDiv do
     it { should_not report_lint }
   end
 
-  context 'when a div tag has a class attribute shortcut' do
+  context "when a div tag has a class attribute shortcut" do
     let(:slim) { <<~SLIM }
       div.class Hello world
     SLIM
@@ -37,7 +37,7 @@ describe SlimLint::Linter::RedundantDiv do
     it { should report_lint }
   end
 
-  context 'when a div has an ID attribute shortcut' do
+  context "when a div has an ID attribute shortcut" do
     let(:slim) { <<~SLIM }
       div#identifier Hello world
     SLIM
@@ -45,7 +45,7 @@ describe SlimLint::Linter::RedundantDiv do
     it { should report_lint }
   end
 
-  context 'when a nameless tag has a class attribute shortcut' do
+  context "when a nameless tag has a class attribute shortcut" do
     let(:slim) { <<~SLIM }
       .class Hello
     SLIM
@@ -53,7 +53,7 @@ describe SlimLint::Linter::RedundantDiv do
     it { should_not report_lint }
   end
 
-  context 'when a nameless tag has an ID attribute shortcut' do
+  context "when a nameless tag has an ID attribute shortcut" do
     let(:slim) { <<~SLIM }
       #identifier Hello
     SLIM
@@ -61,7 +61,7 @@ describe SlimLint::Linter::RedundantDiv do
     it { should_not report_lint }
   end
 
-  context 'when a div with a class attribute shortcut is deeply nested' do
+  context "when a div with a class attribute shortcut is deeply nested" do
     let(:slim) { <<~SLIM }
       tag
         child
@@ -71,7 +71,7 @@ describe SlimLint::Linter::RedundantDiv do
     it { should report_lint line: 3 }
   end
 
-  context 'when an offending div is contained within another offending div' do
+  context "when an offending div is contained within another offending div" do
     let(:slim) { <<~SLIM }
       div.class
         div.class2

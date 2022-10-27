@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'optparse'
+require "optparse"
 
 module SlimLint
   # Handles option parsing for the command line application.
@@ -26,26 +26,26 @@ module SlimLint
       @options
     rescue OptionParser::InvalidOption => e
       raise Exceptions::InvalidCLIOption,
-            e.message,
-            e.backtrace
+        e.message,
+        e.backtrace
     end
 
     private
 
     # Register linter-related flags.
     def add_linter_options(parser)
-      parser.on('-i', '--include-linter linter,...', Array,
-                'Specify which linters you want to run') do |linters|
+      msg = "Specify which linters you want to run"
+      parser.on("-i", "--include-linter linter,...", Array, msg) do |linters|
         @options[:included_linters] = linters
       end
 
-      parser.on('-x', '--exclude-linter linter,...', Array,
-                "Specify which linters you don't want to run") do |linters|
+      msg = "Specify which linters you don't want to run"
+      parser.on("-x", "--exclude-linter linter,...", Array, msg) do |linters|
         @options[:excluded_linters] = linters
       end
 
-      parser.on('-r', '--reporter reporter', String,
-                'Specify which reporter you want to use to generate the output') do |reporter|
+      msg = "Specify which reporter you want to use to generate the output"
+      parser.on("-r", "--reporter reporter", String, msg) do |reporter|
         @options[:reporter] = load_reporter_class(reporter.capitalize)
       end
     end
@@ -59,50 +59,50 @@ module SlimLint
       SlimLint::Reporter.const_get("#{reporter_name}Reporter")
     rescue NameError
       raise SlimLint::Exceptions::InvalidCLIOption,
-            "#{reporter_name}Reporter does not exist"
+        "#{reporter_name}Reporter does not exist"
     end
 
     # Register file-related flags.
     def add_file_options(parser)
-      parser.on('-c', '--config config-file', String,
-                'Specify which configuration file you want to use') do |conf_file|
+      msg = "Specify which configuration file you want to use"
+      parser.on("-c", "--config config-file", String, msg) do |conf_file|
         @options[:config_file] = conf_file
       end
 
-      parser.on('-e', '--exclude file,...', Array,
-                'List of file names to exclude') do |files|
+      msg = "List of file names to exclude"
+      parser.on("-e", "--exclude file,...", Array, msg) do |files|
         @options[:excluded_files] = files
       end
 
-      parser.on('--stdin-file-path file', String,
-                'Pipe source from STDIN, using file in offense reports.') do |file|
+      msg = "Pipe source from STDIN, using file in offense reports."
+      parser.on("--stdin-file-path file", String, msg) do |file|
         @options[:stdin_file_path] = file
       end
     end
 
     # Register informational flags.
     def add_info_options(parser)
-      parser.on('--show-linters', 'Display available linters') do
+      parser.on("--show-linters", "Display available linters") do
         @options[:show_linters] = true
       end
 
-      parser.on('--show-reporters', 'Display available reporters') do
+      parser.on("--show-reporters", "Display available reporters") do
         @options[:show_reporters] = true
       end
 
-      parser.on('--[no-]color', 'Force output to be colorized') do |color|
+      parser.on("--[no-]color", "Force output to be colorized") do |color|
         @options[:color] = color
       end
 
-      parser.on_tail('-h', '--help', 'Display help documentation') do
+      parser.on_tail("-h", "--help", "Display help documentation") do
         @options[:help] = parser.help
       end
 
-      parser.on_tail('-v', '--version', 'Display version') do
+      parser.on_tail("-v", "--version", "Display version") do
         @options[:version] = true
       end
 
-      parser.on_tail('-V', '--verbose-version', 'Display verbose version information') do
+      parser.on_tail("-V", "--verbose-version", "Display verbose version information") do
         @options[:verbose_version] = true
       end
     end

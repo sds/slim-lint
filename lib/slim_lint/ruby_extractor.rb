@@ -88,7 +88,7 @@ module SlimLint
     end
 
     on [:slim, :embedded] do |sexp|
-      _, _, name, body, attrs = sexp
+      _, _, name, body, _attrs = sexp
 
       if name.value == "ruby"
         body.drop(1).each do |subexp|

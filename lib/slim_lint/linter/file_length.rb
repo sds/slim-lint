@@ -5,10 +5,10 @@ module SlimLint
   class Linter::FileLength < Linter
     include LinterRegistry
 
-    MSG = 'File is too long. [%d/%d]'
+    MSG = "File is too long. [%d/%d]"
 
     on_start do |_sexp|
-      max_length = config['max']
+      max_length = config["max"]
       dummy_node = Struct.new(:line)
 
       count = document.source_lines.size

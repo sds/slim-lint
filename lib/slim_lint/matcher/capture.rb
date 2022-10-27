@@ -22,7 +22,7 @@ module SlimLint::Matcher
 
     # @see {SlimLint::Matcher::Base#match?}
     def match?(object)
-      if result = @matcher.match?(object)
+      if (result = @matcher.match?(object))
         @value = object
       end
 

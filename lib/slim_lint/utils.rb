@@ -16,10 +16,9 @@ module SlimLint
     # @return [Boolean]
     def any_glob_matches?(globs_or_glob, file)
       path = File.expand_path(file)
+      flags = File::FNM_PATHNAME | File::FNM_DOTMATCH
       Array(globs_or_glob).any? do |glob|
-        ::File.fnmatch?(File.expand_path(glob), path,
-                        ::File::FNM_PATHNAME | # Wildcards don't match path separators
-                        ::File::FNM_DOTMATCH)  # `*` wildcard matches dotfiles
+        File.fnmatch?(File.expand_path(glob), path, flags)
       end
     end
 

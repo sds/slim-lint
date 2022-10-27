@@ -1,77 +1,77 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe SlimLint::RubyExtractor do
   let(:extractor) { described_class.new }
 
-  describe '#extract' do
+  describe "#extract" do
     let(:sexp) { SlimLint::RubyExtractEngine.new.call(slim) }
     subject { extractor.extract(sexp) }
 
-    context 'with an empty Slim document' do
-      let(:slim) { '' }
-      its(:source) { should == '' }
-      its(:source_map) { should == {} }
+    context "with an empty Slim document" do
+      let(:slim) { "" }
+      its(:source) { should eq("") }
+      its(:source_map) { should eq({}) }
     end
 
-    context 'with verbatim text' do
+    context "with verbatim text" do
       let(:slim) { <<~'SLIM' }
         | Hello world
       SLIM
 
-      its(:source) { should == '_slim_lint_puts_0' }
-      its(:source_map) { should == { 1 => 1 } }
+      its(:source) { should eq("_slim_lint_puts_0") }
+      its(:source_map) { should eq({1 => 1}) }
     end
 
-    context 'with verbatim text on multiple lines' do
+    context "with verbatim text on multiple lines" do
       let(:slim) { <<~'SLIM' }
         |
           Hello
           world
       SLIM
 
-      its(:source) { should == '_slim_lint_puts_0' }
-      its(:source_map) { should == { 1 => 2 } }
+      its(:source) { should eq("_slim_lint_puts_0") }
+      its(:source_map) { should eq({1 => 2}) }
     end
 
-    context 'with verbatim text with trailing whitespace' do
+    context "with verbatim text with trailing whitespace" do
       let(:slim) { <<~'SLIM' }
         ' Hello world
       SLIM
 
-      its(:source) { should == '_slim_lint_puts_0' }
-      its(:source_map) { should == { 1 => 1 } }
+      its(:source) { should eq("_slim_lint_puts_0") }
+      its(:source_map) { should eq({1 => 1}) }
     end
 
-    context 'with inline static HTML' do
+    context "with inline static HTML" do
       let(:slim) { <<~'SLIM' }
         <p><b>Hello world!</b></p>
       SLIM
 
-      its(:source) { should == '_slim_lint_puts_0' }
-      its(:source_map) { should == { 1 => 1 } }
+      its(:source) { should eq("_slim_lint_puts_0") }
+      its(:source_map) { should eq({1 => 1}) }
     end
 
-    context 'with control code' do
+    context "with control code" do
       let(:slim) { <<~'SLIM' }
         - some_expression
       SLIM
 
-      its(:source) { should == 'some_expression' }
-      its(:source_map) { should == { 1 => 1 } }
+      its(:source) { should eq("some_expression") }
+      its(:source_map) { should eq({1 => 1}) }
     end
 
-    context 'with output code' do
+    context "with output code" do
       let(:slim) { <<~'SLIM' }
         = some_expression
       SLIM
 
-      its(:source) { should == 'some_expression' }
-      its(:source_map) { should == { 1 => 1 } }
+      its(:source) { should eq("some_expression") }
+      its(:source_map) { should eq({1 => 1}) }
     end
 
-    context 'with a block of ruby code' do
+    context "with a block of ruby code" do
       let(:slim) { <<~'SLIM' }
         ruby:
           if user.admin?
@@ -79,154 +79,154 @@ describe SlimLint::RubyExtractor do
           end
       SLIM
 
-      its(:source) { should == <<~RUBY.chomp }
+      its(:source) { should eq(<<~RUBY.chomp) }
         if user.admin?
           content_for(:navigation, "ADMIN")
         end
       RUBY
 
-      its(:source_map) { { 1 => 2, 2 => 3, 3 => 4 } }
+      its(:source_map) { {1 => 2, 2 => 3, 3 => 4} }
     end
 
-    context 'with output code with block contents' do
+    context "with output code with block contents" do
       let(:slim) { <<~'SLIM' }
         = simple_form_for User.new, url: some_url do |f|
           = f.input :email, autofocus: true
       SLIM
 
-      its(:source) { should == <<~RUBY.chomp }
+      its(:source) { should eq(<<~RUBY.chomp) }
         simple_form_for User.new, url: some_url do |f|
           f.input :email, autofocus: true
         end
       RUBY
 
-      its(:source_map) { { 1 => 1, 2 => 2, 3 => 1 } }
+      its(:source_map) { {1 => 1, 2 => 2, 3 => 1} }
     end
 
-    context 'with output without escaping' do
+    context "with output without escaping" do
       let(:slim) { <<~'SLIM' }
         == some_expression
       SLIM
 
-      its(:source) { should == 'some_expression' }
-      its(:source_map) { should == { 1 => 1 } }
+      its(:source) { should eq("some_expression") }
+      its(:source_map) { should eq({1 => 1}) }
     end
 
-    context 'with a code comment' do
+    context "with a code comment" do
       let(:slim) { <<~'SLIM' }
         / This line will not appear
       SLIM
 
-      its(:source) { should == '' }
-      its(:source_map) { should == {} }
+      its(:source) { should eq("") }
+      its(:source_map) { should eq({}) }
     end
 
-    context 'with an HTML comment' do
+    context "with an HTML comment" do
       let(:slim) { <<~'SLIM' }
         /! This line will appear
       SLIM
 
-      its(:source) { should == '_slim_lint_puts_0' }
-      its(:source_map) { should == { 1 => 1 } }
+      its(:source) { should eq("_slim_lint_puts_0") }
+      its(:source_map) { should eq({1 => 1}) }
     end
 
-    context 'with an Internet Explorer conditional comment' do
+    context "with an Internet Explorer conditional comment" do
       let(:slim) { <<~'SLIM' }
         /[if IE]
           Get a better browser
       SLIM
 
-      its(:source) { should == "_slim_lint_puts_0\n_slim_lint_puts_1" }
-      its(:source_map) { should == { 1 => 2, 2 => 2 } }
+      its(:source) { should eq("_slim_lint_puts_0\n_slim_lint_puts_1") }
+      its(:source_map) { should eq({1 => 2, 2 => 2}) }
     end
 
-    context 'with doctype tag' do
+    context "with doctype tag" do
       let(:slim) { <<~'SLIM' }
         doctype xml
       SLIM
 
-      its(:source) { should == '_slim_lint_puts_0' }
-      its(:source_map) { should == { 1 => 1 } }
+      its(:source) { should eq("_slim_lint_puts_0") }
+      its(:source_map) { should eq({1 => 1}) }
     end
 
-    context 'with an HTML tag' do
+    context "with an HTML tag" do
       let(:slim) { <<~'SLIM' }
         p A paragraph
       SLIM
 
-      its(:source) { should == "_slim_lint_puts_0\n_slim_lint_puts_1" }
-      its(:source_map) { should == { 1 => 1, 2 => 1 } }
+      its(:source) { should eq("_slim_lint_puts_0\n_slim_lint_puts_1") }
+      its(:source_map) { should eq({1 => 1, 2 => 1}) }
     end
 
-    context 'with an HTML tag with interpolation' do
+    context "with an HTML tag with interpolation" do
       let(:slim) { <<~'SLIM' }
         p A #{adjective} paragraph for #{noun}
       SLIM
 
-      its(:source) { should == <<~RUBY.chomp }
-      _slim_lint_puts_0
-      _slim_lint_puts_1
-      adjective
-      _slim_lint_puts_2
-      noun
+      its(:source) { should eq(<<~RUBY.chomp) }
+        _slim_lint_puts_0
+        _slim_lint_puts_1
+        adjective
+        _slim_lint_puts_2
+        noun
       RUBY
 
-      its(:source_map) { should == { 1 => 1, 2 => 1, 3 => 1, 4 => 1, 5 => 1 } }
+      its(:source_map) { should eq({1 => 1, 2 => 1, 3 => 1, 4 => 1, 5 => 1}) }
     end
 
-    context 'with an HTML tag with static attributes' do
+    context "with an HTML tag with static attributes" do
       let(:slim) { <<~'SLIM' }
         p class="highlight"
       SLIM
 
-      its(:source) { should == "_slim_lint_puts_0\n_slim_lint_puts_1" }
-      its(:source_map) { should == { 1 => 1, 2 => 1 } }
+      its(:source) { should eq("_slim_lint_puts_0\n_slim_lint_puts_1") }
+      its(:source_map) { should eq({1 => 1, 2 => 1}) }
     end
 
-    context 'with an HTML tag with Ruby attributes' do
+    context "with an HTML tag with Ruby attributes" do
       let(:slim) { <<~'SLIM' }
         p class=user.class id=user.id
       SLIM
 
-      its(:source) { should == <<~RUBY.chomp }
+      its(:source) { should eq(<<~RUBY.chomp) }
         _slim_lint_puts_0
         user.class
         user.id
       RUBY
 
-      its(:source_map) { should == { 1 => 1, 2 => 1, 3 => 1 } }
+      its(:source_map) { should eq({1 => 1, 2 => 1, 3 => 1}) }
     end
 
-    context 'with a dynamic tag splat' do
+    context "with a dynamic tag splat" do
       let(:slim) { <<~'SLIM' }
         *some_dynamic_tag Hello World!
       SLIM
 
-      its(:source) { should == <<~RUBY.chomp }
+      its(:source) { should eq(<<~RUBY.chomp) }
         _slim_lint_puts_0
         some_dynamic_tag
         _slim_lint_puts_1
       RUBY
 
-      its(:source_map) { should == { 1 => 1, 2 => 1, 3 => 1 } }
+      its(:source_map) { should eq({1 => 1, 2 => 1, 3 => 1}) }
     end
 
-    context 'with an if statement' do
+    context "with an if statement" do
       let(:slim) { <<~'SLIM' }
         - if condition_true?
           | It's true!
       SLIM
 
-      its(:source) { should == <<~RUBY.chomp }
+      its(:source) { should eq(<<~RUBY.chomp) }
         if condition_true?
           _slim_lint_puts_0
         end
       RUBY
 
-      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 1 } }
+      its(:source_map) { should eq({1 => 1, 2 => 2, 3 => 1}) }
     end
 
-    context 'with an if/else statement' do
+    context "with an if/else statement" do
       let(:slim) { <<~'SLIM' }
         - if condition_true?
           | It's true!
@@ -234,7 +234,7 @@ describe SlimLint::RubyExtractor do
           | It's false!
       SLIM
 
-      its(:source) { should == <<~RUBY.chomp }
+      its(:source) { should eq(<<~RUBY.chomp) }
         if condition_true?
           _slim_lint_puts_0
         else
@@ -242,10 +242,10 @@ describe SlimLint::RubyExtractor do
         end
       RUBY
 
-      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 3 } }
+      its(:source_map) { should eq({1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 3}) }
     end
 
-    context 'with an if/elsif/else statement' do
+    context "with an if/elsif/else statement" do
       let(:slim) { <<~'SLIM' }
         - if condition_true?
           | It's true!
@@ -255,7 +255,7 @@ describe SlimLint::RubyExtractor do
           | It's false!
       SLIM
 
-      its(:source) { should == <<~RUBY.chomp }
+      its(:source) { should eq(<<~RUBY.chomp) }
         if condition_true?
           _slim_lint_puts_0
         elsif something_else?
@@ -265,10 +265,10 @@ describe SlimLint::RubyExtractor do
         end
       RUBY
 
-      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 5 } }
+      its(:source_map) { should eq({1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 5}) }
     end
 
-    context 'with an if/else statement with statements following it' do
+    context "with an if/else statement with statements following it" do
       let(:slim) { <<~'SLIM' }
         - if condition_true?
           | It's true!
@@ -278,7 +278,7 @@ describe SlimLint::RubyExtractor do
         - another_statement
       SLIM
 
-      its(:source) { should == <<~RUBY.chomp }
+      its(:source) { should eq(<<~RUBY.chomp) }
         if condition_true?
           _slim_lint_puts_0
         else
@@ -288,58 +288,58 @@ describe SlimLint::RubyExtractor do
         another_statement
       RUBY
 
-      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 3, 6 => 5, 7 => 6 } }
+      its(:source_map) { should eq({1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 3, 6 => 5, 7 => 6}) }
     end
 
-    context 'with an output statement with statements following it' do
+    context "with an output statement with statements following it" do
       let(:slim) { <<~'SLIM' }
         = some_output
         - some_statement
         - another_statement
       SLIM
 
-      its(:source) { should == <<~RUBY.chomp }
+      its(:source) { should eq(<<~RUBY.chomp) }
         some_output
         some_statement
         another_statement
       RUBY
 
-      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3 } }
+      its(:source_map) { should eq({1 => 1, 2 => 2, 3 => 3}) }
     end
 
-    context 'with an output statement that spans multiple lines' do
+    context "with an output statement that spans multiple lines" do
       let(:slim) { <<~'SLIM' }
         = some_output 1,
                       2,
                       3
       SLIM
 
-      its(:source) { should == <<~RUBY.chomp }
-      some_output 1,
-                  2,
-                  3
+      its(:source) { should eq(<<~RUBY.chomp) }
+        some_output 1,
+                    2,
+                    3
       RUBY
 
-      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3 } }
+      its(:source_map) { should eq({1 => 1, 2 => 2, 3 => 3}) }
     end
 
-    context 'with a control statement that spans multiple lines' do
+    context "with a control statement that spans multiple lines" do
       let(:slim) { <<~'SLIM' }
         - some_method 1,
                       2,
                       3
       SLIM
 
-      its(:source) { should == <<~RUBY.chomp }
-      some_method 1,
-                  2,
-                  3
+      its(:source) { should eq(<<~RUBY.chomp) }
+        some_method 1,
+                    2,
+                    3
       RUBY
 
-      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3 } }
+      its(:source_map) { should eq({1 => 1, 2 => 2, 3 => 3}) }
     end
 
-    context 'with a control statement that spans multiple lines' do
+    context "with a control statement that spans multiple lines" do
       let(:slim) { <<~'SLIM' }
         ruby:
           do_some_setup
@@ -358,22 +358,22 @@ describe SlimLint::RubyExtractor do
         = do_some_output
       SLIM
 
-      its(:source) { should == <<~RUBY.chomp }
+      its(:source) { should eq(<<~RUBY.chomp) }
         do_some_setup
         _slim_lint_puts_0
         _slim_lint_puts_1
         do_some_output
       RUBY
 
-      its(:source_map) { should == { 1 => 2, 2 => 5, 3 => 10, 4 => 15 } }
+      its(:source_map) { should eq({1 => 2, 2 => 5, 3 => 10, 4 => 15}) }
     end
 
-    context 'Ruby attribute values retain their whitespace' do
+    context "Ruby attribute values retain their whitespace" do
       let(:slim) { <<~'SLIM' }
         tag attr=[ :array, :with, :whitespace ]
       SLIM
 
-      its(:source) { should == <<~RUBY.chomp }
+      its(:source) { should eq(<<~RUBY.chomp) }
         _slim_lint_puts_0
         [ :array, :with, :whitespace ]
       RUBY

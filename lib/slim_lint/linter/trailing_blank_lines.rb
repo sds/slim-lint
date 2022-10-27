@@ -6,15 +6,13 @@ module SlimLint
     include LinterRegistry
 
     on_start do |_sexp|
-      dummy_node = Struct.new(:line)
       next if document.source.empty?
 
+      dummy_node = Struct.new(:line).new(document.source.lines.size)
       if !document.source.end_with?("\n")
-        report_lint(dummy_node.new(document.source_lines.size),
-                    'No blank line in the end of file')
+        report_lint(dummy_node, "No blank line in the end of file")
       elsif document.source.lines.last.blank?
-        report_lint(dummy_node.new(document.source.lines.size),
-                    'Multiple empty lines in the end of file')
+        report_lint(dummy_node, "Multiple empty lines in the end of file")
       end
     end
   end

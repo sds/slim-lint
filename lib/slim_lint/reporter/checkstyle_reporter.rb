@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rexml/document'
+require "rexml/document"
 
 module SlimLint
   # Outputs report as a Checkstyle XML document.
@@ -9,7 +9,7 @@ module SlimLint
       document = REXML::Document.new.tap do |d|
         d << REXML::XMLDecl.new
       end
-      checkstyle = REXML::Element.new('checkstyle', document)
+      checkstyle = REXML::Element.new("checkstyle", document)
 
       report.lints.group_by(&:filename).map do |lint|
         map_file(lint, checkstyle)
@@ -21,21 +21,21 @@ module SlimLint
     private
 
     def map_file(file, checkstyle)
-      REXML::Element.new('file', checkstyle).tap do |f|
+      REXML::Element.new("file", checkstyle).tap do |f|
         path_name = file.first
         path_name = relative_path(file) if defined?(relative_path)
-        f.attributes['name'] = path_name
+        f.attributes["name"] = path_name
 
         file.last.map { |o| map_offense(o, f) }
       end
     end
 
     def map_offense(offence, parent)
-      REXML::Element.new('error', parent).tap do |e|
-        e.attributes['line'] = offence.line
-        e.attributes['severity'] = offence.error? ? 'error' : 'warning'
-        e.attributes['message'] = offence.message
-        e.attributes['source'] = 'slim-lint'
+      REXML::Element.new("error", parent).tap do |e|
+        e.attributes["line"] = offence.line
+        e.attributes["severity"] = offence.error? ? "error" : "warning"
+        e.attributes["message"] = offence.message
+        e.attributes["source"] = "slim-lint"
       end
     end
   end

@@ -8,7 +8,7 @@ module SlimLint
     #
     # @api private
     class DoInserter < Filter
-      BLOCK_REGEX = /(\A(if|unless|else|elsif|when|begin|rescue|ensure|case)\b)|\bdo\s*(\|[^\|]*\|\s*)?\Z/
+      BLOCK_REGEX = /(\A(if|unless|else|elsif|when|begin|rescue|ensure|case)\b)|\bdo\s*(\|[^|]*\|\s*)?\Z/
 
       # Handle control expression `[:slim, :control, code, content]`
       #
@@ -16,7 +16,7 @@ module SlimLint
       # @param [Array] content Temple expression
       # @return [Array] Compiled temple expression
       def on_slim_control(code, content)
-        code.value = code.value + ' do' unless code.value =~ BLOCK_REGEX || empty_exp?(content)
+        code.value = code.value + " do" unless code.value =~ BLOCK_REGEX || empty_exp?(content)
         @self[3] = compile(content)
         @self
       end
@@ -28,7 +28,7 @@ module SlimLint
       # @param [Array] content Temple expression
       # @return [Array] Compiled temple expression
       def on_slim_output(escape, code, content)
-        code.value = code.value + ' do' unless code.value =~ BLOCK_REGEX || empty_exp?(content)
+        code.value = code.value + " do" unless code.value =~ BLOCK_REGEX || empty_exp?(content)
         @self[4] = compile(content)
         @self
       end

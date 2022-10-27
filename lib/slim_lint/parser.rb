@@ -5,6 +5,8 @@ module SlimLint
   class Parser < Slim::Parser
     @options = Slim::Parser.options
 
+    BLANK_LINE_RE = /\A\s*\Z/
+
     def call(str)
       reset(str.split(/\r?\n/))
       push sexp(:multi, start: [1, 1])
@@ -70,7 +72,7 @@ module SlimLint
     protected
 
     def parse_line
-      if @line =~ /\A\s*\Z/
+      if @line =~ BLANK_LINE_RE
         @line = $'
         append sexp(:newline)
         return
@@ -93,7 +95,7 @@ module SlimLint
       if indent > @indents.last
         # This line was actually indented, so we'll have to check if it was
         # supposed to be indented or not.
-        syntax_error!('Unexpected indentation') unless expecting_indentation
+        syntax_error!("Unexpected indentation") unless expecting_indentation
 
         @indents << indent
       else
@@ -115,7 +117,7 @@ module SlimLint
         #   hello
         #       world
         #     this      # <- This should not be possible!
-        syntax_error!('Malformed indentation') if indent != @indents.last
+        syntax_error!("Malformed indentation") if indent != @indents.last
       end
 
       case @line
@@ -142,7 +144,7 @@ module SlimLint
       when /\A\//
         # Slim comment
         parse_comment_block
-      when /\A([\|'])( ?)/
+      when /\A([|'])( ?)/
         # Found verbatim text block.
         trailing_ws = $1 == "'"
         text = sexp(:slim, :text, :verbatim)
@@ -150,7 +152,7 @@ module SlimLint
         capture(text) { parse_text_block(@line, @indents.last + $2.size + 1) }
 
         append text
-        append sexp(:static, ' ') if trailing_ws
+        append sexp(:static, " ") if trailing_ws
       when /\A</
         # Inline html
         block = sexp(:multi)
@@ -177,9 +179,9 @@ module SlimLint
         # Found an output block.
         # We expect the line to be broken or the next line to be indented.
         @line = $'
-        trailing_ws = $2.include?('>'.freeze)
-        if $2.include?('\''.freeze)
-          deprecated_syntax '=\' for trailing whitespace is deprecated in favor of =>'
+        trailing_ws = $2.include?(">".freeze)
+        if $2.include?("'".freeze)
+          deprecated_syntax "=' for trailing whitespace is deprecated in favor of =>"
           trailing_ws = true
         end
 
@@ -188,9 +190,9 @@ module SlimLint
         capture(statement) { parse_broken_line }
         contains(statement, block)
 
-        append sexp(:static, ' ') if $2.include?('<'.freeze)
+        append sexp(:static, " ") if $2.include?("<".freeze)
         append statement
-        append sexp(:static, ' ') if trailing_ws
+        append sexp(:static, " ") if trailing_ws
         push block
       when @embedded_re
         # Embedded template detected. It is treated as block.
@@ -218,11 +220,11 @@ module SlimLint
     # you want to add line indicators to the Slim parser.
     # The default implementation throws a syntax error.
     def unknown_line_indicator
-      syntax_error! 'Unknown line indicator'
+      syntax_error! "Unknown line indicator"
     end
 
     def parse_comment_block
-      while !@lines.empty? && (@lines.first =~ /\A\s*\Z/ || get_indent(@lines.first) > @indents.last)
+      while !@lines.empty? && (BLANK_LINE_RE.match?(@lines.first) || get_indent(@lines.first) > @indents.last)
         next_line
         append sexp(:newline)
       end
@@ -238,9 +240,8 @@ module SlimLint
       end
 
       empty_lines = 0
-      first_empty = pos
       until @lines.empty?
-        if @lines.first =~ /\A\s*\Z/
+        if BLANK_LINE_RE.match?(@lines.first)
           next_line
           result << sexp(:newline)
           empty_lines += 1 if text_indent
@@ -251,7 +252,6 @@ module SlimLint
           if empty_lines > 0
             result << sexp(:slim, :interpolate, "\n" * empty_lines, start: pos, lines: empty_lines, width: @line.length + 1)
             empty_lines = 0
-            first_empty = pos
           end
 
           next_line
@@ -264,7 +264,7 @@ module SlimLint
             text_indent += offset
             offset = 0
           end
-          result << sexp(:newline) << sexp(:slim, :interpolate, (text_indent ? "\n" : '') + (' ' * offset) + @line)
+          result << sexp(:newline) << sexp(:slim, :interpolate, (text_indent ? "\n" : "") + (" " * offset) + @line)
 
           # The indentation of first line of the text block
           # determines the text base indentation.
@@ -311,10 +311,10 @@ module SlimLint
       while @line =~ @attr_shortcut_re
         # The class/id attribute is :static instead of :slim :interpolate,
         # because we don't want text interpolation in .class or #id shortcut
-        syntax_error!('Illegal shortcut') unless shortcut = @attr_shortcut[$1]
-        shortcut.each {|a| attributes << sexp(:html, :attr, a, sexp(:static, $2)) }
-        if additional_attr_pairs = @additional_attrs[$1]
-          additional_attr_pairs.each do |k,v|
+        syntax_error!("Illegal shortcut") unless (shortcut = @attr_shortcut[$1])
+        shortcut.each { |a| attributes << sexp(:html, :attr, a, sexp(:static, $2)) }
+        if (additional_attr_pairs = @additional_attrs[$1])
+          additional_attr_pairs.each do |k, v|
             attributes << sexp(:html, :attr, k.to_s, sexp(:static, v))
           end
         end
@@ -323,21 +323,21 @@ module SlimLint
 
       @line =~ /\A[<>']*/
       @line = $'
-      trailing_ws = $&.include?('>'.freeze)
-      if $&.include?('\''.freeze)
-        deprecated_syntax 'tag\' for trailing whitespace is deprecated in favor of tag>'
+      trailing_ws = $&.include?(">".freeze)
+      if $&.include?("'".freeze)
+        deprecated_syntax "tag' for trailing whitespace is deprecated in favor of tag>"
         trailing_ws = true
       end
 
-      leading_ws = $&.include?('<'.freeze)
+      leading_ws = $&.include?("<".freeze)
 
       parse_attributes(attributes)
 
       tag = sexp(:html, :tag, tag, attributes)
 
-      append sexp(:static, ' ') if leading_ws
+      append sexp(:static, " ") if leading_ws
       append tag
-      append sexp(:static, ' ') if trailing_ws
+      append sexp(:static, " ") if trailing_ws
 
       case @line
       when /\A\s*:\s*/
@@ -350,7 +350,7 @@ module SlimLint
           attrs = parse_attributes
           tag << sexp(:slim, :embedded, $1, parse_text_block($', @orig_line.size - $'.size + $2.size), attrs)
         else
-          (@line =~ @tag_re) || syntax_error!('Expected tag')
+          (@line =~ @tag_re) || syntax_error!("Expected tag")
           @line = $' if $1
           content = sexp(:multi)
           tag << content
@@ -363,25 +363,25 @@ module SlimLint
       when /\A\s*=(=?)(['<>]*)/
         # Handle output code
         @line = $'
-        trailing_ws2 = $2.include?('>'.freeze)
-        if $2.include?('\''.freeze)
-          deprecated_syntax '=\' for trailing whitespace is deprecated in favor of =>'
+        trailing_ws2 = $2.include?(">".freeze)
+        if $2.include?("'".freeze)
+          deprecated_syntax "=' for trailing whitespace is deprecated in favor of =>"
           trailing_ws2 = true
         end
         block = sexp(:multi)
-        statement = sexp(:slim, :output, $1 != '=')
+        statement = sexp(:slim, :output, $1 != "=")
         capture(statement) { parse_broken_line }
         contains(statement, block)
 
-        @stacks.last.insert(-2, sexp(:static, ' ')) if !leading_ws && $2.include?('<'.freeze)
+        @stacks.last.insert(-2, sexp(:static, " ")) if !leading_ws && $2.include?("<".freeze)
         tag << statement
-        append sexp(:static, ' ') if !trailing_ws && trailing_ws2
+        append sexp(:static, " ") if !trailing_ws && trailing_ws2
         push block
       when /\A\s*\/\s*/
         # Closed tag. Do nothing
         @line = $'
-        syntax_error!('Unexpected text after closed tag') unless @line.empty?
-      when /\A\s*\Z/
+        syntax_error!("Unexpected text after closed tag") unless @line.empty?
+      when BLANK_LINE_RE
         # Empty content
         content = sexp(:multi)
         tag << content
@@ -407,7 +407,7 @@ module SlimLint
         end_re = /\A\s*#{Regexp.escape delimiter}/
       end
 
-      while true
+      loop do
         case @line
         when @splat_attrs_regexp
           # Splat attribute
@@ -435,7 +435,7 @@ module SlimLint
           value = ""
           attr_value = sexp(:slim, :attrvalue, escape)
           capture(attr_value) { value = parse_ruby_code(delimiter) }
-          syntax_error!('Invalid empty attribute') if value.empty?
+          syntax_error!("Invalid empty attribute") if value.empty?
           attributes << sexp(:html, :attr, name, attr_value)
         else
           break unless delimiter
@@ -452,7 +452,7 @@ module SlimLint
           else
             # Found something where an attribute should be
             @line.lstrip!
-            syntax_error!('Expected attribute') unless @line.empty?
+            syntax_error!("Expected attribute") unless @line.empty?
 
             # Attributes span multiple lines
             append sexp(:newline)
@@ -467,13 +467,13 @@ module SlimLint
     end
 
     def parse_ruby_code(outer_delimiter)
-      code, count, delimiter, close_delimiter = '', 0, nil, nil
+      code, count, delimiter, close_delimiter = "", 0, nil, nil
 
       # Attribute ends with space or attribute delimiter
       end_re = /\A[\s#{Regexp.escape outer_delimiter.to_s}]/
 
       until @line.empty? || (count == 0 && @line =~ end_re)
-        if @line =~ /\A[,\\]\Z/
+        if @line == "," || @line == "\\"
           code << @line << "\n"
           expect_next_line
           @line.strip!
@@ -496,17 +496,17 @@ module SlimLint
     end
 
     def parse_quoted_attribute(quote)
-      value, count = '', 0
+      value, count = "", 0
 
       until count == 0 && @line[0] == quote[0]
         if @line =~ /\A(\\)?\Z/
-          value << ($1 ? ' ' : "\n")
+          value << ($1 ? " " : "\n")
           expect_next_line
           @line.strip!
         else
-          if @line[0] == ?{
+          if @line[0] == "{"
             count += 1
-          elsif @line[0] == ?}
+          elsif @line[0] == "}"
             count -= 1
           end
           value << @line.slice!(0)
@@ -529,15 +529,15 @@ module SlimLint
 
     def deprecated_syntax(message)
       line = @orig_line.lstrip
-      warn %{Deprecated syntax: #{message}
+      warn %(Deprecated syntax: #{message}
   #{options[:file]}, Line #{@lineno}, Column #{column}
     #{line}
-    #{' ' * column}^
-}
+    #{" " * column}^
+)
     end
 
     def expect_next_line
-      next_line || syntax_error!('Unexpected end of file')
+      next_line || syntax_error!("Unexpected end of file")
       # @line.strip!
       @line
     end

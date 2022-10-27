@@ -10,7 +10,7 @@ module SlimLint
     # Creates a logger which outputs nothing.
     # @return [SlimLint::Logger]
     def self.silent
-      new(File.open('/dev/null', 'w'))
+      new(File.open("/dev/null", "w"))
     end
 
     # Creates a new {SlimLint::Logger} instance.
@@ -34,7 +34,7 @@ module SlimLint
     #
     # @param args [Array<String>]
     def bold(*args)
-      color('1', *args)
+      color("1", *args)
     end
 
     # Print the specified output in a color indicative of error.
@@ -50,7 +50,7 @@ module SlimLint
     #
     # @param args [Array<String>]
     def bold_error(*args)
-      color('1;31', *args)
+      color("1;31", *args)
     end
 
     # Print the specified output in a color indicative of success.
@@ -79,7 +79,7 @@ module SlimLint
 
     # Print a blank line.
     def newline
-      log('')
+      log("")
     end
 
     # Whether this logger is outputting to a TTY.

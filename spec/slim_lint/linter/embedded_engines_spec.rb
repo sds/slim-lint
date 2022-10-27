@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe SlimLint::Linter::EmbeddedEngines do
-  include_context 'linter'
+  include_context "linter"
 
-  context 'default configuration' do
+  context "default configuration" do
     let(:slim) { <<~SLIM }
       h1 heading
 
@@ -21,9 +21,9 @@ describe SlimLint::Linter::EmbeddedEngines do
     it { should_not report_lint }
   end
 
-  context 'when a file contains forbidden embedded engine' do
+  context "when a file contains forbidden embedded engine" do
     let(:config) do
-      { 'forbidden_engines' => %w[javascript css] }
+      {"forbidden_engines" => %w[javascript css]}
     end
 
     let(:slim) { <<~SLIM }

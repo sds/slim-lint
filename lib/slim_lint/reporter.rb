@@ -18,7 +18,7 @@ module SlimLint
     # @param report [SlimLint::Report]
     def display_report(report)
       raise NotImplementedError,
-            "Implement `display_report` to display #{report}"
+        "Implement `display_report` to display #{report}"
     end
 
     # Keep tracking all the descendants of this class for the list of available

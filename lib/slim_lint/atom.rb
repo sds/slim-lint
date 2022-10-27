@@ -73,10 +73,10 @@ module SlimLint
     #
     # @return [String]
     def inspect
-      range = "".dup
-      range << start.join(':') if start
+      range = +""
+      range << start.join(":") if start
       range << " => " if start && finish
-      range << finish.join(':') if finish
+      range << finish.join(":") if finish
 
       "A(#{range}) #{@value.inspect}"
     end

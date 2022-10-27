@@ -6,13 +6,13 @@ module SlimLint
     include LinterRegistry
 
     on_start do |_sexp|
-      dummy_node = Struct.new(:line)
+      dummy = Struct.new(:line)
 
       document.source_lines.each_with_index do |line, index|
-        next unless line =~ /\s+$/
+        next unless /\s+$/.match?(line)
 
-        report_lint(dummy_node.new(index + 1),
-                    'Line contains trailing whitespace')
+        dummy_node = dummy.new(index + 1)
+        report_lint(dummy_node, "Line contains trailing whitespace")
       end
     end
   end

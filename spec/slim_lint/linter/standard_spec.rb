@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe SlimLint::Linter::Standard do
   include_context "linter"
 
-  context "when RuboCop does not report offences" do
+  context "when Standard does not report offences" do
     let(:slim) { <<~SLIM }
       = to_be or not_to_be
     SLIM
@@ -13,7 +13,7 @@ describe SlimLint::Linter::Standard do
     it { should_not report_lint }
   end
 
-  context "when RuboCop reports offences" do
+  context "when Standard reports offences" do
     context "like argument alignment" do
       let(:slim) { <<~SLIM }
         ruby:

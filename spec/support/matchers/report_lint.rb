@@ -44,7 +44,7 @@ RSpec::Matchers.define :report_lint do |options|
   end
 
   description do
-    'report a lint' + (expected_line ? " on line #{expected_line}" : '')
+    "report a lint" + (expected_line ? " on line #{expected_line}" : "")
   end
 
   def has_lints?(linter, count, expected_line, expected_cop)
@@ -56,18 +56,24 @@ RSpec::Matchers.define :report_lint do |options|
 
     lints = linter.lints.dup
 
-    correct_line = expected_line.nil? || if count
-      lints.all? { |lint| lint.line == expected_line }
-    else
-      lints.select! { |lint| lint.line == expected_line } if expected_cop
-      lints.any? { |lint| lint.line == expected_line }
-    end
+    correct_line =
+      if expected_line.nil?
+        true
+      elsif count
+        lints.all? { |lint| lint.line == expected_line }
+      else
+        lints.select! { |lint| lint.line == expected_line } if expected_cop
+        lints.any? { |lint| lint.line == expected_line }
+      end
 
-    correct_cop = expected_cop.nil? || if count
-      lints.all? { |lint| lint.message.start_with?("#{expected_cop}:") }
-    else
-      lints.any? { |lint| lint.message.start_with?("#{expected_cop}:") }
-    end
+    correct_cop =
+      if expected_cop.nil?
+        true
+      elsif count
+        lints.all? { |lint| lint.message.start_with?("#{expected_cop}:") }
+      else
+        lints.any? { |lint| lint.message.start_with?("#{expected_cop}:") }
+      end
 
     correct_count && correct_line && correct_cop
   end

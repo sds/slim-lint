@@ -73,7 +73,7 @@ module SlimLint
     # @return [Array<String>]
     def extract_applicable_files(config, options)
       included_patterns = options[:files]
-      excluded_patterns = config['exclude']
+      excluded_patterns = config["exclude"]
       excluded_patterns += options.fetch(:excluded_files, [])
 
       SlimLint::FileFinder.new(config).find(included_patterns, excluded_patterns)

@@ -13,8 +13,7 @@ module SlimLint
       document.source.lines.each_with_index do |line, i|
         if line.blank?
           if was_empty
-            report_lint(dummy_node.new(i + 1),
-                        'Extra empty line detected')
+            report_lint(dummy_node.new(i + 1), "Extra empty line detected")
           end
           was_empty = true
         else

@@ -67,13 +67,30 @@ a smell. It is best to extract these into separate helpers whenever possible.
 
 ## ControlStatementSpacing
 
+Option             | Default Value |
+-------------------|---------------|-------------------------------------
+`space_after`      | `single`      | `never`, `single`
+
+Reports missing or superfluous spacing after control statements
+
+**Bad**
+```slim
+-some_code
+```
+
+**Good**
+```slim
+- some_code
+```
+
+## DynamicOutputSpacing
 
 Option             | Default Value |
 -------------------|---------------|-------------------------------------
-`space_before`     | `:single`     | `:never`, `:single`, `:multiple`, `:any`
-`space_after`      | `:single`     | `:never`, `:single`, `:multiple`, `:any`
+`space_before`     | `single`      | `never`, `single`, `any`
+`space_after`      | `single`      | `never`, `single`, `any`
 
-Reports missing or superfluous spacing before and after control statements
+Reports missing or superfluous spacing before and after dynamic output statements
 
 **Bad**
 ```slim

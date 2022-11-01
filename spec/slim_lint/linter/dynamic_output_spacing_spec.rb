@@ -6,7 +6,7 @@ describe SlimLint::Linter::DynamicOutputSpacing do
   include_context "linter"
 
   context "when enforcing both leading and trailing spaces" do
-    let(:config) { {space_before: :always, space_after: :always} }
+    let(:config) { {"space_before" => "always", "space_after" => "always"} }
 
     context "without spaces" do
       let(:slim) { "div=bad" }
@@ -29,12 +29,12 @@ describe SlimLint::Linter::DynamicOutputSpacing do
     end
 
     context "with multiple before" do
-      let(:slim) { "div  =bad" }
+      let(:slim) { "div  = bad" }
       it { should report_lint }
     end
 
     context "with multiple after" do
-      let(:slim) { "div=  bad" }
+      let(:slim) { "div =  bad" }
       it { should report_lint }
     end
 
@@ -45,7 +45,7 @@ describe SlimLint::Linter::DynamicOutputSpacing do
   end
 
   context "when enforcing only leading spaces" do
-    let(:config) { {space_before: :always, space_after: :ignore} }
+    let(:config) { {"space_before" => "always", "space_after" => "ignore"} }
 
     context "without spaces" do
       let(:slim) { "div=bad" }
@@ -84,7 +84,7 @@ describe SlimLint::Linter::DynamicOutputSpacing do
   end
 
   context "when enforcing only trailing spaces" do
-    let(:config) { {space_before: :ignore, space_after: :always} }
+    let(:config) { {"space_before" => "ignore", "space_after" => "always"} }
 
     context "without spaces" do
       let(:slim) { "div=bad" }
@@ -123,7 +123,7 @@ describe SlimLint::Linter::DynamicOutputSpacing do
   end
 
   context "when enforcing no leading or trailing spaces" do
-    let(:config) { {space_before: :never, space_after: :never} }
+    let(:config) { {"space_before" => "never", "space_after" => "never"} }
 
     context "without spaces" do
       let(:slim) { "div=bad" }
@@ -162,7 +162,7 @@ describe SlimLint::Linter::DynamicOutputSpacing do
   end
 
   context "when enforcing no leading spaces" do
-    let(:config) { {space_before: :never, space_after: :ignore} }
+    let(:config) { {"space_before" => "never", "space_after" => "ignore"} }
 
     context "without spaces" do
       let(:slim) { "div=bad" }
@@ -201,7 +201,7 @@ describe SlimLint::Linter::DynamicOutputSpacing do
   end
 
   context "when enforcing no trailing spaces" do
-    let(:config) { {space_before: :ignore, space_after: :never} }
+    let(:config) { {"space_before" => "ignore", "space_after" => "never"} }
 
     context "without spaces" do
       let(:slim) { "div=bad" }

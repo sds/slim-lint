@@ -319,7 +319,6 @@ module SlimLint
       leading_ws = $&.include?("<".freeze)
 
       tag = sexp(:html, :tag, tag_name, attributes, start: tag_start, finish: pos)
-      @line.lstrip!
       parse_attributes(attributes)
 
       append sexp(:static, " ") if leading_ws
@@ -342,11 +341,9 @@ module SlimLint
           @line = $' if $1
           content = sexp(:multi)
           tag << content
-          # i = @stacks.size
           push content
           parse_tag($&, tag_start)
           pop
-          # @stacks.delete_at(i)
         end
       when /\A\s*=(=?)(['<>]*)/
         # Handle output code
@@ -398,16 +395,17 @@ module SlimLint
       end
 
       loop do
-        @line.lstrip!
-        case @line
+        case @line.strip
         when @splat_attrs_regexp
           # Splat attribute
-          @line = $'
+          @line.lstrip!
           splat = sexp(:slim, :splat)
+          @line = $'
           capture(splat) { parse_ruby_code(delimiter) }
           attributes << splat
         when @quoted_attr_re
           # Value is quoted (static)
+          @line.lstrip!
           attr = sexp(:html, :attr, $1)
           @line = $3 + $'
 
@@ -422,6 +420,7 @@ module SlimLint
           interpolate << value
         when @code_attr_re
           # Value is ruby code
+          @line.lstrip!
           attr = sexp(:html, :attr, $1)
           @line = $'
 
@@ -455,7 +454,6 @@ module SlimLint
         end
       end
 
-      # attributes || [:html, :attrs]
       attributes
     end
 

@@ -22,7 +22,7 @@ module SlimLint
       :stop
     end
 
-    on [:slim, :output, anything, anything, anything] do |sexp|
+    on [:slim, :output] do |sexp|
       expr_line, expr_col = sexp.start
       line = document.source_lines[expr_line - 1][(expr_col - 1)..]
       after_pattern, _ = after_config

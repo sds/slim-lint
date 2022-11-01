@@ -30,7 +30,8 @@ describe SlimLint::Reporter::DefaultReporter do
 
       let(:lints) do
         filenames.each_with_index.map do |filename, index|
-          SlimLint::Lint.new(linter, filename, lines[index], descriptions[index], severities[index])
+          location = SlimLint::SourceLocation.new(start_line: lines[index], start_column: index + 1)
+          SlimLint::Lint.new(linter, filename, location, descriptions[index], severities[index])
         end
       end
 

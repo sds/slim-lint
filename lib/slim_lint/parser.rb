@@ -9,7 +9,7 @@ module SlimLint
 
     def call(str)
       reset(str.split(/\r?\n/))
-      push sexp(:multi, start: [1, 1])
+      push create_container(sexp(:multi, start: [1, 1]))
 
       parse_line while next_line
       result = pop until @stacks.empty?
@@ -74,7 +74,6 @@ module SlimLint
     def parse_line
       if @line =~ BLANK_LINE_RE
         @line = $'
-        append sexp(:newline)
         return
       end
 
@@ -127,17 +126,16 @@ module SlimLint
 
         @line = $'
         text = sexp(:slim, :text, :verbatim)
-        capture(text) { parse_text_block(@line, @indents.last + $1.size + 2) }
+        capture(text) { parse_text_block([:slim, :interpolate], @line, @indents.last + $1.size + 2) }
         contains(comment, text)
 
         append comment
       when /\A\/(\[\s*(.*?)\s*\])\s*\Z/
         # HTML conditional comment
-        block = sexp(:multi)
-
-        @line.slice!(0)
-        comment = sexp(:html, :condcomment, $2, width: $1.length)
-        contains(comment, block)
+        block = create_container(sexp(:multi))
+        comment = create_container(sexp(:html, :condcomment))
+        @line.slice!(0, 2)
+        comment << atom($2) << block
 
         append comment
         push block
@@ -146,13 +144,13 @@ module SlimLint
         parse_comment_block
       when /\A([|'])( ?)/
         # Found verbatim text block.
-        trailing_ws = $1 == "'"
+        trailing_ws = ($1 == "'") && sexp(:static, " ", width: 1)
         text = sexp(:slim, :text, :verbatim)
         @line = $'
-        capture(text) { parse_text_block(@line, @indents.last + $2.size + 1) }
+        capture(text) { parse_text_block([:slim, :interpolate], @line, @indents.last + $2.size + 1) }
 
         append text
-        append sexp(:static, " ") if trailing_ws
+        append trailing_ws if trailing_ws
       when /\A</
         # Inline html
         block = sexp(:multi)
@@ -167,17 +165,18 @@ module SlimLint
       when /\A-/
         # Found a code block.
         # We expect the line to be broken or the next line to be indented.
+        statement = sexp(:slim, :control)
         @line = $'
         block = sexp(:multi)
-        statement = sexp(:slim, :control)
         capture(statement) { parse_broken_line }
-        contains(statement, block)
+        statement << block
 
         append statement
         push block
       when /\A=(=?)(['<>]*)/
         # Found an output block.
         # We expect the line to be broken or the next line to be indented.
+        statement = sexp(:slim, :output, $1.empty?)
         @line = $'
         trailing_ws = $2.include?(">".freeze)
         if $2.include?("'".freeze)
@@ -186,9 +185,8 @@ module SlimLint
         end
 
         block = sexp(:multi)
-        statement = sexp(:slim, :output, $1.empty?)
         capture(statement) { parse_broken_line }
-        contains(statement, block)
+        statement << block
 
         append sexp(:static, " ") if $2.include?("<".freeze)
         append statement
@@ -196,24 +194,24 @@ module SlimLint
         push block
       when @embedded_re
         # Embedded template detected. It is treated as block.
-        @line = $2
         block = sexp(:slim, :embedded, $1)
-        capture(block) { parse_text_block($', @orig_line.size - $'.size + $2.size) }
-        capture(block) { parse_attributes }
+        @line = $2
+        attrs = parse_attributes
+        capture(block) { parse_text_block([:static], $', @orig_line.size - $'.size + $2.size) }
+        capture(block) { attrs }
 
         append block
       when /\Adoctype\b/
         # Found doctype declaration
-        append sexp(:html, :doctype, $'.strip)
+        append sexp(:html, :doctype, $'.strip, width: @line.size)
       when @tag_re
         # Found a HTML tag.
+        tag_start = pos
         @line = $' if $1
-        parse_tag($&)
+        parse_tag($&, tag_start)
       else
         unknown_line_indicator
       end
-
-      append sexp(:newline)
     end
 
     # Unknown line indicator found. Overwrite this method if
@@ -226,36 +224,27 @@ module SlimLint
     def parse_comment_block
       while !@lines.empty? && (BLANK_LINE_RE.match?(@lines.first) || get_indent(@lines.first) > @indents.last)
         next_line
-        append sexp(:newline)
       end
     end
 
-    def parse_text_block(first_line = nil, text_indent = nil)
-      result = sexp(:multi)
+    def parse_text_block(type, first_line = nil, text_indent = nil)
+      result = sexp(:multi, start: [@lineno, @indents.last])
       if !first_line || first_line.empty?
         text_indent = nil
       else
-        result << sexp(:slim, :interpolate, first_line, width: first_line.size)
+        result << sexp(*type, first_line, width: first_line.chomp.size)
         @line = ""
       end
 
-      empty_lines = 0
       until @lines.empty?
         if BLANK_LINE_RE.match?(@lines.first)
           next_line
-          result << sexp(:newline)
-          empty_lines += 1 if text_indent
+          result << sexp(*type, "")
         else
           indent = get_indent(@lines.first)
           break if indent <= @indents.last
 
-          if empty_lines > 0
-            result << sexp(:slim, :interpolate, "\n" * empty_lines, start: pos, lines: empty_lines, width: @line.length + 1)
-            empty_lines = 0
-          end
-
           next_line
-          @line.lstrip!
 
           # The text block lines must be at least indented
           # as deep as the first line.
@@ -264,7 +253,10 @@ module SlimLint
             text_indent += offset
             offset = 0
           end
-          result << sexp(:newline) << sexp(:slim, :interpolate, (text_indent ? "\n" : "") + (" " * offset) + @line)
+          @line.slice!(0, indent - offset)
+
+          result << sexp(*type, @line, width: @line.chomp.size)
+          @line = ""
 
           # The indentation of first line of the text block
           # determines the text base indentation.
@@ -277,33 +269,28 @@ module SlimLint
     end
 
     def parse_broken_line
-      # broken_line = @line.strip
-      # while broken_line =~ /[,\\]\Z/
-      #   expect_next_line
-      #   broken_line << "\n" << @line
-      # end
-      # broken_line
+      result = sexp(:multi)
 
       ws = @orig_line[/\A[ \t]*/].size
-      leader = column - ws - 1
-      indent = @indents.last + leader + get_indent(@line)
+      @line.lstrip!
 
-      broken_line = [[@line.strip, indent]]
-      while broken_line.last[0] =~ /[,\\]\Z/
+      leader = column - ws - 1
+      indent = @indents.last + leader
+
+      result << sexp(:code, @line, width: @line.chomp.size)
+      while @line.strip =~ /[,\\]\Z/
         expect_next_line
-        broken_line << [@line.strip, get_indent(@line)]
+        @line.slice!(0, indent)
+        result << sexp(:code, @line, width: @line.chomp.size)
       end
 
-      min = broken_line.map(&:last).min
-      broken_line.each { |pair| pair[1] -= min }
-      broken_line.map! { |line, indent| (" " * indent) << line }
-      broken_line.join("\n")
+      result
     end
 
-    def parse_tag(tag)
-      if @tag_shortcut[tag]
-        @line.slice!(0, tag.size) unless @attr_shortcut[tag]
-        tag = @tag_shortcut[tag]
+    def parse_tag(tag_name, tag_start)
+      if @tag_shortcut[tag_name]
+        @line.slice!(0, tag_name.size) unless @attr_shortcut[tag_name]
+        tag_name = @tag_shortcut[tag_name]
       end
 
       # Find any shortcut attributes
@@ -331,9 +318,9 @@ module SlimLint
 
       leading_ws = $&.include?("<".freeze)
 
+      tag = sexp(:html, :tag, tag_name, attributes, start: tag_start, finish: pos)
+      @line.lstrip!
       parse_attributes(attributes)
-
-      tag = sexp(:html, :tag, tag, attributes)
 
       append sexp(:static, " ") if leading_ws
       append tag
@@ -348,20 +335,23 @@ module SlimLint
           # Parse attributes
           @line = $2
           attrs = parse_attributes
-          tag << sexp(:slim, :embedded, $1, parse_text_block($', @orig_line.size - $'.size + $2.size), attrs)
+          tag << sexp(:slim, :embedded, $1, parse_text_block([:static], $', @orig_line.size - $'.size + $2.size), attrs)
         else
           (@line =~ @tag_re) || syntax_error!("Expected tag")
+          tag_start = pos
           @line = $' if $1
           content = sexp(:multi)
           tag << content
           # i = @stacks.size
           push content
-          parse_tag($&)
+          parse_tag($&, tag_start)
           pop
           # @stacks.delete_at(i)
         end
       when /\A\s*=(=?)(['<>]*)/
         # Handle output code
+        statement = sexp(:slim, :output, $1 != "=")
+
         @line = $'
         trailing_ws2 = $2.include?(">".freeze)
         if $2.include?("'".freeze)
@@ -369,9 +359,8 @@ module SlimLint
           trailing_ws2 = true
         end
         block = sexp(:multi)
-        statement = sexp(:slim, :output, $1 != "=")
         capture(statement) { parse_broken_line }
-        contains(statement, block)
+        statement << block
 
         @stacks.last.insert(-2, sexp(:static, " ")) if !leading_ws && $2.include?("<".freeze)
         tag << statement
@@ -388,8 +377,9 @@ module SlimLint
         push content
       when /\A ?/
         # Text content
+        @line = $'
         tag << sexp(:slim, :text, :inline)
-        tag.last << parse_text_block($', @orig_line.size - $'.size)
+        tag.last << parse_text_block([:slim, :interpolate], $', @orig_line.size - $'.size)
         tag.last.finish = pos
       end
     end
@@ -408,6 +398,7 @@ module SlimLint
       end
 
       loop do
+        @line.lstrip!
         case @line
         when @splat_attrs_regexp
           # Splat attribute
@@ -418,25 +409,28 @@ module SlimLint
         when @quoted_attr_re
           # Value is quoted (static)
           attr = sexp(:html, :attr, $1)
-          @line = $'
-          capture(attr) do
-            capture(sexp(:escape, $2.empty?)) do
-              capture(sexp(:slim, :interpolate)) do
-                parse_quoted_attribute($3)
-              end
-            end
-          end
+          @line = $3 + $'
+
+          escape = sexp(:escape, $2.empty?)
+          interpolate = sexp(:slim, :interpolate)
+          value = parse_quoted_attribute($3)
+          attributes.finish = attr.finish = escape.finish = interpolate.finish = pos
+
           attributes << attr
+          attr << escape
+          escape << interpolate
+          interpolate << value
         when @code_attr_re
           # Value is ruby code
+          attr = sexp(:html, :attr, $1)
           @line = $'
-          name = $1
-          escape = $2.empty?
+
           value = ""
-          attr_value = sexp(:slim, :attrvalue, escape)
+          attr_value = sexp(:slim, :attrvalue, $2.empty?)
           capture(attr_value) { value = parse_ruby_code(delimiter) }
+          attr << attr_value
           syntax_error!("Invalid empty attribute") if value.empty?
-          attributes << sexp(:html, :attr, name, attr_value)
+          attributes << attr
         else
           break unless delimiter
 
@@ -455,7 +449,6 @@ module SlimLint
             syntax_error!("Expected attribute") unless @line.empty?
 
             # Attributes span multiple lines
-            append sexp(:newline)
             syntax_error!("Expected closing delimiter #{delimiter}") if @lines.empty?
             next_line
           end
@@ -467,16 +460,21 @@ module SlimLint
     end
 
     def parse_ruby_code(outer_delimiter)
-      code, count, delimiter, close_delimiter = "", 0, nil, nil
+      result = sexp(:multi)
+      count, delimiter, close_delimiter = 0, nil, nil
 
       # Attribute ends with space or attribute delimiter
       end_re = /\A[\s#{Regexp.escape outer_delimiter.to_s}]/
 
+      indent = column
+      code = ""
       until @line.empty? || (count == 0 && @line =~ end_re)
         if @line == "," || @line == "\\"
-          code << @line << "\n"
+          code << @line
+          result << sexp(:code, code, start: [@lineno, indent], width: code.size)
           expect_next_line
-          @line.strip!
+          code = ""
+          @line.sub!(/\A {,#{indent - 1}}/, "")
         else
           if count > 0
             if @line[0] == delimiter[0]
@@ -492,10 +490,15 @@ module SlimLint
         end
       end
       syntax_error!("Expected closing delimiter #{close_delimiter}") if count != 0
-      code
+
+      result << sexp(:code, code, start: [@lineno, indent], width: code.size)
+      result.finish = result.last.finish
+      result
     end
 
     def parse_quoted_attribute(quote)
+      @line.slice!(0)
+      start_pos = pos
       value, count = "", 0
 
       until count == 0 && @line[0] == quote[0]
@@ -513,8 +516,9 @@ module SlimLint
         end
       end
 
+      atom(value, pos: start_pos)
+    ensure
       @line.slice!(0)
-      value
     end
 
     # Helper for raising exceptions
@@ -538,7 +542,6 @@ module SlimLint
 
     def expect_next_line
       next_line || syntax_error!("Unexpected end of file")
-      # @line.strip!
       @line
     end
 
@@ -550,7 +553,7 @@ module SlimLint
       1 + (@orig_line&.size || 0) - (@line&.size || 0)
     end
 
-    def sexp(*args, start: pos, width: nil, lines: 0)
+    def sexp(*args, start: pos, finish: start, width: nil, lines: 0)
       finish = [start[0] + lines, start[1] + width] if width
       Sexp.new(*args, start: start, finish: finish)
     end
@@ -569,9 +572,15 @@ module SlimLint
       sexp
     end
 
+    def create_container(sexp)
+      sexp.tap do |container|
+        container.define_singleton_method(:finish) { last.finish }
+      end
+    end
+
     def contains(container, content)
+      create_container(container)
       container << content
-      container.define_singleton_method(:finish) { last.finish }
     end
   end
 end

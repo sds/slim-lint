@@ -14,7 +14,7 @@ module SlimLint
       line = document.source_lines[sexp.line() - 1]
 
       # Remove any Ruby code, because our regexp below must not match inside Ruby.
-      ruby = captures[:ruby]
+      ruby = captures[:ruby].last[1].value
       line = line.sub(ruby, "x")
 
       next if SINGLE_SPACE_BEFORE_AND_AFTER_RE.match?(line)

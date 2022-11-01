@@ -33,6 +33,7 @@ module SlimLint
       # end
 
       def on_slim_attrvalue(_escape, code)
+        return code if code[0] == :multi
         @self.start = code.start
         @self.finish = code.finish
         @self[0].value = :code

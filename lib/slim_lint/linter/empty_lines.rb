@@ -7,13 +7,12 @@ module SlimLint
     include LinterRegistry
 
     on_start do |_sexp|
-      dummy_node = Struct.new(:line)
-
       was_empty = true
-      document.source.lines.each_with_index do |line, i|
+      document.source.lines.each.with_index(1) do |line, i|
         if line.blank?
           if was_empty
-            report_lint(dummy_node.new(i + 1), "Extra empty line detected")
+            sexp = Sexp.new(start: [i, 0], finish: [i, 0])
+            report_lint(sexp, "Extra empty line detected")
           end
           was_empty = true
         else

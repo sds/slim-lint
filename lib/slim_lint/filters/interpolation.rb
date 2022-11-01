@@ -13,8 +13,8 @@ module SlimLint
         # Interpolate variables in text (#{variable}).
         # Split the text into multiple dynamic and static parts.
         block = Sexp.new(:multi, start: @self.start, finish: @self.finish)
+        line, column = string.start
         string = string.to_s
-        line, column = @self.start
         loop do
           case string
           when /\A\\#\{/
@@ -23,17 +23,35 @@ module SlimLint
             string = $'
           when /\A#\{((?>[^{}]|(\{(?>[^{}]|\g<1>)*\}))*)\}/
             # Interpolation
-            match, string, code = $&, $', $1
+            _, string, code = $&, $', $1
             escape = code !~ /\A\{.*\}\Z/
-            code = code[1..-2] unless escape
 
-            match_lines = match.count("\n")
+            column += 2
+            unless escape
+              code = code[1..-2]
+              column += 1
+            end
 
-            nested = Sexp.new(:multi, start: [line, column], finish: [line, column])
-            block << Sexp.new(:slim, :output, escape, Atom.new(code, pos: [line, column + (escape ? 0 : 1)]), nested, start: [line, column], finish: [(line + match_lines), (match_lines == 0 ? column + match.size : 1)])
+            start = [line, column]
+            finish = [line, column + code.size]
 
-            line += match_lines
-            column = (match_lines == 0 ? column + match.size : 1)
+            block << Sexp.new(
+              :slim,
+              :output,
+              escape,
+              Sexp.new(
+                :multi,
+                Sexp.new(:interpolated, code, start: start, finish: finish),
+                start: start,
+                finish: finish
+              ),
+              Sexp.new(:multi, start: start, finish: finish),
+              start: start,
+              finish: finish
+            )
+
+            column += code.size + 1
+            column += 1 unless escape
           when /\A([#\\]?[^#\\]*([#\\][^\\{#][^#\\]*)*)/
             # Static text
             text, string = $&, $'

@@ -20,8 +20,7 @@ module SlimLint
       log.log ":", false
       log.bold lint.line, false
       log.log ":", false
-      # TODO: change 1 to column number when linter will have this info.
-      log.bold 1, false
+      log.bold lint.column, false
       log.log ":", false
     end
 
@@ -34,10 +33,7 @@ module SlimLint
     end
 
     def print_message(lint)
-      if lint.linter
-        log.success("#{lint.linter.name}: ", false)
-      end
-
+      log.success("#{lint.name}: ", false)
       log.log lint.message
     end
   end

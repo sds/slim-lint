@@ -52,8 +52,8 @@ describe SlimLint::Reporter::JsonReporter do
 
       let(:lints) do
         filenames.each_with_index.map do |filename, index|
-          SlimLint::Lint.new(linters[index], filename, lines[index], descriptions[index],
-            severities[index])
+          location = SlimLint::SourceLocation.new(start_line: lines[index], start_column: index + 1, length: (index + 1) ** 2)
+          SlimLint::Lint.new(linters[index], filename, location, descriptions[index], severities[index])
         end
       end
 
@@ -65,10 +65,38 @@ describe SlimLint::Reporter::JsonReporter do
       it "list of offenses" do
         subject
         output["files"].sort_by { |f| f["path"] }.map { |f| f["offenses"] }.should eq [
-          [{"linter" => nil, "location" => {"line" => 724},
-            "message" => "Description of lint 2", "severity" => "error"}],
-          [{"linter" => "SomeLinter", "location" => {"line" => 502},
-            "message" => "Description of lint 1", "severity" => "warning"}]
+          [
+            {
+              "cop_name" => nil,
+              "location" => {
+                "line" => 724,
+                "column" => 2,
+                "length" => 4,
+                "start_line" => 724,
+                "start_column" => 2,
+                "last_line" => 724,
+                "last_column" => 2
+              },
+              "message" => "Description of lint 2",
+              "severity" => "error"
+            }
+          ],
+          [
+            {
+              "cop_name" => "SomeLinter",
+              "location" => {
+                "line" => 502,
+                "column" => 1,
+                "length" => 1,
+                "start_line" => 502,
+                "start_column" => 1,
+                "last_line" => 502,
+                "last_column" => 1
+              },
+              "message" => "Description of lint 1",
+              "severity" => "warning"
+            }
+          ]
         ]
       end
 

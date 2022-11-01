@@ -12,8 +12,8 @@ module SlimLint
       # @return [Array] Compiled temple expression
       def on_slim_control(code, content)
         @self[3] = compile(content)
-        if code.value =~ BLOCK_REGEX && content[0].value == :multi && content[1][0].value == :newline
-          @self[3].insert(2, Sexp.new(:slim_lint, :indent, start: content.start, finish: content.start))
+        if code.last.last.value =~ BLOCK_REGEX && content[0].value == :multi
+          @self[3].insert(1, Sexp.new(:slim_lint, :indent, start: content.start, finish: content.start))
           @self[3].insert(-1, Sexp.new(:slim_lint, :outdent, start: content.finish, finish: content.finish))
         end
 
@@ -27,9 +27,8 @@ module SlimLint
       # @return [Array] Compiled temple expression
       def on_slim_output(escape, code, content)
         @self[4] = compile(content)
-
-        if code.value =~ BLOCK_REGEX && content[0].value == :multi && content[1][0].value == :newline
-          @self[4].insert(2, Sexp.new(:slim_lint, :indent, start: content.start, finish: content.start))
+        if code.last.last.value =~ BLOCK_REGEX && content[0].value == :multi
+          @self[4].insert(1, Sexp.new(:slim_lint, :indent, start: content.start, finish: content.start))
           @self[4].insert(-1, Sexp.new(:slim_lint, :outdent, start: content.finish, finish: content.finish))
         end
 

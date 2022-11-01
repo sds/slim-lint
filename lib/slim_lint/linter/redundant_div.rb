@@ -6,19 +6,16 @@ module SlimLint
   class Linter::RedundantDiv < Linter
     include LinterRegistry
 
+    SHORTCUT_ATTRS = %w[id class]
     MESSAGE = "`div` is redundant when %s attribute shortcut is present"
 
-    pattern =
-      [:html, :tag, "div",
-        [:html, :attrs,
-          [:html, :attr,
-            capture(:attr_name, anything),
-            [:static]]]]
-    on pattern do |sexp|
-      attr = captures[:attr_name]
-      next unless %w[class id].include?(attr)
+    on [:html, :tag, "div", capture(:attrs, [:html, :attrs]), anything] do |sexp|
+      _, _, name, value = captures[:attrs][2]
+      next unless name
+      next unless value[0] == :static
+      next unless SHORTCUT_ATTRS.include?(name.value)
 
-      report_lint(sexp, MESSAGE % attr)
+      report_lint(sexp[2], MESSAGE % name)
     end
   end
 end

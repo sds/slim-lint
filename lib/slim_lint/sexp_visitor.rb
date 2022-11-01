@@ -70,7 +70,11 @@ module SlimLint
     # @attr_reader sexp [Array] S-expression pattern that when matched triggers the
     #     callback
     # @attr_reader callback_method_name [Symbol] name of the method to call when pattern is matched
-    SexpPattern = Struct.new(:sexp, :callback_method_name)
+    SexpPattern = Struct.new(:sexp, :callback_method_name) do
+      def match?(expr)
+        expr.match?(sexp)
+      end
+    end
     private_constant :SexpPattern
 
     # Exposes a convenient Domain-specific Language (DSL) that makes declaring
@@ -133,13 +137,13 @@ module SlimLint
       # matched value in the captures list under the given name.
       #
       # @param capture_name [Symbol]
-      # @param matcher [SlimLint::Matcher::Base]
+      # @param matcher [Array, SlimLint::Matcher::Base]
       # @return [SlimLint::Matcher::Capture]
       def capture(capture_name, matcher)
         @captures ||= SlimLint::CaptureMap.new
 
-        @captures[capture_name] =
-          SlimLint::Matcher::Capture.from_matcher(matcher)
+        matcher = SexpPattern.new(matcher, nil) unless matcher.respond_to?(:match?)
+        @captures[capture_name] = SlimLint::Matcher::Capture.from_matcher(matcher)
       end
     end
   end

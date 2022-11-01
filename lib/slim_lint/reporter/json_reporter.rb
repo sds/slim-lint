@@ -42,10 +42,8 @@ module SlimLint
       {
         severity: offense.severity,
         message: offense.message,
-        location: {
-          line: offense.line
-        },
-        linter: offense.linter&.name
+        location: offense.location.as_json,
+        cop_name: offense.name
       }
     end
   end

@@ -20,6 +20,8 @@ module SlimLint
       log.info lint.filename, false
       log.log ":", false
       log.bold lint.line, false
+      log.log ":", false
+      log.bold lint.column, false
     end
 
     def print_type(lint)
@@ -31,10 +33,7 @@ module SlimLint
     end
 
     def print_message(lint)
-      if lint.linter
-        log.success("#{lint.linter.name}: ", false)
-      end
-
+      log.success("#{lint.name}: ", false)
       log.log lint.message
     end
   end

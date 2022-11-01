@@ -11,7 +11,7 @@ describe SlimLint::RubyExtractor do
 
     context "with an empty Slim document" do
       let(:slim) { "" }
-      its(:source) { should eq("") }
+      its(:source) { should eq("\n") }
       its(:source_map) { should eq({}) }
     end
 
@@ -20,8 +20,12 @@ describe SlimLint::RubyExtractor do
         | Hello world
       SLIM
 
-      its(:source) { should eq("_slim_lint_puts_0") }
-      its(:source_map) { should eq({1 => 1}) }
+      its(:source) { should eq("_slim_lint_puts_0\n") }
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 3, last_line: 1, last_column: 14}
+        })
+      end
     end
 
     context "with verbatim text on multiple lines" do
@@ -31,8 +35,12 @@ describe SlimLint::RubyExtractor do
           world
       SLIM
 
-      its(:source) { should eq("_slim_lint_puts_0") }
-      its(:source_map) { should eq({1 => 2}) }
+      its(:source) { should eq("_slim_lint_puts_0\n") }
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 2, column: 3, last_line: 3, last_column: 8}
+        })
+      end
     end
 
     context "with verbatim text with trailing whitespace" do
@@ -40,8 +48,12 @@ describe SlimLint::RubyExtractor do
         ' Hello world
       SLIM
 
-      its(:source) { should eq("_slim_lint_puts_0") }
-      its(:source_map) { should eq({1 => 1}) }
+      its(:source) { should eq("_slim_lint_puts_0\n") }
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 3, last_line: 1, last_column: 14}
+        })
+      end
     end
 
     context "with inline static HTML" do
@@ -49,8 +61,12 @@ describe SlimLint::RubyExtractor do
         <p><b>Hello world!</b></p>
       SLIM
 
-      its(:source) { should eq("_slim_lint_puts_0") }
-      its(:source_map) { should eq({1 => 1}) }
+      its(:source) { should eq("_slim_lint_puts_0\n") }
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 1, last_line: 1, last_column: 27}
+        })
+      end
     end
 
     context "with control code" do
@@ -58,8 +74,12 @@ describe SlimLint::RubyExtractor do
         - some_expression
       SLIM
 
-      its(:source) { should eq("some_expression") }
-      its(:source_map) { should eq({1 => 1}) }
+      its(:source) { should eq("some_expression\n") }
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 3, last_line: 1, last_column: 18}
+        })
+      end
     end
 
     context "with output code" do
@@ -67,8 +87,19 @@ describe SlimLint::RubyExtractor do
         = some_expression
       SLIM
 
-      its(:source) { should eq("some_expression") }
-      its(:source_map) { should eq({1 => 1}) }
+      its(:source) { should eq(<<~'RUBY') }
+        output do
+          some_expression
+        end
+      RUBY
+
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 1, last_line: 1, last_column: 3},
+          2 => {line: 1, column: 3 - 2, last_line: 1, last_column: 18 - 2},
+          3 => {line: 1, column: 1, last_line: 1, last_column: 3}
+        })
+      end
     end
 
     context "with a block of ruby code" do
@@ -79,13 +110,19 @@ describe SlimLint::RubyExtractor do
           end
       SLIM
 
-      its(:source) { should eq(<<~RUBY.chomp) }
+      its(:source) { should eq(<<~'RUBY') }
         if user.admin?
           content_for(:navigation, "ADMIN")
         end
       RUBY
 
-      its(:source_map) { {1 => 2, 2 => 3, 3 => 4} }
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 2, column: 3, last_line: 2, last_column: 17},
+          2 => {line: 3, column: 3, last_line: 3, last_column: 38},
+          3 => {line: 4, column: 3, last_line: 4, last_column: 6}
+        })
+      end
     end
 
     context "with output code with block contents" do
@@ -94,13 +131,27 @@ describe SlimLint::RubyExtractor do
           = f.input :email, autofocus: true
       SLIM
 
-      its(:source) { should eq(<<~RUBY.chomp) }
-        simple_form_for User.new, url: some_url do |f|
-          f.input :email, autofocus: true
+      its(:source) { should eq(<<~'RUBY') }
+        output do
+          simple_form_for User.new, url: some_url do |f|
+            output do
+              f.input :email, autofocus: true
+            end
+          end
         end
       RUBY
 
-      its(:source_map) { {1 => 1, 2 => 2, 3 => 1} }
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 1, last_line: 1, last_column: 3},
+          2 => {line: 1, column: 3 - 2, last_line: 1, last_column: 49 - 2},
+          3 => {line: 2, column: 3 - 4, last_line: 2, last_column: 3 - 2},
+          4 => {line: 2, column: 5 - 6, last_line: 2, last_column: 36 - 6},
+          5 => {line: 2, column: 3 - 4, last_line: 2, last_column: 3 - 2},
+          6 => {line: 1, column: 3 - 2, last_line: 1, last_column: 1},
+          7 => {line: 1, column: 1, last_line: 1, last_column: 3}
+        })
+      end
     end
 
     context "with output without escaping" do
@@ -108,8 +159,19 @@ describe SlimLint::RubyExtractor do
         == some_expression
       SLIM
 
-      its(:source) { should eq("some_expression") }
-      its(:source_map) { should eq({1 => 1}) }
+      its(:source) { should eq(<<~'RUBY') }
+        output do
+          some_expression
+        end
+      RUBY
+
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 1, last_line: 1, last_column: 4},
+          2 => {line: 1, column: 4 - 2, last_line: 1, last_column: 19 - 2},
+          3 => {line: 1, column: 1, last_line: 1, last_column: 4}
+        })
+      end
     end
 
     context "with a code comment" do
@@ -117,8 +179,8 @@ describe SlimLint::RubyExtractor do
         / This line will not appear
       SLIM
 
-      its(:source) { should eq("") }
-      its(:source_map) { should eq({}) }
+      its(:source) { should eq("\n") }
+      its(:source_map) { should contain_locations({}) }
     end
 
     context "with an HTML comment" do
@@ -126,18 +188,32 @@ describe SlimLint::RubyExtractor do
         /! This line will appear
       SLIM
 
-      its(:source) { should eq("_slim_lint_puts_0") }
-      its(:source_map) { should eq({1 => 1}) }
+      its(:source) { should eq(<<~'RUBY') }
+        _slim_lint_puts_0
+      RUBY
+
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 1, last_line: 1, last_column: 25},
+        })
+      end
     end
 
     context "with an Internet Explorer conditional comment" do
       let(:slim) { <<~'SLIM' }
         /[if IE]
-          Get a better browser
+          noscript Get a better browser
       SLIM
 
-      its(:source) { should eq("_slim_lint_puts_0\n_slim_lint_puts_1") }
-      its(:source_map) { should eq({1 => 2, 2 => 2}) }
+      its(:source) { should eq(<<~'RUBY') }
+        _slim_lint_puts_0
+      RUBY
+
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 1},
+        })
+      end
     end
 
     context "with doctype tag" do
@@ -145,8 +221,15 @@ describe SlimLint::RubyExtractor do
         doctype xml
       SLIM
 
-      its(:source) { should eq("_slim_lint_puts_0") }
-      its(:source_map) { should eq({1 => 1}) }
+      its(:source) { should eq(<<~'RUBY') }
+        _slim_lint_puts_0
+      RUBY
+
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 1, last_line: 1, last_column: 12},
+        })
+      end
     end
 
     context "with an HTML tag" do
@@ -154,8 +237,17 @@ describe SlimLint::RubyExtractor do
         p A paragraph
       SLIM
 
-      its(:source) { should eq("_slim_lint_puts_0\n_slim_lint_puts_1") }
-      its(:source_map) { should eq({1 => 1, 2 => 1}) }
+      its(:source) { should eq(<<~'RUBY') }
+        _slim_lint_puts_0
+        _slim_lint_puts_1
+      RUBY
+
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 1, last_line: 1, last_column: 2},
+          2 => {line: 1, column: 3, last_line: 1, last_column: 14},
+        })
+      end
     end
 
     context "with an HTML tag with interpolation" do
@@ -163,15 +255,31 @@ describe SlimLint::RubyExtractor do
         p A #{adjective} paragraph for #{noun}
       SLIM
 
-      its(:source) { should eq(<<~RUBY.chomp) }
+      its(:source) { should eq(<<~'RUBY') }
         _slim_lint_puts_0
         _slim_lint_puts_1
-        adjective
+        output do
+          p "x#{adjective}x"
+        end
         _slim_lint_puts_2
-        noun
+        output do
+          p "x#{noun}x"
+        end
       RUBY
 
-      its(:source_map) { should eq({1 => 1, 2 => 1, 3 => 1, 4 => 1, 5 => 1}) }
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 1, last_line: 1, last_column: 2},
+          2 => {line: 1, column: 3, last_line: 1, last_column: 5},
+          3 => {line: 1, column: 7, last_line: 1, last_column: 16},
+          4 => {line: 1, column: 7 - 2 - 6, last_line: 1, last_column: 16 - 2 - 6},
+          5 => {line: 1, column: 7, last_line: 1, last_column: 16},
+          6 => {line: 1, column: 17, last_line: 1, last_column: 32},
+          7 => {line: 1, column: 34, last_line: 1, last_column: 38},
+          8 => {line: 1, column: 34 - 2 - 6, last_line: 1, last_column: 38 - 2 - 6},
+          9 => {line: 1, column: 34, last_line: 1, last_column: 38},
+        })
+      end
     end
 
     context "with an HTML tag with static attributes" do
@@ -179,8 +287,21 @@ describe SlimLint::RubyExtractor do
         p class="highlight"
       SLIM
 
-      its(:source) { should eq("_slim_lint_puts_0\n_slim_lint_puts_1") }
-      its(:source_map) { should eq({1 => 1, 2 => 1}) }
+      its(:source) { should eq(<<~'RUBY') }
+        _slim_lint_puts_0
+        attribute("class") do
+          _slim_lint_puts_1
+        end
+      RUBY
+
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 1, last_line: 1, last_column: 2},
+          2 => {line: 1, column: 3, last_line: 1, last_column: 8},
+          3 => {line: 1, column: 10 - 2, last_line: 1, last_column: 19 - 2},
+          4 => {line: 1, column: 3, last_line: 1, last_column: 8},
+        })
+      end
     end
 
     context "with an HTML tag with Ruby attributes" do
@@ -188,13 +309,27 @@ describe SlimLint::RubyExtractor do
         p class=user.class id=user.id
       SLIM
 
-      its(:source) { should eq(<<~RUBY.chomp) }
+      its(:source) { should eq(<<~'RUBY') }
         _slim_lint_puts_0
-        user.class
-        user.id
+        attribute("class") do
+          user.class
+        end
+        attribute("id") do
+          user.id
+        end
       RUBY
 
-      its(:source_map) { should eq({1 => 1, 2 => 1, 3 => 1}) }
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 1, last_line: 1, last_column: 2},
+          2 => {line: 1, column: 3, last_line: 1, last_column: 8},
+          3 => {line: 1, column: 9 - 2, last_line: 1, last_column: 19 - 2},
+          4 => {line: 1, column: 3, last_line: 1, last_column: 8},
+          5 => {line: 1, column: 20, last_line: 1, last_column: 22},
+          6 => {line: 1, column: 23 - 2, last_line: 1, last_column: 30 - 2},
+          7 => {line: 1, column: 20, last_line: 1, last_column: 22},
+        })
+      end
     end
 
     context "with a dynamic tag splat" do
@@ -202,13 +337,19 @@ describe SlimLint::RubyExtractor do
         *some_dynamic_tag Hello World!
       SLIM
 
-      its(:source) { should eq(<<~RUBY.chomp) }
+      its(:source) { should eq(<<~'RUBY') }
         _slim_lint_puts_0
         some_dynamic_tag
         _slim_lint_puts_1
       RUBY
 
-      its(:source_map) { should eq({1 => 1, 2 => 1, 3 => 1}) }
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 1, last_line: 1, last_column: 1},
+          2 => {line: 1, column: 2, last_line: 1, last_column: 18},
+          3 => {line: 1, column: 19, last_line: 1, last_column: 31},
+        })
+      end
     end
 
     context "with an if statement" do
@@ -217,13 +358,19 @@ describe SlimLint::RubyExtractor do
           | It's true!
       SLIM
 
-      its(:source) { should eq(<<~RUBY.chomp) }
+      its(:source) { should eq(<<~'RUBY') }
         if condition_true?
           _slim_lint_puts_0
         end
       RUBY
 
-      its(:source_map) { should eq({1 => 1, 2 => 2, 3 => 1}) }
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 3, last_line: 1, last_column: 21},
+          2 => {line: 2, column: 5 - 2, last_line: 2, last_column: 15 - 2},
+          3 => {line: 1, column: 1, last_line: 1, last_column: 1},
+        })
+      end
     end
 
     context "with an if/else statement" do
@@ -234,7 +381,7 @@ describe SlimLint::RubyExtractor do
           | It's false!
       SLIM
 
-      its(:source) { should eq(<<~RUBY.chomp) }
+      its(:source) { should eq(<<~'RUBY') }
         if condition_true?
           _slim_lint_puts_0
         else
@@ -242,7 +389,15 @@ describe SlimLint::RubyExtractor do
         end
       RUBY
 
-      its(:source_map) { should eq({1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 3}) }
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 3, last_line: 1, last_column: 21},
+          2 => {line: 2, column: 5 - 2, last_line: 2, last_column: 15 - 2},
+          3 => {line: 3, column: 3, last_line: 3, last_column: 7},
+          4 => {line: 4, column: 5 - 2, last_line: 4, last_column: 16 - 2},
+          5 => {line: 3, column: 1, last_line: 3, last_column: 1},
+        })
+      end
     end
 
     context "with an if/elsif/else statement" do
@@ -255,7 +410,7 @@ describe SlimLint::RubyExtractor do
           | It's false!
       SLIM
 
-      its(:source) { should eq(<<~RUBY.chomp) }
+      its(:source) { should eq(<<~'RUBY') }
         if condition_true?
           _slim_lint_puts_0
         elsif something_else?
@@ -265,7 +420,17 @@ describe SlimLint::RubyExtractor do
         end
       RUBY
 
-      its(:source_map) { should eq({1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 5}) }
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 3, last_line: 1, last_column: 21},
+          2 => {line: 2, column: 5 - 2, last_line: 2, last_column: 15 - 2},
+          3 => {line: 3, column: 3, last_line: 3, last_column: 24},
+          4 => {line: 4, column: 5 - 2, last_line: 4, last_column: 8 - 2},
+          5 => {line: 5, column: 3, last_line: 5, last_column: 7},
+          6 => {line: 6, column: 5 - 2, last_line: 6, last_column: 16 - 2},
+          7 => {line: 5, column: 1, last_line: 5, last_column: 1},
+        })
+      end
     end
 
     context "with an if/else statement with statements following it" do
@@ -278,7 +443,7 @@ describe SlimLint::RubyExtractor do
         - another_statement
       SLIM
 
-      its(:source) { should eq(<<~RUBY.chomp) }
+      its(:source) { should eq(<<~'RUBY') }
         if condition_true?
           _slim_lint_puts_0
         else
@@ -288,7 +453,17 @@ describe SlimLint::RubyExtractor do
         another_statement
       RUBY
 
-      its(:source_map) { should eq({1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 3, 6 => 5, 7 => 6}) }
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 3, last_line: 1, last_column: 21},
+          2 => {line: 2, column: 5 - 2, last_line: 2, last_column: 15 - 2},
+          3 => {line: 3, column: 3, last_line: 3, last_column: 7},
+          4 => {line: 4, column: 5 - 2, last_line: 4, last_column: 16 - 2},
+          5 => {line: 3, column: 1, last_line: 3, last_column: 1},
+          6 => {line: 5, column: 3, last_line: 5, last_column: 22},
+          7 => {line: 6, column: 3, last_line: 6, last_column: 20},
+        })
+      end
     end
 
     context "with an output statement with statements following it" do
@@ -298,13 +473,24 @@ describe SlimLint::RubyExtractor do
         - another_statement
       SLIM
 
-      its(:source) { should eq(<<~RUBY.chomp) }
-        some_output
+      its(:source) { should eq(<<~'RUBY') }
+        output do
+          some_output
+        end
         some_statement
         another_statement
       RUBY
 
-      its(:source_map) { should eq({1 => 1, 2 => 2, 3 => 3}) }
+
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 1, last_line: 1, last_column: 3},
+          2 => {line: 1, column: 3 - 2, last_line: 1, last_column: 14 - 2},
+          3 => {line: 1, column: 1, last_line: 1, last_column: 3},
+          4 => {line: 2, column: 3, last_line: 2, last_column: 17},
+          5 => {line: 3, column: 3, last_line: 3, last_column: 20},
+        })
+      end
     end
 
     context "with an output statement that spans multiple lines" do
@@ -314,13 +500,23 @@ describe SlimLint::RubyExtractor do
                       3
       SLIM
 
-      its(:source) { should eq(<<~RUBY.chomp) }
-        some_output 1,
-                    2,
-                    3
+      its(:source) { should eq(<<~'RUBY') }
+        output do
+          some_output 1,
+                      2,
+                      3
+        end
       RUBY
 
-      its(:source_map) { should eq({1 => 1, 2 => 2, 3 => 3}) }
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 1, last_line: 3, last_column: 3},
+          2 => {line: 1, column: 3 - 2, last_line: 1, last_column: 17 - 2},
+          3 => {line: 2, column: 3 - 2, last_line: 2, last_column: 17 - 2},
+          4 => {line: 3, column: 3 - 2, last_line: 3, last_column: 16 - 2},
+          5 => {line: 1, column: 1, last_line: 3, last_column: 3},
+        })
+      end
     end
 
     context "with a control statement that spans multiple lines" do
@@ -330,19 +526,27 @@ describe SlimLint::RubyExtractor do
                       3
       SLIM
 
-      its(:source) { should eq(<<~RUBY.chomp) }
+      its(:source) { should eq(<<~'RUBY') }
         some_method 1,
                     2,
                     3
       RUBY
 
-      its(:source_map) { should eq({1 => 1, 2 => 2, 3 => 3}) }
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 1, column: 3, last_line: 1, last_column: 17},
+          2 => {line: 2, column: 3, last_line: 2, last_column: 17},
+          3 => {line: 3, column: 3, last_line: 3, last_column: 16},
+        })
+      end
     end
 
-    context "with a control statement that spans multiple lines" do
+    context "with embedded code" do
       let(:slim) { <<~'SLIM' }
         ruby:
           do_some_setup
+
+          do_some_more_setup
 
 
         javascript:
@@ -358,14 +562,33 @@ describe SlimLint::RubyExtractor do
         = do_some_output
       SLIM
 
-      its(:source) { should eq(<<~RUBY.chomp) }
+      its(:source) { should eq(<<~'RUBY') }
         do_some_setup
+
+        do_some_more_setup
+
+
         _slim_lint_puts_0
         _slim_lint_puts_1
-        do_some_output
+        output do
+          do_some_output
+        end
       RUBY
 
-      its(:source_map) { should eq({1 => 2, 2 => 5, 3 => 10, 4 => 15}) }
+      its(:source_map) do
+        should contain_locations({
+          1 => {line: 2, column: 3, last_line: 2, last_column: 16},
+          2 => {line: 3, column: 1, last_line: 3, last_column: 1},
+          3 => {line: 4, column: 3, last_line: 4, last_column: 21},
+          4 => {line: 5, column: 1, last_line: 5, last_column: 1},
+          5 => {line: 6, column: 1, last_line: 6, last_column: 1},
+          6 => {line: 7, column: 1, last_line: 11, last_column: 1},
+          7 => {line: 12, column: 1, last_line: 16, last_column: 1},
+          8 => {line: 17, column: 1, last_line: 17, last_column: 3},
+          9 => {line: 17, column: 3 - 2, last_line: 17, last_column: 17 - 2},
+          10 => {line: 17, column: 1, last_line: 17, last_column: 3},
+        })
+      end
     end
 
     context "Ruby attribute values retain their whitespace" do
@@ -373,9 +596,11 @@ describe SlimLint::RubyExtractor do
         tag attr=[ :array, :with, :whitespace ]
       SLIM
 
-      its(:source) { should eq(<<~RUBY.chomp) }
+      its(:source) { should eq(<<~'RUBY') }
         _slim_lint_puts_0
-        [ :array, :with, :whitespace ]
+        attribute("attr") do
+          [ :array, :with, :whitespace ]
+        end
       RUBY
     end
   end

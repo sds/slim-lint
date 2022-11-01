@@ -105,11 +105,19 @@ module SlimLint
         case exp[0].value
         when :multi
           exp[1..].all? { |e| empty_exp?(e) }
-        when :newline
-          true
         else
           false
         end
+      end
+
+      # Compares two [line, column] position pairs, and returns true if position
+      # `a` comes before position `b`.
+      #
+      # @param a [Array(Int, Int)] Position `a`
+      # @param b [Array(Int, Int)] Position `b`
+      # @return Does position `a` occur before position `b`?
+      def later_pos?(a, b)
+        a[0] < b[0] || (a[0] == b[0] && a[1] < b[1])
       end
     end
 

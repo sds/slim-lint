@@ -47,12 +47,12 @@ module SlimLint
 
     # Record a lint for reporting back to the user.
     #
-    # @param node [#line] node to extract the line number from
+    # @param node [Sexp, Atom] node to extract the line number from
     # @param message [String] error/warning to display to the user
     def report_lint(node, message)
       return if disabled_for_line?(node.line)
 
-      @lints << SlimLint::Lint.new(self, @document.file, node.line, message)
+      @lints << SlimLint::Lint.new(self, @document.file, node.location, message)
     end
 
     # Parse Ruby code into an abstract syntax tree.

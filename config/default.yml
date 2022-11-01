@@ -18,6 +18,11 @@ linters:
   ControlStatementSpacing:
     enabled: true
 
+  DynamicOutputSpacing:
+    enabled: true
+    space_before: always
+    space_after: always
+
   EmbeddedEngines:
     enabled: false
     forbidden_engines: []
@@ -40,7 +45,7 @@ linters:
     enabled: true
 
   RuboCop:
-    enabled: true
+    enabled: false
     # These cops are incredibly noisy since the Ruby we extract from Slim
     # templates isn't well-formatted, so we ignore them.
     # WARNING: If you define this list in your own .slim-lint.yml file, you'll
@@ -85,7 +90,7 @@ linters:
       - Style/WhileUntilModifier
 
   Standard:
-    enabled: false
+    enabled: true
 
   Tab:
     enabled: true

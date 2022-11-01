@@ -6,11 +6,14 @@ module SlimLint
     # @return [String] file path to which the lint applies
     attr_reader :filename
 
-    # @return [String] line number of the file the lint corresponds to
-    attr_reader :line
+    # @return [SourceLocation] location in the file the lint corresponds to
+    attr_reader :location
 
     # @return [SlimLint::Linter] linter that reported the lint
     attr_reader :linter
+
+    # @return [String] sublinter that reported the lint
+    attr_reader :sublinter
 
     # @return [String] error/warning message to display to user
     attr_reader :message
@@ -22,15 +25,39 @@ module SlimLint
     #
     # @param linter [SlimLint::Linter]
     # @param filename [String]
-    # @param line [Fixnum]
+    # @param location [SourceLocation]
     # @param message [String]
     # @param severity [Symbol]
-    def initialize(linter, filename, line, message, severity = :warning)
-      @linter = linter
+    def initialize(linter, filename, location, message, severity = :warning)
+      @linter, @sublinter = Array(linter)
       @filename = filename
-      @line = line || 0
+      @location = location
       @message = message
       @severity = severity
+    end
+
+    def line
+      location.line
+    end
+
+    def column
+      location.column
+    end
+
+    def last_line
+      location.last_line
+    end
+
+    def last_column
+      location.last_column
+    end
+
+    def cop
+      @sublinter || @linter.name if @linter
+    end
+
+    def name
+      [@linter.name, @sublinter].compact.join("/") if @linter
     end
 
     # Return whether this lint has a severity of error.

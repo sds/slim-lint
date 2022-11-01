@@ -8,13 +8,10 @@ module SlimLint
     MSG = "Line is too long. [%d/%d]"
 
     on_start do |_sexp|
-      max_length = config["max"]
-      dummy_node = Struct.new(:line)
-
-      document.source_lines.each_with_index do |line, index|
-        next if line.length <= max_length
-
-        report_lint(dummy_node.new(index + 1), format(MSG, line.length, max_length))
+      document.source_lines.each.with_index(1) do |line, i|
+        next if line.length <= config["max"]
+        sexp = Sexp.new(start: [i, 0], finish: [i, 0])
+        report_lint(sexp, format(MSG, line.length, config["max"]))
       end
     end
   end

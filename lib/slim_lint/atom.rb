@@ -21,13 +21,22 @@ module SlimLint
       if value.is_a?(String)
         lines = value.count("\n")
         chars = 0
-        chars = value.lines.last.size - 1 unless value.empty?
+        chars = value.lines.last.size unless value.empty?
         @finish = [pos[0] + lines, chars + (lines == 0 ? pos[1] : 0)]
       end
     end
 
     def line
       start[0] if start
+    end
+
+    def location
+      SourceLocation.new(
+        start_line: start[0],
+        start_column: start[1],
+        last_line: (finish || start)[0],
+        last_column: (finish || start)[1]
+      )
     end
 
     # Returns whether this atom is equivalent to another object.

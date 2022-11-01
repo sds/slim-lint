@@ -8,47 +8,29 @@ module SlimLint
     class ControlProcessor < Filter
       BLOCK_RE = /\A(if|unless)\b|\bdo\s*(\|[^|]*\|)?\s*$/
 
-      # Handle control expression `[:slim, :control, code, content]`
-      #
-      # @param code [String]
-      # @param content [Sexp]
-      # @return [Sexp]
-      def on_slim_control(code, content)
-        Sexp.new(
-          Atom.new(:multi, pos: @self.start),
-          Sexp.new(Atom.new(:code, pos: code.start), code, start: code.start, finish: code.finish),
-          compile(content),
-          start: @self.start,
-          finish: @self.finish
-        )
-      end
-
       # Handle output expression `[:slim, :output, escape, code, content]`
       #
       # @param _escape [Boolean]
-      # @param code [String]
+      # @param code [Sexp]
       # @param content [Sexp]
       # @return [Sexp]
       def on_slim_output(_escape, code, content)
-        compiled = compile(content)
+        _, lines = code
 
-        if code[BLOCK_RE]
-          Sexp.new(
-            Atom.new(:multi, pos: @self.start),
-            Sexp.new(Atom.new(:code, pos: code.start), code, compiled, start: code.start, finish: compiled.finish),
-            Sexp.new(Atom.new(:code, pos: code.finish), "end", start: code.finish, finish: compiled.finish),
-            start: @self.start,
-            finish: @self.finish
-          )
-        else
-          Sexp.new(
-            Atom.new(:multi, pos: @self.start),
-            Sexp.new(Atom.new(:dynamic, pos: code.start), code, start: code.start, finish: code.finish),
-            compiled,
-            start: @self.start,
-            finish: @self.finish
-          )
+        code.start = @self.start
+        code.finish = @self.finish
+        code << compile(content)
+
+        if lines.last[BLOCK_RE]
+          code << Sexp.new(Atom.new(:code, pos: code.finish), "end", start: code.finish, finish: code.finish)
         end
+
+        Sexp.new(
+          Atom.new(:dynamic, pos: code.start),
+          code,
+          start: code.start,
+          finish: code.finish
+        )
       end
 
       # Handle text expression `[:slim, :text, type, content]`

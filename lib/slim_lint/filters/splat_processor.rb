@@ -10,6 +10,7 @@ module SlimLint
       # @param code [String]
       # @return [Array]
       def on_slim_splat(code)
+        return code if code[0] == :multi
         @self.delete_at(1)
         @self.first.value = :code
         @self

@@ -67,6 +67,12 @@ a smell. It is best to extract these into separate helpers whenever possible.
 
 ## ControlStatementSpacing
 
+
+Option             | Default Value |
+-------------------|---------------|-------------------------------------
+`space_before`     | `:single`     | `:never`, `:single`, `:multiple`, `:any`
+`space_after`      | `:single`     | `:never`, `:single`, `:multiple`, `:any`
+
 Reports missing or superfluous spacing before and after control statements
 
 **Bad**

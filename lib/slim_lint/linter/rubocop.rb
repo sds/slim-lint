@@ -55,13 +55,13 @@ module SlimLint
       # @param offenses [Array<RuboCop::Cop::Offense>]
       # @param source_map [Hash]
       def extract_lints_from_offenses(offenses, source_map)
-        offenses.select { |offense| !config["ignored_cops"].include?(offense.cop_name) }
-          .each do |offense|
+        offenses.reject! { |offense| config["ignored_cops"].include?(offense.cop_name) }
+        offenses.each do |offense|
           @lints << Lint.new(
-            self,
+            [self, offense.cop_name],
             document.file,
-            source_map[offense.line],
-            offense.message
+            location_for_line(source_map, offense),
+            offense.message.gsub(/ at \d+, \d+/, "")
           )
         end
       end
@@ -71,6 +71,7 @@ module SlimLint
       # @return [Array<String>]
       def rubocop_flags
         flags = %w[--format SlimLint::Linter::RuboCop::OffenseCollector]
+        flags += ["--no-display-cop-names"]
         flags += ["--config", ENV["SLIM_LINT_RUBOCOP_CONF"]] if ENV["SLIM_LINT_RUBOCOP_CONF"]
         flags += ["--stdin"]
         flags
@@ -90,6 +91,16 @@ module SlimLint
         yield
       ensure
         $stdin = original_stdin
+      end
+
+      def location_for_line(source_map, offense)
+        if source_map.key?(offense.line)
+          start = source_map[offense.line].adjust(column: offense.column)
+          finish = source_map[offense.last_line].adjust(column: offense.last_column)
+          SourceLocation.merge(start, finish, length: offense.column_length)
+        else
+          SourceLocation.new(start_line: document.source_lines.size, start_column: 0)
+        end
       end
 
       # Collects offenses detected by RuboCop.

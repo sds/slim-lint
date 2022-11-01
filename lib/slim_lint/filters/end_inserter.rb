@@ -17,7 +17,7 @@ module SlimLint
 
       # Handle multi expression `[:multi, *exps]`
       #
-      # @return [Array] Corrected Temple expression with ends inserted
+      # @return [Sexp] Corrected Temple expression with ends inserted
       def on_multi(*exps)
         @self.clear
         @self.concat(@key)
@@ -28,7 +28,8 @@ module SlimLint
 
         exps.each do |exp|
           if control?(exp)
-            statement = exp[2].value
+            code_frags = exp[2].last
+            statement = code_frags.last.value
             raise(Temple::FilterError, "Explicit end statements are forbidden") if END_RE.match?(statement)
 
             # Two control code in a row. If this one is *not*
@@ -39,7 +40,7 @@ module SlimLint
 
             # Indent if the control code starts a block.
             prev_indent = (statement =~ IF_RE) && exp
-          elsif exp[0].value != :newline && prev_indent
+          elsif prev_indent
             # This is *not* a control code, so we should close the previous one.
             # Ignores newlines because they will be inserted after each line.
             @self << Sexp.new(:code, "end", start: prev_indent.start, finish: prev_indent.start)
@@ -62,6 +63,11 @@ module SlimLint
       # Checks if an expression is a Slim control code
       def control?(exp)
         exp[0].value == :slim && exp[1].value == :control
+      end
+
+      # Checks if an expression is Slim embedded code
+      def embedded?(exp)
+        exp[0].value == :slim && exp[1].value == :embedded
       end
     end
   end

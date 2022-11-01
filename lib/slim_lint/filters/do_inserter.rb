@@ -12,11 +12,12 @@ module SlimLint
 
       # Handle control expression `[:slim, :control, code, content]`
       #
-      # @param [String] code Ruby code
-      # @param [Array] content Temple expression
-      # @return [Array] Compiled temple expression
+      # @param [Sexp] code Ruby code
+      # @param [Sexp] content Temple expression
+      # @return [Sexp] Compiled temple expression
       def on_slim_control(code, content)
-        code.value = code.value + " do" unless code.value =~ BLOCK_REGEX || empty_exp?(content)
+        _, lines = code
+        lines.last.value.concat(" do") unless lines.last.value =~ BLOCK_REGEX || empty_exp?(content)
         @self[3] = compile(content)
         @self
       end
@@ -24,11 +25,12 @@ module SlimLint
       # Handle output expression `[:slim, :output, escape, code, content]`
       #
       # @param [Boolean] escape Escape html
-      # @param [String] code Ruby code
-      # @param [Array] content Temple expression
-      # @return [Array] Compiled temple expression
+      # @param [Sexp] code Ruby code
+      # @param [Sexp] content Temple expression
+      # @return [Sexp] Compiled temple expression
       def on_slim_output(escape, code, content)
-        code.value = code.value + " do" unless code.value =~ BLOCK_REGEX || empty_exp?(content)
+        _, lines = code
+        lines.last.value.concat(" do") unless lines.last.value =~ BLOCK_REGEX || empty_exp?(content)
         @self[4] = compile(content)
         @self
       end

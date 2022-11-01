@@ -8,12 +8,10 @@ module SlimLint
     MSG = "File is too long. [%d/%d]"
 
     on_start do |_sexp|
-      max_length = config["max"]
-      dummy_node = Struct.new(:line)
-
       count = document.source_lines.size
-      if count > max_length
-        report_lint(dummy_node.new(1), format(MSG, count, max_length))
+      if count > config["max"]
+        sexp = Sexp.new(start: [1, 0], finish: [1, 0])
+        report_lint(sexp, format(MSG, count, config["max"]))
       end
     end
   end

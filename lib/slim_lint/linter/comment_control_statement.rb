@@ -5,14 +5,14 @@ module SlimLint
   class Linter::CommentControlStatement < Linter
     include LinterRegistry
 
-    RUBOCOP_CONTROL_COMMENT_RE = /^\s*rubocop:\w+/
+    RUBOCOP_CONTROL_COMMENT_RE = /^\s*(rubocop|standard):\w+/
     TEMPLATE_DEPENDENCY_CONTROL_COMMENT_RE = /^\s*Template Dependency:/
 
     on [:slim, :control] do |sexp|
       _, _, code = sexp
-      next unless code[/\A\s*#/]
+      next unless code.last[1][/\A\s*#/]
 
-      comment = code[/\A\s*#(.*\z)/, 1]
+      comment = code.last[1][/\A\s*#(.*\z)/, 1]
 
       next if RUBOCOP_CONTROL_COMMENT_RE.match?(comment)
       next if TEMPLATE_DEPENDENCY_CONTROL_COMMENT_RE.match?(comment)

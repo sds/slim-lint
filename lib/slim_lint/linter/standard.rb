@@ -47,10 +47,10 @@ module SlimLint
       def extract_lints_from_offenses(offenses, source_map)
         offenses.each do |offense|
           @lints << Lint.new(
-            self,
+            [self, offense.cop_name],
             document.file,
-            source_map[offense.line],
-            offense.message
+            location_for_line(source_map, offense),
+            offense.message.gsub(/ at \d+, \d+/, "")
           )
         end
       end
@@ -60,6 +60,7 @@ module SlimLint
       # @return [Array<String>]
       def rubocop_flags
         flags = %w[--format SlimLint::Linter::RuboCop::OffenseCollector]
+        flags += ["--no-display-cop-names"]
         flags += ["--stdin"]
         flags
       end

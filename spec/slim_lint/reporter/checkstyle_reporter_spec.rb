@@ -45,7 +45,10 @@ describe SlimLint::Reporter::CheckstyleReporter do
           SlimLint::Lint.new(
             nil,
             data[:filename],
-            data[:line],
+            SlimLint::SourceLocation.new(
+              start_line: data[:line],
+              start_column: 1
+            ),
             data[:description],
             data[:severity]
           )

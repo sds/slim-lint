@@ -13,17 +13,21 @@ module SlimLint
     #
     # @api public
     class StaticMerger < Filter
+      def on_slim_embedded(*exps)
+        @self
+      end
+
       def on_multi(*exps)
         result = @self
         result.clear
         result.concat(@key)
 
         static = nil
-
         exps.each do |exp|
           if exp.first == :static
             if static
-              static.finish = static.last.finish = exp.finish
+              static.finish = exp.finish if later_pos?(static.finish, exp.finish)
+              static.last.finish = exp.finish if later_pos?(static.last.finish, exp.finish)
               static.last.value << exp.last.value
             else
               static = exp

@@ -14,6 +14,10 @@ module SlimLint
       start[0] if start
     end
 
+    def column
+      start[1] if start
+    end
+
     # Creates an {Sexp} from the given {Array}-based Sexp.
     #
     # This provides a convenient way to convert between literal arrays of
@@ -35,6 +39,15 @@ module SlimLint
           push SlimLint::Atom.new(atom_or_sexp, pos: start)
         end
       end
+    end
+
+    def location
+      SourceLocation.new(
+        start_line: start[0],
+        start_column: start[1],
+        last_line: (finish || start)[0],
+        last_column: (finish || start)[1]
+      )
     end
 
     # Returns whether this {Sexp} matches the given Sexp pattern.

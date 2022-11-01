@@ -20,7 +20,7 @@ module SlimLint
     private
 
     def flat_control_statement?(sexp)
-      sexp.match?([:slim, :control]) && sexp[3] == [:multi, [:newline]]
+      sexp.match?([:slim, :control]) && sexp[3] == [:multi]
     end
   end
 end

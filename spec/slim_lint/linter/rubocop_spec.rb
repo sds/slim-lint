@@ -33,11 +33,21 @@ describe SlimLint::Linter::RuboCop do
 
   context "when RuboCop reports offences" do
     let(:line) { 4 }
+    let(:column) { 1 }
     let(:message) { "Lint message" }
     let(:cop_name) { "Lint/SomeCopName" }
 
     let(:offence) do
-      double("offence", line: line, message: message, cop_name: cop_name)
+      double(
+        "offence",
+        line: line,
+        column: column,
+        last_line: line,
+        last_column: column,
+        column_length: 1,
+        message: message,
+        cop_name: cop_name
+      )
     end
 
     it "uses the source map to transform line numbers" do

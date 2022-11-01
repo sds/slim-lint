@@ -46,7 +46,7 @@ module SlimLint
     # @return [SlimLint::RubyExtractor::RubySource]
     def extract(sexp)
       trigger_pattern_callbacks(sexp)
-      RubySource.new(@source_lines.join("\n"), @source_map)
+      RubySource.new(@source_lines.join("\n") + "\n", @source_map)
     end
 
     on_start do |_sexp|
@@ -65,6 +65,26 @@ module SlimLint
       append_dummy_puts(sexp)
     end
 
+    on [:html, :attr] do |sexp|
+      _, _, attr, value = sexp
+      append("attribute(#{attr.value.inspect}) do", attr)
+      @indent += 1
+      traverse(value)
+      @indent -= 1
+      append("end", attr)
+      :stop
+    end
+
+    on [:html, :comment] do |sexp|
+      append_dummy_puts(sexp)
+      :stop
+    end
+
+    on [:html, :condcomment] do |sexp|
+      append_dummy_puts(sexp)
+      :stop
+    end
+
     on [:slim_lint, :indent] do |sexp|
       @indent += 1
     end
@@ -79,20 +99,30 @@ module SlimLint
 
     on [:dynamic] do |sexp|
       _, ruby = sexp
-      append(ruby, sexp)
+      append("output do", sexp)
+      @indent += 1
+      traverse_children(ruby)
+      @indent -= 1
+      append("end", sexp)
+      :stop
+    end
+
+    on [:interpolated] do |sexp|
+      _, ruby = sexp
+      append_interpolated(ruby, sexp)
     end
 
     on [:code] do |sexp|
       _, ruby = sexp
-      append(ruby, sexp)
+      append(ruby.value, sexp)
     end
 
     on [:slim, :embedded] do |sexp|
       _, _, name, body, _attrs = sexp
 
-      if name.value == "ruby"
+      if name == "ruby"
         body.drop(1).each do |subexp|
-          if subexp[0].value == :static
+          if subexp[0] == :static
             append(subexp[1].value, subexp)
           end
         end
@@ -110,21 +140,34 @@ module SlimLint
     # @param code [String]
     # @param sexp [SlimLint::Sexp]
     def append(code, sexp)
-      return if code.empty?
+      raise "Unexpected newline!" if code.match?(/\n/)
 
-      original_line = sexp.line
+      @source_lines << code.dup
+      @line_count += 1
 
-      # For code that spans multiple lines, the resulting code will span
-      # multiple lines, so we need to create a mapping for each line.
-      code.split("\n").each_with_index do |line, index|
-        @source_lines << ("  " * @indent) + line
-        @line_count += 1
-        @source_map[@line_count] = original_line + index
+      if code.empty?
+        @source_map[@line_count] = sexp.location
+      else
+        @source_lines.last.prepend("  " * @indent)
+        @source_map[@line_count] = sexp.location.adjust(column: -2 * @indent)
       end
     end
 
+    def append_dynamic(code, sexp)
+      return if code.empty?
+      @source_lines << "#{"  " * @indent}p #{code}"
+      @line_count += 1
+      @source_map[@line_count] = sexp.location.adjust(column: (-2 * @indent) - 2)
+    end
+
+    def append_interpolated(code, sexp)
+      return if code.empty?
+      @source_lines << %(#{"  " * @indent}p "x\#{#{code}}x")
+      @line_count += 1
+      @source_map[@line_count] = code.location.adjust(column: (-2 * @indent) - 6)
+    end
+
     def append_dummy_puts(sexp)
-      # append("_slim_lint_puts_#{@dummy_puts_count} # #{sexp.start.join(":")} => #{sexp.finish.join(":")}", sexp)
       append("_slim_lint_puts_#{@dummy_puts_count}", sexp)
       @dummy_puts_count += 1
     end

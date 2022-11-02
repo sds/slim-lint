@@ -2,9 +2,11 @@
 
 Below is a list of linters supported by `slim-lint-standard`, ordered alphabetically.
 
+* [AvoidMultilineExpressions](#avoidmultilineexpressions)
 * [CommentControlStatement](#commentcontrolstatement)
 * [ConsecutiveControlStatements](#consecutivecontrolstatements)
 * [ControlStatementSpacing](#controlstatementspacing)
+* [DynamicOutputSpacing](#dynamicoutputspacing)
 * [EmbeddedEngines](#embeddedengines)
 * [EmptyControlStatement](#emptycontrolstatement)
 * [EmptyLines](#emptylines)
@@ -16,6 +18,44 @@ Below is a list of linters supported by `slim-lint-standard`, ordered alphabetic
 * [TagCase](#tagcase)
 * [TrailingBlankLines](#trailingblanklines)
 * [TrailingWhitespace](#trailingwhitespace)
+
+## AvoidMultilineExpressions
+
+Reports control statements, dynamic output expressions, dynamic attributes, and
+tag and attribute splats whose expressions span multiple lines.
+
+**Bad**
+```slim
+- method(1,
+    2,
+    3)
+```
+
+**Good**
+```slim
+ruby:
+  method(1,
+    2,
+    3)
+```
+
+**Good**
+```slim
+- method(1, 2, 3)
+```
+
+**Good**
+```slim
+tag(
+  id="my-id"
+  class="my-class"
+  title=my_tag_title
+)
+```
+
+Since Slim is such an indentation-sensitive, line-based template format, multiline expressions make templates harder to read and maintain.
+
+This linter notably ignores multiline attribute groups.
 
 ## CommentControlStatement
 

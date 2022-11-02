@@ -8,6 +8,9 @@
 skip_frontmatter: false
 
 linters:
+  AvoidMultilineExpressions:
+    enabled: true
+
   CommentControlStatement:
     enabled: true
 
@@ -39,7 +42,7 @@ linters:
     max: 300
 
   LineLength:
-    enabled: true
+    enabled: false
     max: 80
 
   RedundantDiv:

@@ -19,9 +19,9 @@ module SlimLint
     def after_config
       @after_config ||= case config["space_after"]
       when "never", false, nil
-        [/^ *-[^ ]/, "remove spaces after"]
+        [/^ *-#?[^# ]/, "remove spaces after"]
       when "always", "single", true
-        [/^ *- [^ ]/, "use one space after"]
+        [/^ *-#? [^ ]/, "use one space after"]
       when "ignore", "any"
         [//, ""]
       else

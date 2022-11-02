@@ -16,6 +16,17 @@ describe SlimLint::Linter::ControlStatementSpacing do
 
       it { should report_lint }
     end
+
+    context "with space after -#" do
+      let(:slim) { "-# good" }
+      it { should_not report_lint }
+    end
+
+    context "without space after -#" do
+      let(:slim) { "-#bad" }
+
+      it { should report_lint }
+    end
   end
 
   context "configured to require a single space" do
@@ -31,6 +42,17 @@ describe SlimLint::Linter::ControlStatementSpacing do
 
       it { should report_lint }
     end
+
+    context "with space after -#" do
+      let(:slim) { "-# good" }
+      it { should_not report_lint }
+    end
+
+    context "without space after -#" do
+      let(:slim) { "-#bad" }
+
+      it { should report_lint }
+    end
   end
 
   context "configured to require no space" do
@@ -43,6 +65,16 @@ describe SlimLint::Linter::ControlStatementSpacing do
 
     context "without space after -" do
       let(:slim) { "-good" }
+      it { should_not report_lint }
+    end
+
+    context "with space after -#" do
+      let(:slim) { "-# bad" }
+      it { should report_lint }
+    end
+
+    context "without space after -#" do
+      let(:slim) { "-#good" }
       it { should_not report_lint }
     end
   end

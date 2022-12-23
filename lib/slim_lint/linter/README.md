@@ -16,6 +16,7 @@ Below is a list of linters supported by `slim-lint`, ordered alphabetically.
 * [TagCase](#tagcase)
 * [TrailingBlankLines](#trailingblanklines)
 * [TrailingWhitespace](#trailingwhitespace)
+* [Zwsp](#zwsp)
 
 ## CommentControlStatement
 
@@ -273,3 +274,19 @@ Reports trailing blank lines.
 ## TrailingWhitespace
 
 Reports trailing whitespace (spaces or tabs) on any lines in a Slim document.
+
+## Zwsp
+
+Reports it contains ZWSP(zero width space).
+
+**Bad**
+
+```slim
+| Hello Zwsp\u200b
+```
+
+**Good**
+
+```slim
+| Hello without zwsp
+```

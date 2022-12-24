@@ -10,7 +10,7 @@ describe SlimLint::Linter::Tab do
       | Hello ZWSP\u200b
     SLIM
 
-    it { should_not report_lint line: 1 }
+    it { should report_lint line: 1 }
   end
 
   context 'when without ZWSP' do

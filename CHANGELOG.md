@@ -1,5 +1,10 @@
 # Slim-Lint Changelog
 
+## 0.23.0
+
+* Add `Zwsp` to report zero-width space characters
+* Allow Slim version 5.x
+
 ## 0.22.1
 
 * Fix `CommentControlStatement` to not report `Template Dependency:` directives

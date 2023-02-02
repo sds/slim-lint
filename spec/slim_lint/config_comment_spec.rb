@@ -50,7 +50,7 @@ describe 'Config comments' do
       IMG src="images/cat.gif"
     SLIM
 
-    it "handles the enable/disable config comment properly when reusing the linter" do
+    it 'handles the enable/disable config comment properly when reusing the linter' do
       first_document = SlimLint::Document.new(normalize_indent(first_file), config: config)
       subject.run(first_document)
 

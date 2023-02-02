@@ -71,7 +71,7 @@ module SlimLint
     def disabled_lines
       @disabled_lines ||= begin
         currently_disabled = false
-        @document.source_lines.each_with_index.reduce([]) do |lines, pair|
+        @document.source_lines.each_with_index.each_with_object([]) do |pair, lines|
           line = pair[0]
           line_number = pair[1] + 1
 
@@ -82,7 +82,6 @@ module SlimLint
           elsif currently_disabled
             lines << line_number
           end
-          lines
         end
       end
     end

@@ -10,7 +10,7 @@ module SlimLint
     on [:html, :tag, anything, [],
          [:slim, :output, anything, capture(:ruby, anything)]] do |sexp|
       # Fetch original Slim code that contains an element with a control statement.
-      line = document.source_lines[sexp.line() - 1]
+      line = document.source_lines[sexp.line - 1]
 
       # Remove any Ruby code, because our regexp below must not match inside Ruby.
       ruby = captures[:ruby]

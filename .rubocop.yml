@@ -1,5 +1,7 @@
 # We break this rule to write S-expressions more succinctly.
 AllCops:
+  NewCops: disable
+  SuggestExtensions: false
   TargetRubyVersion: 2.4
 
 Layout/ArrayAlignment:

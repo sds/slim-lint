@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## main (unreleased)
+
+* Require RuboCop 1.x or newer
+
 ## 0.23.0
 
 * Add `Zwsp` to report zero-width space characters

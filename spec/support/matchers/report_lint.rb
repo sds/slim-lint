@@ -29,7 +29,7 @@ RSpec::Matchers.define :report_lint do |options|
   end
 
   description do
-    'report a lint' + (expected_line ? " on line #{expected_line}" : '')
+    "report a lint#{expected_line ? " on line #{expected_line}" : ''}"
   end
 
   def has_lints?(linter, expected_line, count)

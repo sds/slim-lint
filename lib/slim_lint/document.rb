@@ -67,7 +67,7 @@ module SlimLint
           # Second capture match --- or ... followed by optional whitespace
           # and newline. This matches the closing --- for the frontmatter.
           (---|\.\.\.)\s*$\n?/mx
-        source = $POSTMATCH
+        source = ::Regexp.last_match.post_match
       end
 
       source

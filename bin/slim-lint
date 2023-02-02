@@ -3,5 +3,5 @@
 
 require 'slim_lint/cli'
 
-logger = SlimLint::Logger.new(STDOUT)
+logger = SlimLint::Logger.new($stdout)
 exit SlimLint::CLI.new(logger).run(ARGV)

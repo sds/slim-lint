@@ -5,7 +5,7 @@ module SlimLint::Filters
   # variables and other cruft (which in the context of extracting Ruby code,
   # results in a lot of weird cops reported by RuboCop).
   class ControlProcessor < Slim::Filter
-    BLOCK_RE = /\A(if|unless)\b|\bdo\s*(\|[^\|]*\|)?\s*$/
+    BLOCK_RE = /\A(if|unless)\b|\bdo\s*(\|[^|]*\|)?\s*$/
 
     # Handle control expression `[:slim, :control, code, content]`
     #

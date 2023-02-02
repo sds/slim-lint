@@ -96,4 +96,4 @@ linters:
     enabled: true
 
   Zwsp:
-    enabled: true
+    enabled: false

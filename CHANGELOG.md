@@ -1,8 +1,9 @@
 # Slim-Lint Changelog
 
-## main (unreleased)
+## 0.24.0
 
 * Require RuboCop 1.x or newer
+* Silence Parser gem warnings on startup
 
 ## 0.23.0
 

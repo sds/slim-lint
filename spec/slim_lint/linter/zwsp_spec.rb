@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe SlimLint::Linter::Tab do
+describe SlimLint::Linter::Zwsp do
   include_context 'linter'
 
   context 'when with ZWSP' do

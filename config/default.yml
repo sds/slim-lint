@@ -94,3 +94,6 @@ linters:
 
   TrailingWhitespace:
     enabled: true
+
+  Zwsp:
+    enabled: true

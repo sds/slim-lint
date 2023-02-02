@@ -4,7 +4,7 @@ module SlimLint
   class Linter::Zwsp < Linter
     include LinterRegistry
 
-    MSG = 'Remove Zwsp'
+    MSG = 'Remove zero-width space'
 
     on_start do |_sexp|
       dummy_node = Struct.new(:line)

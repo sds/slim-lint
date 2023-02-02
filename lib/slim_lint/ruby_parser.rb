@@ -2,7 +2,14 @@
 
 require 'rubocop'
 require 'rubocop/ast/builder'
-require 'parser/current'
+
+def require_parser(path)
+  prev = $VERBOSE
+$VERBOSE = nil
+  require "parser/#{path}"
+ensure
+  $VERBOSE = prev
+end
 
 module SlimLint
   # Parser for the Ruby language.
@@ -13,6 +20,7 @@ module SlimLint
   class RubyParser
     # Creates a reusable parser.
     def initialize
+      require_parser('current')
       @builder = ::RuboCop::AST::Builder.new
       @parser = ::Parser::CurrentRuby.new(@builder)
     end

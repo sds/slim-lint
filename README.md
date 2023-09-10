@@ -1,7 +1,7 @@
 # Slim-Lint
 
 [![Gem Version](https://badge.fury.io/rb/slim_lint.svg)](http://badge.fury.io/rb/slim_lint)
-[![Build Status](https://travis-ci.org/sds/slim-lint.svg?branch=master)](https://travis-ci.org/sds/slim-lint)
+[![Build Status](https://github.com/sds/slim-lint/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/sds/slim-lint/actions/workflows/test.yml?query=branch%3Amaster)
 [![Code Climate](https://codeclimate.com/github/sds/slim-lint.svg)](https://codeclimate.com/github/sds/slim-lint)
 [![Coverage Status](https://coveralls.io/repos/sds/slim-lint/badge.svg)](https://coveralls.io/r/sds/slim-lint)
 [![Inline docs](http://inch-ci.org/github/sds/slim-lint.svg?branch=master)](http://inch-ci.org/github/sds/slim-lint)

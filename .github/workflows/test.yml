@@ -17,12 +17,16 @@ jobs:
           - "3.0"
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Ruby ${{ matrix.ruby-version }}
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: Set up git for overcommit
+        run: |
+          git config --global user.name "Foo"
+          git config --global user.email "foo@example.com"
       - name: Run tests
         run: |
           bundle exec rspec

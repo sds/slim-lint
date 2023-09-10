@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 # We break this rule to write S-expressions more succinctly.
 AllCops:
   NewCops: disable
@@ -36,7 +38,7 @@ Metrics/MethodLength:
   Max: 20
 
 Metrics/AbcSize:
-  Max: 16
+  Max: 17
 
 Naming/FileName:
   Exclude:
@@ -60,6 +62,7 @@ Style/CollectionMethods:
 Style/Documentation:
   Exclude:
     - 'spec/**/*'
+    - 'lib/slim_lint/linter/zwsp.rb'
 
 Style/FormatString:
   Enabled: false

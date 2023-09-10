@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 gemspec
 
 # Run all pre-commit hooks via Overcommit during CI runs
-gem 'overcommit', '0.52.0'
+gem 'overcommit', '0.60.0'
 
 # Needed for Rake integration tests
 gem 'rake'

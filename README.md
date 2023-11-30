@@ -141,7 +141,7 @@ IMG src="images/cat.gif"
 ```
 
 ### Rubocop cops
-To disable Rubocop cop, you can use a coment control statement:
+To disable Rubocop cop, you can use a comment control statement:
 ```slim
 - # rubocop:disable Rails/OutputSafety
 p = raw(@blog.content)

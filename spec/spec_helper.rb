@@ -1,14 +1,8 @@
 # frozen_string_literal: true
 
-if ENV['CI']
-  # When running in CI, report coverage stats to Coveralls.
-  require 'coveralls'
-  Coveralls.wear!
-else
-  # Otherwise render coverage information in coverage/index.html and display
-  # coverage percentage in the console.
-  require 'simplecov'
-end
+# Otherwise render coverage information in coverage/index.html and display
+# coverage percentage in the console.
+require 'simplecov'
 
 require 'slim_lint'
 require 'rspec/its'

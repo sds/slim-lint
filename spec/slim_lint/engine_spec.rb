@@ -14,11 +14,9 @@ describe SlimLint::Engine do
       end
 
       it 'includes the line number in the exception' do
-        begin
-          subject
-        rescue SlimLint::Exceptions::ParseError => e
-          e.lineno.should == 1
-        end
+        subject
+      rescue SlimLint::Exceptions::ParseError => e
+        e.lineno.should == 1
       end
     end
 

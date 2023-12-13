@@ -27,11 +27,9 @@ module SlimLint
       # @return [Array<Class>]
       def extract_linters_from(linter_names)
         linter_names.map do |linter_name|
-          begin
-            SlimLint::Linter.const_get(linter_name)
-          rescue NameError
-            raise NoSuchLinter, "Linter #{linter_name} does not exist"
-          end
+          SlimLint::Linter.const_get(linter_name)
+        rescue NameError
+          raise NoSuchLinter, "Linter #{linter_name} does not exist"
         end
       end
     end

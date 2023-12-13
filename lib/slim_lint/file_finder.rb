@@ -72,7 +72,7 @@ module SlimLint
     # @param path [String]
     # @return [String]
     def normalize_path(path)
-      path.start_with?(".#{File::SEPARATOR}") ? path[2..-1] : path
+      path.start_with?(".#{File::SEPARATOR}") ? path[2..] : path
     end
 
     # Whether the given file should be treated as a Slim file.

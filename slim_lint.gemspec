@@ -22,12 +22,11 @@ Gem::Specification.new do |s|
                        Dir['lib/**/*.rb'] +
                        ['LICENSE.md']
 
-  s.required_ruby_version = '>= 2.4.0'
+  s.required_ruby_version = '>= 3'
 
   s.add_runtime_dependency 'rubocop', ['>= 1.0', '< 2.0']
   s.add_runtime_dependency 'slim', ['>= 3.0', '< 6.0']
 
-  s.add_development_dependency 'pry', '~> 0.13'
   s.add_development_dependency 'rspec', '~> 3.0'
   s.add_development_dependency 'rspec-its', '~> 1.0'
 end

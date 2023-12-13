@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## main (unreleased)
+
+* Drop support for Ruby 2.x
+
 ## 0.24.0
 
 * Require RuboCop 1.x or newer

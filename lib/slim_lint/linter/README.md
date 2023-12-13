@@ -123,7 +123,7 @@ p Something else
 
 ## EmptyLines
 
-Reports two or more consecutive blank lin
+Reports two or more consecutive blank lines.
 
 **Bad**
 ```slim

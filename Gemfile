@@ -10,7 +10,7 @@ gem 'overcommit', '0.60.0'
 # Needed for Rake integration tests
 gem 'rake'
 
-# Pin tool versions (which are executed by Overcommit) for Travis builds
+# Pin tool versions (which are executed by Overcommit) for CI runs
 gem 'rubocop', '>= 1', '< 2'
 
 gem 'coveralls', require: false

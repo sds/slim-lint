@@ -13,5 +13,7 @@ gem 'rake'
 # Pin tool versions (which are executed by Overcommit) for CI runs
 gem 'rubocop', '>= 1', '< 2'
 
+gem 'simplecov', require: false
+
 # On Ruby 3, rexml is only a gem
 gem 'rexml' if RUBY_VERSION > '3'

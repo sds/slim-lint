@@ -176,6 +176,7 @@ describe SlimLint::Linter::ControlStatementSpacing do
   end
 
   context 'when an element has a multi-line attribute' do
+    # OK
     context 'when it is simple' do
       let(:slim) { <<-'SLIM' }
         div class='one \
@@ -212,6 +213,45 @@ describe SlimLint::Linter::ControlStatementSpacing do
       SLIM
 
       it { should_not report_lint }
+    end
+
+    # NG
+    context 'when it is simple' do
+      let(:slim) { <<-'SLIM' }
+        div class='one \
+          two'
+        div= some_method
+      SLIM
+
+      it { should report_lint line: 3 }
+    end
+
+    context 'when it is more than two lines' do
+      let(:slim) { <<-'SLIM' }
+        div class='one \
+          two three four \
+          five six seven \
+          eight nine ten eleven twelve'
+        div =some_method
+      SLIM
+
+      it { should report_lint line: 5 }
+    end
+
+    context 'when it has more than two locations' do
+      let(:slim) { <<-'SLIM' }
+        div class='one \
+          two'
+        div class='one \
+          two three four five six seven \
+          eight nine ten eleven twelve'
+        div class='one \
+          two three four five six seven \
+          eight nine ten eleven twelve'
+        div=some_method
+      SLIM
+
+      it { should report_lint line: 9 }
     end
   end
 

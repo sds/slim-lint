@@ -253,6 +253,24 @@ describe SlimLint::Linter::ControlStatementSpacing do
 
       it { should report_lint line: 9 }
     end
+
+    context 'when it has more than two locations and verify the correctness of the line count.' do
+      let(:slim) { <<-'SLIM' }
+        div class='one \
+          two'
+        div class='one \
+          two three four five six seven \
+          eight nine ten eleven twelve'
+        div=some_method_one
+        div class='one \
+          two three four five six seven \
+          eight nine ten eleven twelve'
+        div=some_method_two
+      SLIM
+
+      it { should report_lint line: 6 }
+      it { should report_lint line: 10 }
+    end
   end
 
   context 'when leading whitespace (=<) is used' do

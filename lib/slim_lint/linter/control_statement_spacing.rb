@@ -18,7 +18,6 @@ module SlimLint
       # Apply correction to the line count.
       sexp.line += source[sexp.line - 1][:line_count]
 
-
       # Remove any Ruby code, because our regexp below must not match inside Ruby.
       ruby = captures[:ruby]
       line = line.sub(ruby, 'x')
@@ -40,13 +39,13 @@ module SlimLint
 
         # Lines ending in a backslash are concatenated with the next line
         # And count the number of lines to correct the sexp line count.
-        if line.match?(/\\$/) then
+        if line.match?(/\\$/)
           correction_line_count += 1
           next
         end
 
         # Add merged rows and correction line count to the result and reset the memo
-        result << {line: memo, line_count: correction_line_count}
+        result << { line: memo, line_count: correction_line_count }
         memo = ''
       end
       result

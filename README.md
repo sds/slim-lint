@@ -12,7 +12,7 @@ clean and readable. In addition to style and lint checks, it integrates with
 analysis tools to your Slim templates.
 
 You can run `slim-lint` manually from the command line, or integrate it into
-your [SCM hooks](https://github.com/brigade/overcommit).
+your [SCM hooks](https://github.com/sds/overcommit).
 
 * [Requirements](#requirements)
 * [Installation](#installation)
@@ -220,14 +220,6 @@ rake 'slim_lint[app/views, custom/*.slim]'
 
 Files specified in this manner take precedence over the task's `files`
 attribute.
-
-## Documentation
-
-[Code documentation] is generated with [YARD] and hosted by [RubyDoc.info].
-
-[Code documentation]: http://rdoc.info/github/sds/slim-lint/master/frames
-[YARD]: http://yardoc.org/
-[RubyDoc.info]: http://rdoc.info/
 
 ## Contributing
 

@@ -175,6 +175,104 @@ describe SlimLint::Linter::ControlStatementSpacing do
     it { should_not report_lint }
   end
 
+  context 'when an element has a multi-line attribute' do
+    # OK
+    context 'when it is simple' do
+      let(:slim) { <<-'SLIM' }
+        div class='one \
+          two'
+        div = some_method
+      SLIM
+
+      it { should_not report_lint }
+    end
+
+    context 'when it is more than two lines' do
+      let(:slim) { <<-'SLIM' }
+        div class='one \
+          two three four \
+          five six seven \
+          eight nine ten eleven twelve'
+        div = some_method
+      SLIM
+
+      it { should_not report_lint }
+    end
+
+    context 'when it has more than two locations' do
+      let(:slim) { <<-'SLIM' }
+        div class='one \
+          two'
+        div class='one \
+          two three four five six seven \
+          eight nine ten eleven twelve'
+        div class='one \
+          two three four five six seven \
+          eight nine ten eleven twelve'
+        div = some_method
+      SLIM
+
+      it { should_not report_lint }
+    end
+
+    # NG
+    context 'when it is simple' do
+      let(:slim) { <<-'SLIM' }
+        div class='one \
+          two'
+        div= some_method
+      SLIM
+
+      it { should report_lint line: 3 }
+    end
+
+    context 'when it is more than two lines' do
+      let(:slim) { <<-'SLIM' }
+        div class='one \
+          two three four \
+          five six seven \
+          eight nine ten eleven twelve'
+        div =some_method
+      SLIM
+
+      it { should report_lint line: 5 }
+    end
+
+    context 'when it has more than two locations' do
+      let(:slim) { <<-'SLIM' }
+        div class='one \
+          two'
+        div class='one \
+          two three four five six seven \
+          eight nine ten eleven twelve'
+        div class='one \
+          two three four five six seven \
+          eight nine ten eleven twelve'
+        div=some_method
+      SLIM
+
+      it { should report_lint line: 9 }
+    end
+
+    context 'when it has more than two locations and verify the correctness of the line count.' do
+      let(:slim) { <<-'SLIM' }
+        div class='one \
+          two'
+        div class='one \
+          two three four five six seven \
+          eight nine ten eleven twelve'
+        div=some_method_one
+        div class='one \
+          two three four five six seven \
+          eight nine ten eleven twelve'
+        div=some_method_two
+      SLIM
+
+      it { should report_lint line: 6 }
+      it { should report_lint line: 10 }
+    end
+  end
+
   context 'when leading whitespace (=<) is used' do
     context 'and it has appropriate spacing' do
       let(:slim) { 'title =< "Something"' }

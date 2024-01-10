@@ -29,7 +29,7 @@ your [SCM hooks](https://github.com/sds/overcommit).
 
 ## Requirements
 
- * Ruby 2.4+
+ * Ruby 3.0+ (for Ruby 2.x support, use slim-lint 0.24.0 or older)
  * Slim 3.0+
 
 ## Installation

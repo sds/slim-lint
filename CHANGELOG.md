@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## Unreleased
+## 0.26.0
 
 * Revert "Fix `ControlSpacingStatement` linter handling of `=` in some cases"
 

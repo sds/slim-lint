@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## Unreleased
+
+* Revert "Fix `ControlSpacingStatement` linter handling of `=` in some cases"
+
 ## 0.25.0
 
 * Drop support for Ruby 2.x

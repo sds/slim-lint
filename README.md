@@ -6,9 +6,9 @@
 [![Coverage Status](https://coveralls.io/repos/sds/slim-lint/badge.svg)](https://coveralls.io/r/sds/slim-lint)
 [![Inline docs](http://inch-ci.org/github/sds/slim-lint.svg?branch=master)](http://inch-ci.org/github/sds/slim-lint)
 
-`slim-lint` is a tool to help keep your [Slim](http://slim-lang.com/) files
+`slim-lint` is a tool to help keep your [Slim](https://slim-template.github.io/) files
 clean and readable. In addition to style and lint checks, it integrates with
-[RuboCop](https://github.com/bbatsov/rubocop) to bring its powerful static
+[RuboCop](https://github.com/rubocop/rubocop) to bring its powerful static
 analysis tools to your Slim templates.
 
 You can run `slim-lint` manually from the command line, or integrate it into
@@ -22,7 +22,6 @@ your [SCM hooks](https://github.com/sds/overcommit).
 * [Editor Integration](#editor-integration)
 * [Git Integration](#git-integration)
 * [Rake Integration](#rake-integration)
-* [Documentation](#documentation)
 * [Contributing](#contributing)
 * [Changelog](#changelog)
 * [License](#license)
@@ -120,7 +119,7 @@ single string or a list of strings for this option.
 
 ### Skipping Frontmatter
 
-Some static blog generators such as [Jekyll](http://jekyllrb.com/) include
+Some static blog generators such as [Jekyll](https://jekyllrb.com/) include
 leading frontmatter to the template for their own tracking purposes.
 `slim-lint` allows you to ignore these headers by specifying the
 `skip_frontmatter` option in your `.slim-lint.yml` configuration:
@@ -179,7 +178,7 @@ Install the
 ## Git Integration
 
 If you'd like to integrate `slim-lint` into your Git workflow, check out
-[overcommit](https://github.com/brigade/overcommit), a powerful and flexible
+[overcommit](https://github.com/sds/overcommit), a powerful and flexible
 Git hook manager.
 
 ## Rake Integration

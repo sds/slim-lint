@@ -41,4 +41,27 @@ describe SlimLint::Linter::EmbeddedEngines do
     it { should report_lint line: 3 }
     it { should report_lint line: 6 }
   end
+
+  context 'when a file contains nested forbidden embedded engine' do
+    let(:config) do
+      { 'forbidden_engines' => %w[javascript css] }
+    end
+
+    let(:slim) { <<-SLIM }
+      html
+        head
+          javascript:
+            alert('foo')
+
+          css:
+            h1 {
+              font-size: 10px;
+            }
+        body
+          h1 Test
+    SLIM
+
+    it { should report_lint line: 3 }
+    it { should report_lint line: 6 }
+  end
 end

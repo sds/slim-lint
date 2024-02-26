@@ -12,7 +12,7 @@ module SlimLint
       dummy_node = Struct.new(:line)
       document.source_lines.each_with_index do |line, index|
         forbidden_engines.each do |forbidden_engine|
-          next unless line =~ /^#{forbidden_engine}.*:\s*$/
+          next unless line =~ /^\s*#{forbidden_engine}.*:\s*$/
 
           report_lint(dummy_node.new(index + 1), MESSAGE % forbidden_engine)
         end

@@ -9,6 +9,7 @@ Below is a list of linters supported by `slim-lint`, ordered alphabetically.
 * [EmptyControlStatement](#emptycontrolstatement)
 * [EmptyLines](#emptylines)
 * [FileLength](#filelength)
+* [InstanceVariables](#instancevariables)
 * [LineLength](#linelength)
 * [RedundantDiv](#redundantdiv)
 * [RuboCop](#rubocop)
@@ -156,6 +157,44 @@ linters:
 ```
 
 Long files are harder to read and usually indicative of complexity.
+
+## InstanceVariables
+
+Reports instance variables in Slim templates. Use the `include` configuration
+option to narrow down the files to e.g. only partial view templates in Rails:
+
+
+```yaml
+linters:
+  InstanceVariables:
+    enabled: true
+    include:
+      - app/views/**/_*.html.slim
+```
+
+**Bad for the above configuration**
+
+In `app/views/somewhere/_partial.html.slim`:
+
+```slim
+= @hello
+```
+**Good for the above configuration**
+
+In `app/views/somewhere/show.html.slim`:
+
+```slim
+= render 'partial', hello: @hello
+```
+In `app/views/somewhere/_partial.html.slim`:
+
+```slim
+= hello
+```
+
+The linter allows ensuring only local variables and/or helper methods are used
+in the configured set of Slim templates. This is often encouraged in Rails
+partial templates.
 
 ## LineLength
 

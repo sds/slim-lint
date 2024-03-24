@@ -27,8 +27,8 @@ module SlimLint
         next unless node.ivar_type?
 
         report_lint(SlimLint::SourceMappedLocation.new(node.loc, source_map),
-                    "Avoid instance variables in view templates \
-                    (found `#{node.source}`)")
+                    'Avoid instance variables in the configured ' \
+                    "view templates (found `#{node.source}`)")
       end
     end
   end

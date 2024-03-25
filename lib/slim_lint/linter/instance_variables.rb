@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'slim_lint/source_mapped_location'
-
 module SlimLint
   # Searches for instance variables in partial or other templates.
   class Linter::InstanceVariables < Linter
@@ -26,7 +24,8 @@ module SlimLint
       parsed_ruby.each_node do |node|
         next unless node.ivar_type?
 
-        report_lint(SlimLint::SourceMappedLocation.new(node.loc, source_map),
+        dummy_node = Struct.new(:line)
+        report_lint(dummy_node.new(source_map[node.loc.line]),
                     'Avoid instance variables in the configured ' \
                     "view templates (found `#{node.source}`)")
       end

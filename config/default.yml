@@ -32,6 +32,12 @@ linters:
     enabled: false
     max: 300
 
+  InstanceVariables:
+    enabled: false
+    include:
+      # Include only partial templates by default
+      - app/views/**/_*.html.slim
+
   LineLength:
     enabled: true
     max: 80

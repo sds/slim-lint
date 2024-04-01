@@ -9,9 +9,11 @@ Below is a list of linters supported by `slim-lint`, ordered alphabetically.
 * [EmptyControlStatement](#emptycontrolstatement)
 * [EmptyLines](#emptylines)
 * [FileLength](#filelength)
+* [InstanceVariables](#instancevariables)
 * [LineLength](#linelength)
 * [RedundantDiv](#redundantdiv)
 * [RuboCop](#rubocop)
+* [StrictLocalsMissing](#strictlocalsmissing)
 * [Tab](#tab)
 * [TagCase](#tagcase)
 * [TrailingBlankLines](#trailingblanklines)
@@ -157,6 +159,44 @@ linters:
 
 Long files are harder to read and usually indicative of complexity.
 
+## InstanceVariables
+
+Reports instance variables in Slim templates. Use the `include` configuration
+option to narrow down the files to e.g. only partial view templates in Rails:
+
+
+```yaml
+linters:
+  InstanceVariables:
+    enabled: true
+    include:
+      - app/views/**/_*.html.slim
+```
+
+**Bad for the above configuration**
+
+In `app/views/somewhere/_partial.html.slim`:
+
+```slim
+= @hello
+```
+**Good for the above configuration**
+
+In `app/views/somewhere/show.html.slim`:
+
+```slim
+= render 'partial', hello: @hello
+```
+In `app/views/somewhere/_partial.html.slim`:
+
+```slim
+= hello
+```
+
+The linter allows ensuring only local variables and/or helper methods are used
+in the configured set of Slim templates. This is often encouraged in Rails
+partial templates.
+
 ## LineLength
 
 Option | Description
@@ -241,6 +281,40 @@ You can display the name of the cop by adding the following to your
 AllCops:
   DisplayCopNames: true
 ```
+
+## StrictLocalsMissing
+
+Reports on missing [strict locals magic comment](https://guides.rubyonrails.org/action_view_overview.html#strict-locals)
+in Slim templates. Use the `include` configuration option to narrow down
+the files to e.g. only partial view templates in Rails:
+
+```yaml
+linters:
+  StrictLocalsMissing:
+    enabled: true
+    include:
+      - app/views/**/_*.html.slim
+```
+
+**Bad for the above configuration**
+
+In `app/views/somewhere/_partial.html.slim`:
+
+```slim
+= some_helper(foo, bar)
+```
+**Good for the above configuration**
+
+In `app/views/somewhere/_partial.html.slim`:
+
+```slim
+/# locals: (foo:, bar: 'default')
+= some_helper(foo, bar)
+```
+
+By default, Rails partial templates accept any local variables.
+Strict locals, on the other hand, help define an explicit interface
+for the template that shows which local variables it accepts.
 
 ## Tab
 

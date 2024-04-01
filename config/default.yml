@@ -32,6 +32,12 @@ linters:
     enabled: false
     max: 300
 
+  InstanceVariables:
+    enabled: false
+    include:
+      # Include only partial templates by default
+      - app/views/**/_*.html.slim
+
   LineLength:
     enabled: true
     max: 80
@@ -82,6 +88,12 @@ linters:
       - Style/Next
       - Style/WhileUntilDo
       - Style/WhileUntilModifier
+
+  StrictLocalsMissing:
+    enabled: false
+    include:
+      # Include only Rails partial templates by default
+      - app/views/**/_*.html.slim
 
   Tab:
     enabled: true

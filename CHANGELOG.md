@@ -1,5 +1,11 @@
 # Slim-Lint Changelog
 
+## 0.27.0
+
+* Add `InstanceVariables` linter
+* Add `StrictLocalsMissing` linter
+* Fix `EmbeddedEngines` linter missing indented uses
+
 ## 0.26.0
 
 * Revert "Fix `ControlSpacingStatement` linter handling of `=` in some cases"

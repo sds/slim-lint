@@ -89,6 +89,12 @@ linters:
       - Style/WhileUntilDo
       - Style/WhileUntilModifier
 
+  StrictLocalsMissing:
+    enabled: false
+    include:
+      # Include only Rails partial templates by default
+      - app/views/**/_*.html.slim
+
   Tab:
     enabled: true
 

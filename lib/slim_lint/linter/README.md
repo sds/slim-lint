@@ -16,6 +16,7 @@ Below is a list of linters supported by `slim-lint`, ordered alphabetically.
 * [StrictLocalsMissing](#strictlocalsmissing)
 * [Tab](#tab)
 * [Tag](#tag)
+* [TagAttribute](#tagattribute)
 * [TagCase](#tagcase)
 * [TrailingBlankLines](#trailingblanklines)
 * [TrailingWhitespace](#trailingwhitespace)
@@ -341,6 +342,28 @@ linters:
 ```slim
 p Something
 P Something else
+```
+
+## TagAttribute
+
+Reports forbidden tag attribute if listed.
+
+Option | Description
+-------|-----------------------------------------------------------------
+`forbidden_attributes`  | List of forbidden tag attributes. (default [])
+
+```yaml
+linters:
+  TagAttribute:
+    enabled: true
+    forbidden_attributes:
+      - style
+```
+
+**Bad for above configuration**
+```slim
+p style="{ color: red; }" Something
+P STYLE="{ color: blue; }" Something else
 ```
 
 ## TagCase

@@ -102,6 +102,10 @@ linters:
     enabled: false
     forbidden_tags: []
 
+  TagAttribute:
+    enabled: false
+    forbidden_attributes: []
+
   TagCase:
     enabled: true
 

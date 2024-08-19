@@ -98,6 +98,10 @@ linters:
   Tab:
     enabled: true
 
+  Tag:
+    enabled: false
+    forbidden_tags: []
+
   TagCase:
     enabled: true
 

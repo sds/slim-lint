@@ -15,6 +15,7 @@ Below is a list of linters supported by `slim-lint`, ordered alphabetically.
 * [RuboCop](#rubocop)
 * [StrictLocalsMissing](#strictlocalsmissing)
 * [Tab](#tab)
+* [Tag](#tag)
 * [TagCase](#tagcase)
 * [TrailingBlankLines](#trailingblanklines)
 * [TrailingWhitespace](#trailingwhitespace)
@@ -319,6 +320,28 @@ for the template that shows which local variables it accepts.
 ## Tab
 
 Reports detection of tabs used for indentation.
+
+## Tag
+
+Reports forbidden tag if listed.
+
+Option | Description
+-------|-----------------------------------------------------------------
+`forbidden_tags`  | List of forbidden tags. (default [])
+
+```yaml
+linters:
+  Tag:
+    enabled: true
+    forbidden_tags:
+      - p
+```
+
+**Bad for above configuration**
+```slim
+p Something
+P Something else
+```
 
 ## TagCase
 

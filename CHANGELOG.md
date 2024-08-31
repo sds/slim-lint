@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## 0.28.0
+
+* Add `Tag` linter for restricting tag usage
+
 ## 0.27.0
 
 * Add `InstanceVariables` linter

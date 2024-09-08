@@ -14,5 +14,3 @@ gem 'rake'
 gem 'rubocop', '>= 1', '< 2'
 
 gem 'simplecov', require: false
-
-gem 'rexml'

@@ -1,5 +1,10 @@
 # Slim-Lint Changelog
 
+## 0.29.0
+
+* Add `TagAttribute` linter for restricting attribute usage
+* Fix bug where `rexml` gem was missing if user used RuboCop 1.66.0 or newer
+
 ## 0.28.0
 
 * Add `Tag` linter for restricting tag usage

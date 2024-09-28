@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## 0.30.0
+
+* Speed up load time by preferring require_relative in internal gem file loading
+
 ## 0.29.0
 
 * Add `TagAttribute` linter for restricting attribute usage

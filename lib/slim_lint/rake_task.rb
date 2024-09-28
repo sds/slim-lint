@@ -2,7 +2,8 @@
 
 require 'rake'
 require 'rake/tasklib'
-require 'slim_lint/constants'
+
+require_relative 'constants'
 
 module SlimLint
   # Rake task interface for slim-lint command line interface.
@@ -74,8 +75,8 @@ module SlimLint
 
       task(name, [:files]) do |_task, task_args|
         # Lazy-load so task doesn't affect Rakefile load time
-        require 'slim_lint'
-        require 'slim_lint/cli'
+        require_relative '../slim_lint'
+        require_relative 'cli'
 
         run_cli(task_args)
       end

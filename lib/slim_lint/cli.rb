@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'slim_lint'
-require 'slim_lint/options'
+require_relative '../slim_lint'
+require_relative 'options'
 
 module SlimLint
   # Command line application interface.

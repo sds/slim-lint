@@ -21,6 +21,7 @@ your [SCM hooks](https://github.com/sds/overcommit).
 * [Linters](#linters)
 * [Editor Integration](#editor-integration)
 * [Git Integration](#git-integration)
+* [GitHub Integration](#github-integration)
 * [Rake Integration](#rake-integration)
 * [Contributing](#contributing)
 * [Changelog](#changelog)
@@ -180,6 +181,35 @@ Install the
 If you'd like to integrate `slim-lint` into your Git workflow, check out
 [overcommit](https://github.com/sds/overcommit), a powerful and flexible
 Git hook manager.
+
+## Github Integration
+
+To run `slim-lint` in your [GitHub Actions](https://docs.github.com/en/actions) CI pipeline,
+use the `github` reporter, for example:
+
+```yml
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  lint:
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Lint Slim templates for consistent style
+        run: bundle exec slim-lint -r github app/views
+```
+
+On lint failures, this setup will create annotations in your pull requests on GitHub.
 
 ## Rake Integration
 

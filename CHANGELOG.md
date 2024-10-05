@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## 0.31.0
+
+* Add GitHub reporter
+
 ## 0.30.0
 
 * Speed up load time by preferring require_relative in internal gem file loading

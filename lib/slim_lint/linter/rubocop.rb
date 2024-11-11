@@ -4,6 +4,7 @@ require_relative '../ruby_extractor'
 require_relative '../ruby_extract_engine'
 
 require 'rubocop'
+require 'stringio'
 
 module SlimLint
   # Runs RuboCop on Ruby code extracted from Slim templates.

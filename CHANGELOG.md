@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## 0.31.1
+
+* Fix loading of `RuboCop` linter on Ruby 3.3.5+
+
 ## 0.31.0
 
 * Add GitHub reporter

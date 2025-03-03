@@ -88,11 +88,7 @@ module SlimLint
     # @param include_private [Boolean]
     # @return [Boolean]
     def respond_to?(method_sym, include_private = false)
-      if super
-        true
-      else
-        @value.respond_to?(method_sym, include_private)
-      end
+      super || @value.respond_to?(method_sym, include_private)
     end
   end
 end

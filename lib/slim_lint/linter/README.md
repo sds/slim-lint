@@ -2,36 +2,39 @@
 
 Below is a list of linters supported by `slim-lint`, ordered alphabetically.
 
-* [CommentControlStatement](#commentcontrolstatement)
-* [ConsecutiveControlStatements](#consecutivecontrolstatements)
-* [ControlStatementSpacing](#controlstatementspacing)
-* [EmbeddedEngines](#embeddedengines)
-* [EmptyControlStatement](#emptycontrolstatement)
-* [EmptyLines](#emptylines)
-* [FileLength](#filelength)
-* [InstanceVariables](#instancevariables)
-* [LineLength](#linelength)
-* [RedundantDiv](#redundantdiv)
-* [RuboCop](#rubocop)
-* [StrictLocalsMissing](#strictlocalsmissing)
-* [Tab](#tab)
-* [Tag](#tag)
-* [TagAttribute](#tagattribute)
-* [TagCase](#tagcase)
-* [TrailingBlankLines](#trailingblanklines)
-* [TrailingWhitespace](#trailingwhitespace)
-* [Zwsp](#zwsp)
+- [CommentControlStatement](#commentcontrolstatement)
+- [ConsecutiveControlStatements](#consecutivecontrolstatements)
+- [ControlStatementSpacing](#controlstatementspacing)
+- [EmbeddedEngines](#embeddedengines)
+- [EmptyControlStatement](#emptycontrolstatement)
+- [EmptyLines](#emptylines)
+- [FileLength](#filelength)
+- [InstanceVariables](#instancevariables)
+- [LineLength](#linelength)
+- [QuoteConsistency](#quoteconsistency)
+- [RedundantDiv](#redundantdiv)
+- [RuboCop](#rubocop)
+- [StrictLocalsMissing](#strictlocalsmissing)
+- [Tab](#tab)
+- [Tag](#tag)
+- [TagAttribute](#tagattribute)
+- [TagCase](#tagcase)
+- [TrailingBlankLines](#trailingblanklines)
+- [TrailingWhitespace](#trailingwhitespace)
+- [Zwsp](#zwsp)
 
 ## CommentControlStatement
 
 Reports control statements with only comments.
 
 **Bad**
+
 ```slim
 -# This is a control statement comment
 ```
 
 **Good**
+
 ```slim
 / This is a Slim comment
 ```
@@ -41,13 +44,14 @@ code and are optimized out of the parse tree during compilation.
 
 ## ConsecutiveControlStatements
 
-Option             | Description
--------------------|-----------------------------------------------------
-`max_consecutive`  | Maximum number of control statements that can appear in a row
+| Option            | Description                                                   |
+| ----------------- | ------------------------------------------------------------- |
+| `max_consecutive` | Maximum number of control statements that can appear in a row |
 
 Reports the appearance of multiple consecutive control statements.
 
 **Bad**
+
 ```slim
 - some_code
 - some_more_code
@@ -55,6 +59,7 @@ Reports the appearance of multiple consecutive control statements.
 ```
 
 **Better**
+
 ```slim
 ruby:
   some_code
@@ -63,6 +68,7 @@ ruby:
 ```
 
 **Best**
+
 ```slim
 - helper_that_does_all_of_the_above
 ```
@@ -75,11 +81,13 @@ a smell. It is best to extract these into separate helpers whenever possible.
 Reports missing or superfluous spacing before and after control statements
 
 **Bad**
+
 ```slim
 div= some_code
 ```
 
 **Good**
+
 ```slim
 div = some_code
 ```
@@ -88,9 +96,9 @@ div = some_code
 
 Reports forbidden [embedded engines](https://github.com/slim-template/slim#embedded-engines-markdown-) if listed.
 
-Option | Description
--------|-----------------------------------------------------------------
-`forbidden_engines`  | List of forbidden embedded engines. (default [])
+| Option              | Description                                      |
+| ------------------- | ------------------------------------------------ |
+| `forbidden_engines` | List of forbidden embedded engines. (default []) |
 
 ```yaml
 linters:
@@ -101,6 +109,7 @@ linters:
 ```
 
 **Bad for above configuration**
+
 ```slim
 p Something
 
@@ -113,6 +122,7 @@ javascript:
 Reports control statements with no code.
 
 **Bad**
+
 ```slim
 p Something
 -
@@ -120,6 +130,7 @@ p Something else
 ```
 
 **Good**
+
 ```slim
 p Something
 p Something else
@@ -130,6 +141,7 @@ p Something else
 Reports two or more consecutive blank lines.
 
 **Bad**
+
 ```slim
 p Something
 
@@ -138,6 +150,7 @@ p Something else
 ```
 
 **Good**
+
 ```slim
 p Something
 
@@ -146,9 +159,9 @@ p Something else
 
 ## FileLength
 
-Option | Description
--------|-----------------------------------------------------------------
-`max`  | Maximum number of lines a single file can have. (default `300`)
+| Option | Description                                                     |
+| ------ | --------------------------------------------------------------- |
+| `max`  | Maximum number of lines a single file can have. (default `300`) |
 
 You can configure this amount via the `max`
 option on the linter, e.g. by adding the following to your `.slim-lint.yml`:
@@ -166,7 +179,6 @@ Long files are harder to read and usually indicative of complexity.
 Reports instance variables in Slim templates. Use the `include` configuration
 option to narrow down the files to e.g. only partial view templates in Rails:
 
-
 ```yaml
 linters:
   InstanceVariables:
@@ -182,6 +194,7 @@ In `app/views/somewhere/_partial.html.slim`:
 ```slim
 = @hello
 ```
+
 **Good for the above configuration**
 
 In `app/views/somewhere/show.html.slim`:
@@ -189,6 +202,7 @@ In `app/views/somewhere/show.html.slim`:
 ```slim
 = render 'partial', hello: @hello
 ```
+
 In `app/views/somewhere/_partial.html.slim`:
 
 ```slim
@@ -201,9 +215,9 @@ partial templates.
 
 ## LineLength
 
-Option | Description
--------|-----------------------------------------------------------------
-`max`  | Maximum number of columns a single line can have. (default `80`)
+| Option | Description                                                      |
+| ------ | ---------------------------------------------------------------- |
+| `max`  | Maximum number of columns a single line can have. (default `80`) |
 
 Wrap lines at 80 characters. You can configure this amount via the `max`
 option on the linter, e.g. by adding the following to your `.slim-lint.yml`:
@@ -216,21 +230,97 @@ linters:
 
 Long lines are harder to read and usually indicative of complexity.
 
+## QuoteConsistency
+
+Reports inconsistent quote usage.
+
+| Option            | Description                                 |
+| ----------------- | ------------------------------------------- |
+| `enforced_style`  | Style to enforce. (default `single_quotes`) |
+| `skip_ruby_lines` | Skips linting Ruby lines. (default `true`)  |
+
+### Enforced Style
+
+The `enforced_style` option can be set to `single_quotes` or `double_quotes`.
+
+#### Single Quotes
+
+**Bad**
+
+```slim
+p style="{ color: red; }" Something
+```
+
+**Good**
+
+```slim
+p style='color: red;' Something
+```
+
+#### Double Quotes
+
+**Bad**
+
+```slim
+p style="{ color: red; }" Something
+```
+
+**Good**
+
+```slim
+p style='color: red;' Something
+```
+
+### Skip Ruby Lines
+
+By default, the linter will skip Ruby lines. This is to prevent issues with
+RuboCop checking the same lines.
+
+#### skip_ruby_lines: true
+
+**Good**
+
+```slim
+- title = "Hello World"
+```
+
+#### skip_ruby_lines: false
+
+**Bad**
+
+```slim
+- title = "Hello World"
+```
+
+### Exceptions
+
+Comments and nested quotes are exempt from this linter.
+
+The following is valid:
+
+```slim
+/ This is a "comment"
+a href='javascript:void(0)' onclick="$('#create-modal').modal('show')"
+```
+
 ## RedundantDiv
 
 Reports explicit uses of `div` when it would otherwise be implicit.
 
 **Bad: `div` is unnecessary when class/ID is specified**
+
 ```slim
 div.button
 ```
 
 **Good: `div` is required when no class/ID is specified**
+
 ```slim
 div
 ```
 
 **Good**
+
 ```slim
 .button
 ```
@@ -240,9 +330,9 @@ useful.
 
 ## RuboCop
 
-Option         | Description
----------------|--------------------------------------------
-`ignored_cops` | Array of RuboCop cops to ignore.
+| Option         | Description                      |
+| -------------- | -------------------------------- |
+| `ignored_cops` | Array of RuboCop cops to ignore. |
 
 This linter integrates with [RuboCop](https://github.com/bbatsov/rubocop) (a
 static code analyzer and style enforcer) to check the actual Ruby code in your
@@ -259,6 +349,7 @@ p Hello #{name}!
 ```
 
 **Output from `slim-lint`**
+
 ```
 example.slim:2 [W] Useless assignment to variable - unused_variable
 ```
@@ -305,6 +396,7 @@ In `app/views/somewhere/_partial.html.slim`:
 ```slim
 = some_helper(foo, bar)
 ```
+
 **Good for the above configuration**
 
 In `app/views/somewhere/_partial.html.slim`:
@@ -326,9 +418,9 @@ Reports detection of tabs used for indentation.
 
 Reports forbidden tag if listed.
 
-Option | Description
--------|-----------------------------------------------------------------
-`forbidden_tags`  | List of forbidden tags. (default [])
+| Option           | Description                          |
+| ---------------- | ------------------------------------ |
+| `forbidden_tags` | List of forbidden tags. (default []) |
 
 ```yaml
 linters:
@@ -339,6 +431,7 @@ linters:
 ```
 
 **Bad for above configuration**
+
 ```slim
 p Something
 P Something else
@@ -348,9 +441,9 @@ P Something else
 
 Reports forbidden tag attribute if listed.
 
-Option | Description
--------|-----------------------------------------------------------------
-`forbidden_attributes`  | List of forbidden tag attributes. (default [])
+| Option                 | Description                                    |
+| ---------------------- | ---------------------------------------------- |
+| `forbidden_attributes` | List of forbidden tag attributes. (default []) |
 
 ```yaml
 linters:
@@ -361,6 +454,7 @@ linters:
 ```
 
 **Bad for above configuration**
+
 ```slim
 p style="{ color: red; }" Something
 P STYLE="{ color: blue; }" Something else
@@ -371,12 +465,14 @@ P STYLE="{ color: blue; }" Something else
 Reports tag names with uppercase characters.
 
 **Bad**
+
 ```slim
 BODY
   P My paragraph
 ```
 
 **Good**
+
 ```slim
 body
   p My paragraph

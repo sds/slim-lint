@@ -17,7 +17,7 @@ module SlimLint
         next if line =~ %r{^\s*(/{1,3})}
 
         # Skip Ruby lines that RuboCop will check
-        next if skip_rubocop && line =~ /^\s*[=-]/
+        next if skip_ruby_lines && line =~ /^\s*[=-]/
 
         # Find all quoted strings in attributes (ignoring nested quotes)
         single_quotes = line.scan(/^(?:[^'"]*'[^'"]*'[^'"]*)?(?:[^'"]*)('[^'"]*')/)
@@ -39,8 +39,8 @@ module SlimLint
       config['enforced_style']&.to_sym || :single_quotes
     end
 
-    def skip_rubocop
-      config.fetch('skip_rubocop', true)
+    def skip_ruby_lines
+      config.fetch('skip_ruby_lines', true)
     end
   end
 end

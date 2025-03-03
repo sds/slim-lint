@@ -46,13 +46,31 @@ describe SlimLint::Linter::QuoteConsistency do
     end
   end
 
-  context 'when line has both single and double quotes' do
+  context 'when line has nested quotes' do
     let(:slim) { <<-SLIM }
-      .title "Hello 'World'"
-      .title 'Hello "World"'
+      .title "Hello 'World'!"
+      .title 'Hello "World"!'
     SLIM
 
-    it { should_not report_lint }
+    context 'when enforced_style is single_quotes' do
+      let(:config) { { 'enforced_style' => 'single_quotes' } }
+
+      it { should_not report_lint }
+    end
+
+    context 'when enforced_style is double_quotes' do
+      let(:config) { { 'enforced_style' => 'double_quotes' } }
+
+      it { should_not report_lint }
+    end
+  end
+
+  context 'when line has multiple quoted strings' do
+    let(:slim) { <<-SLIM }
+      .input name='name' value="value"
+    SLIM
+
+    it { should report_lint line: 1 }
   end
 
   context 'when file has comments with quotes' do

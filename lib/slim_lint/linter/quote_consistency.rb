@@ -19,9 +19,9 @@ module SlimLint
         # Skip Ruby lines that RuboCop will check
         next if skip_rubocop && line =~ /^\s*[=-]/
 
-        # Find all quoted strings in attributes
-        single_quotes = line.scan(/(?<!")'[^"]*'(?!")/)
-        double_quotes = line.scan(/(?<!')"[^']*"(?!')/)
+        # Find all quoted strings in attributes (ignoring nested quotes)
+        single_quotes = line.scan(/^(?:[^'"]*'[^'"]*'[^'"]*)?(?:[^'"]*)('[^'"]*')/)
+        double_quotes = line.scan(/^(?:[^'"]*'[^'"]*'[^'"]*)?(?:[^'"]*)("[^'"]*")/)
 
         if enforced_style == :single_quotes && double_quotes.any?
           report_lint(dummy_node.new(index + 1),

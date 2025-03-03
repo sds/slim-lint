@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## 0.32.0
+
+* Add `QuoteConsistency` linter for enforcing single/double quotes
+
 ## 0.31.1
 
 * Fix loading of `RuboCop` linter on Ruby 3.3.5+

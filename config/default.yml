@@ -115,5 +115,8 @@ linters:
   TrailingWhitespace:
     enabled: true
 
+  QuoteConsistency:
+    enabled: false
+
   Zwsp:
     enabled: false

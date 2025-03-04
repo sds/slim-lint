@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## 0.32.1
+
+* Update `QuoteConsistency` to only inspect HTML blocks
+
 ## 0.32.0
 
 * Add `QuoteConsistency` linter for enforcing single/double quotes

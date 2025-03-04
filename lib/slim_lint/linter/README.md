@@ -234,10 +234,9 @@ Long lines are harder to read and usually indicative of complexity.
 
 Reports inconsistent quote usage.
 
-| Option            | Description                                 |
-| ----------------- | ------------------------------------------- |
-| `enforced_style`  | Style to enforce. (default `single_quotes`) |
-| `skip_ruby_lines` | Skips linting Ruby lines. (default `true`)  |
+| Option           | Description                                 |
+| ---------------- | ------------------------------------------- |
+| `enforced_style` | Style to enforce. (default `single_quotes`) |
 
 ### Enforced Style
 
@@ -271,35 +270,13 @@ p style="{ color: red; }" Something
 p style='color: red;' Something
 ```
 
-### Skip Ruby Lines
+### Nested Quotes
 
-By default, the linter will skip Ruby lines. This is to prevent issues with
-RuboCop checking the same lines.
-
-#### skip_ruby_lines: true
-
-**Good**
-
-```slim
-- title = "Hello World"
-```
-
-#### skip_ruby_lines: false
-
-**Bad**
-
-```slim
-- title = "Hello World"
-```
-
-### Exceptions
-
-Comments and nested quotes are exempt from this linter.
+Nested quotes are exempt from this linter.
 
 The following is valid:
 
 ```slim
-/ This is a "comment"
 a href='javascript:void(0)' onclick="$('#create-modal').modal('show')"
 ```
 

@@ -67,7 +67,7 @@ describe SlimLint::Linter::QuoteConsistency do
 
   context 'when line has multiple quoted strings' do
     let(:slim) { <<-SLIM }
-      .input name='name' value="value"
+      .input name='test-name' value="test-value"
     SLIM
 
     it { should report_lint line: 1 }
@@ -86,16 +86,6 @@ describe SlimLint::Linter::QuoteConsistency do
       - title = "Hello World"
     SLIM
 
-    context 'when skip_ruby_lines is true' do
-      let(:config) { { 'skip_ruby_lines' => true } }
-
-      it { should_not report_lint }
-    end
-
-    context 'when skip_ruby_lines is false' do
-      let(:config) { { 'skip_ruby_lines' => false } }
-
-      it { should report_lint line: 1 }
-    end
+    it { should_not report_lint }
   end
 end

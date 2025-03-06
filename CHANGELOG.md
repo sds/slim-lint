@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## 0.32.2
+
+* Fix performance regression with RuboCop 1.72+
+
 ## 0.32.1
 
 * Update `QuoteConsistency` to only inspect HTML blocks

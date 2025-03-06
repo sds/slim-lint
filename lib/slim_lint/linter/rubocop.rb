@@ -11,6 +11,14 @@ module SlimLint
   class Linter::RuboCop < Linter
     include LinterRegistry
 
+    # Initializes a RuboCop linter with the specified configuration.
+    #
+    # @param config [Hash] configuration for this linter
+    def initialize(config)
+      super(config)
+      @rubocop = ::RuboCop::CLI.new
+    end
+
     on_start do |_sexp|
       processed_sexp = SlimLint::RubyExtractEngine.new.call(document.source)
 
@@ -31,22 +39,19 @@ module SlimLint
     # @param source_map [Hash] map of Ruby code line numbers to original line
     #   numbers in the template
     def find_lints(ruby, source_map)
-      rubocop = ::RuboCop::CLI.new
-
       filename = document.file ? "#{document.file}.rb" : 'ruby_script.rb'
 
       with_ruby_from_stdin(ruby) do
-        extract_lints_from_offenses(lint_file(rubocop, filename), source_map)
+        extract_lints_from_offenses(lint_file(filename), source_map)
       end
     end
 
     # Defined so we can stub the results in tests
     #
-    # @param rubocop [RuboCop::CLI]
     # @param file [String]
     # @return [Array<RuboCop::Cop::Offense>]
-    def lint_file(rubocop, file)
-      rubocop.run(rubocop_flags << file)
+    def lint_file(file)
+      @rubocop.run(rubocop_flags << file)
       OffenseCollector.offenses
     end
 

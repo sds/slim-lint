@@ -5,7 +5,8 @@ module SlimLint
   class Linter::ControlStatementSpacing < Linter
     include LinterRegistry
 
-    MESSAGE = 'Please add a space before and after the `=`'
+    MESSAGE_OUTPUT = 'Please add a space before and after the `=`'
+    MESSAGE_CONTROL = 'Please add a space after the `-`'
 
     on [:html, :tag, anything, [],
          [:slim, :output, anything, capture(:ruby, anything)]] do |sexp|
@@ -18,7 +19,15 @@ module SlimLint
 
       next if line =~ /[^ ] ==?<?>? [^ ]/
 
-      report_lint(sexp, MESSAGE)
+      report_lint(sexp, MESSAGE_OUTPUT)
+    end
+
+    on [:slim, :control] do |sexp|
+      line = document.source_lines[sexp.line - 1]
+
+      next if line =~ /^ *- [^ ]/
+
+      report_lint(sexp, MESSAGE_CONTROL)
     end
   end
 end

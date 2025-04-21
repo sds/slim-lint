@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## 0.33.0
+
+* Add support to `ControlStatementSpacing` for linting spaces after `-` control code
+
 ## 0.32.2
 
 * Fix performance regression with RuboCop 1.72+

@@ -314,4 +314,30 @@ describe SlimLint::Linter::ControlStatementSpacing do
       it { should report_lint }
     end
   end
+
+  context 'when control code is used' do
+    context 'when one space is after -' do
+      let(:slim) { '- ok' }
+
+      it { should_not report_lint }
+    end
+
+    context 'when space is missing after -' do
+      let(:slim) { '-bad' }
+
+      it { should report_lint }
+    end
+
+    context 'when multiple spaces are after -' do
+      let(:slim) { '-  bad' }
+
+      it { should report_lint }
+    end
+
+    context 'when multiple spaces are after - but the code has "- "' do
+      let(:slim) { '-  something?("foo - bar")' }
+
+      it { should report_lint }
+    end
+  end
 end

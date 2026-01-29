@@ -25,7 +25,7 @@ describe SlimLint::Configuration do
       let(:hash) do
         {
           'linters' => {
-            'SomeLinter' => {
+            'Tab' => {
               'include' => '**/*.slim',
               'exclude' => '**/*.ignore.slim',
             },
@@ -34,11 +34,27 @@ describe SlimLint::Configuration do
       end
 
       it 'converts the `include` value into an array' do
-        subject['linters']['SomeLinter']['include'].should == ['**/*.slim']
+        subject['linters']['Tab']['include'].should == ['**/*.slim']
       end
 
       it 'converts the `exclude` value into an array' do
-        subject['linters']['SomeLinter']['exclude'].should == ['**/*.ignore.slim']
+        subject['linters']['Tab']['exclude'].should == ['**/*.ignore.slim']
+      end
+    end
+
+    context 'with an invalid linter name' do
+      let(:hash) do
+        {
+          'linters' => {
+            'InvalidLinterName' => {
+              'enabled' => false,
+            },
+          },
+        }
+      end
+
+      it 'raises a NoSuchLinter error' do
+        expect { subject }.to raise_error(SlimLint::NoSuchLinter, /No such linter: InvalidLinterName/)
       end
     end
   end

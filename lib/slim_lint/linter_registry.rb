@@ -11,6 +11,13 @@ module SlimLint
       # List of all registered linters.
       attr_reader :linters
 
+      # Returns the short names of all registered linters.
+      #
+      # @return [Array<String>]
+      def linter_names
+        @linters.map { |linter| linter.name.split('::').last }
+      end
+
       # Executed when a linter includes the {LinterRegistry} module.
       #
       # This results in the linter being registered with the registry.

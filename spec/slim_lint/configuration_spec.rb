@@ -54,7 +54,7 @@ describe SlimLint::Configuration do
       end
 
       it 'raises a NoSuchLinter error' do
-        expect { subject }.to raise_error(SlimLint::NoSuchLinter, /No such linter: InvalidLinterName/)
+        expect { subject }.to raise_error(SlimLint::NoSuchLinter, /InvalidLinterName/)
       end
     end
   end

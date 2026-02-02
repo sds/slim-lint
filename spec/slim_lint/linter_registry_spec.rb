@@ -13,6 +13,15 @@ describe SlimLint::LinterRegistry do
     end
   end
 
+  describe '.linter_names' do
+    it 'returns the short names of all registered linters' do
+      names = described_class.linter_names
+      expect(names).to be_an(Array)
+      expect(names).to include('Tab')
+      expect(names).to include('LineLength')
+    end
+  end
+
   describe '.extract_linters_from' do
     module SlimLint
       class Linter::SomeLinter < Linter; include LinterRegistry; end

@@ -49,7 +49,7 @@ Naming/FileName:
 
 # Renaming `has_something?` to `something?` obfuscates whether it is a "is-a" or
 # a "has-a" relationship.
-Naming/PredicateName:
+Naming/PredicatePrefix:
   Enabled: false
 
 # Enforcing this results in a lot of unnecessary indentation.

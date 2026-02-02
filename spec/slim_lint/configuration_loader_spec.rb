@@ -19,7 +19,7 @@ describe SlimLint::ConfigurationLoader do
     context 'when directory contains a configuration file' do
       let(:config_contents) { <<-CFG }
         linters:
-          ALL:
+          Tab:
             enabled: false
       CFG
 

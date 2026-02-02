@@ -65,7 +65,7 @@ module SlimLint
     # exception.
     def handle_exception(exception)
       case exception
-      when SlimLint::Exceptions::ConfigurationError
+      when SlimLint::Exceptions::ConfigurationError, SlimLint::NoSuchLinter
         log.error exception.message
         EX_CONFIG
       when SlimLint::Exceptions::InvalidCLIOption

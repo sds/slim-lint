@@ -82,7 +82,23 @@ module SlimLint
     def validate
       ensure_exclude_option_array_exists
       ensure_linter_section_exists
+      ensure_linter_names_are_valid
       ensure_linter_include_exclude_arrays_exist
+    end
+
+    # Ensures all linter names in the configuration are valid.
+    def ensure_linter_names_are_valid
+      return if @hash['linters'].nil?
+
+      valid_names = SlimLint::LinterRegistry.linter_names
+      return if valid_names.empty? # Skip if linters not yet loaded
+
+      @hash['linters'].each_key do |linter_name|
+        next if valid_names.include?(linter_name)
+
+        raise SlimLint::NoSuchLinter,
+              "No such linter: #{linter_name}. Available: #{valid_names.join(', ')}"
+      end
     end
 
     # Ensures the `exclude` global option is an array.

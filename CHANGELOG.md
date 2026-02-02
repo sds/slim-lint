@@ -1,5 +1,9 @@
 # Slim-Lint Changelog
 
+## 0.34.0
+
+* Add check for invalid keys in config files
+
 ## 0.33.0
 
 * Add support to `ControlStatementSpacing` for linting spaces after `-` control code

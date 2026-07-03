@@ -11,10 +11,11 @@ module SlimLint
     on [:html, :tag, anything, [],
          [:slim, :output, anything, capture(:ruby, anything)]] do |sexp|
       # Fetch original Slim code that contains an element with a control statement.
-      line = document.source_lines[sexp.line - 1]
+      ruby = captures[:ruby]
+      line = source_line_for(sexp, /=[=<>]* *#{Regexp.escape(ruby[/[^\n]*/])}/)
+      next unless line
 
       # Remove any Ruby code, because our regexp below must not match inside Ruby.
-      ruby = captures[:ruby]
       line = line.sub(ruby, 'x')
 
       next if line =~ /[^ ] ==?<?>? [^ ]/
@@ -23,11 +24,33 @@ module SlimLint
     end
 
     on [:slim, :control] do |sexp|
-      line = document.source_lines[sexp.line - 1]
+      ruby = sexp[2]
+      line = source_line_for(sexp, /- *#{Regexp.escape(ruby[/[^\n]*/])}/)
+      next unless line
 
       next if line =~ /^ *- [^ ]/
 
       report_lint(sexp, MESSAGE_CONTROL)
+    end
+
+    private
+
+    # Finds the original Slim source line for the given Sexp.
+    #
+    # Backslash (`\`) and comma (`,`) line continuations in preceding
+    # attributes are collapsed by the Slim parser without emitting a newline,
+    # which causes the line number reported for subsequent Sexps to be too low
+    # (see https://github.com/sds/slim-lint/issues/201). We compensate by
+    # searching forward from the reported line for the line that actually
+    # contains the statement, falling back to the reported line otherwise.
+    #
+    # @param sexp [SlimLint::Sexp]
+    # @param pattern [Regexp] matches the source line containing the statement
+    # @return [String, nil]
+    def source_line_for(sexp, pattern)
+      index = sexp.line - 1
+      lines = document.source_lines[index..] || []
+      lines.find { |line| line =~ pattern } || document.source_lines[index]
     end
   end
 end

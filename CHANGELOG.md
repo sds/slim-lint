@@ -1,5 +1,10 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Fix `ControlStatementSpacing` reporting false positives after an attribute
+  that spans multiple lines using a backslash (`\`) continuation
+
 ## 0.34.0
 
 * Add check for invalid keys in config files

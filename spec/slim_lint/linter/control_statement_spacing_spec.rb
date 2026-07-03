@@ -340,4 +340,51 @@ describe SlimLint::Linter::ControlStatementSpacing do
       it { should report_lint }
     end
   end
+
+  # Backslash line continuations in a preceding attribute are collapsed by the
+  # Slim parser, which shifts the reported line number of subsequent
+  # statements. See https://github.com/sds/slim-lint/issues/201.
+  context 'when a preceding attribute spans multiple lines' do
+    context 'and the control statement has appropriate spacing' do
+      let(:slim) { <<~'SLIM' }
+        div class="a \
+         b"
+          - if 1 == 2
+            | Hello
+      SLIM
+
+      it { should_not report_lint }
+    end
+
+    context 'and the control statement is missing spacing' do
+      let(:slim) { <<~'SLIM' }
+        div class="a \
+         b"
+          -if 1 == 2
+            | Hello
+      SLIM
+
+      it { should report_lint }
+    end
+
+    context 'and the output statement has appropriate spacing' do
+      let(:slim) { <<~'SLIM' }
+        div class="a \
+         b"
+          span = foo
+      SLIM
+
+      it { should_not report_lint }
+    end
+
+    context 'and the output statement is missing spacing' do
+      let(:slim) { <<~'SLIM' }
+        div class="a \
+         b"
+          span= foo
+      SLIM
+
+      it { should report_lint }
+    end
+  end
 end

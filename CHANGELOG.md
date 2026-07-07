@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## master (unreleased)
+## 0.35.0
 
 * Fix `ControlStatementSpacing` reporting false positives after an attribute
   that spans multiple lines using a backslash (`\`) continuation

@@ -85,6 +85,20 @@ describe SlimLint::Reporter::DefaultReporter do
         end
       end
 
+      context 'when a lint has been corrected' do
+        before { lints.first.corrected = true }
+
+        it 'marks the corrected lint as `[Corrected]`' do
+          subject
+          output.should include '[Corrected]'
+        end
+
+        it 'does not mark the uncorrected lint as `[Corrected]`' do
+          subject
+          output.scan(/\[Corrected\]/).count.should == 1
+        end
+      end
+
       context 'when lint has no associated linter' do
         let(:linter) { nil }
 

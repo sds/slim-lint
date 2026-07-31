@@ -48,6 +48,11 @@ module SlimLint
                 'Specify which reporter you want to use to generate the output') do |reporter|
         @options[:reporter] = load_reporter_class(reporter.capitalize)
       end
+
+      parser.on('-a', '--autocorrect',
+                'Automatically correct offenses that support it') do
+        @options[:autocorrect] = true
+      end
     end
 
     # Returns the class of the specified Reporter.

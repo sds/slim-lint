@@ -20,7 +20,8 @@ module SlimLint
       if options[:stdin_file_path].nil?
         files = extract_applicable_files(config, options)
         lints = files.map do |file|
-          collect_lints(File.read(file), file, linter_selector, config)
+          collect_lints(File.read(file), file, linter_selector, config,
+                        autocorrect: options[:autocorrect])
         end.flatten
       else
         files = [options[:stdin_file_path]]
@@ -53,16 +54,32 @@ module SlimLint
     # @param file [String] path to file to lint
     # @param linter_selector [SlimLint::LinterSelector]
     # @param config [SlimLint::Configuration]
-    def collect_lints(file_content, file_name, linter_selector, config)
+    # @param autocorrect [Boolean] whether to write corrections back to the file
+    def collect_lints(file_content, file_name, linter_selector, config, autocorrect: false)
       begin
         document = SlimLint::Document.new(file_content, file: file_name, config: config)
       rescue SlimLint::Exceptions::ParseError => e
         return [SlimLint::Lint.new(nil, file_name, e.lineno, e.error, :error)]
       end
 
-      linter_selector.linters_for_file(file_name).map do |linter|
+      lints = linter_selector.linters_for_file(file_name).map do |linter|
         linter.run(document)
       end.flatten
+
+      correct_lints(document, file_name, lints) if autocorrect
+
+      lints
+    end
+
+    # Applies any available corrections to the given file's lints and writes
+    # the result back to disk if anything changed.
+    #
+    # @param document [SlimLint::Document]
+    # @param file_name [String] path to file to correct
+    # @param lints [Array<SlimLint::Lint>]
+    def correct_lints(document, file_name, lints)
+      corrected_source = SlimLint::Corrector.new(document).correct(lints)
+      File.write(file_name, corrected_source) if corrected_source != document.source
     end
 
     # Returns the list of files that should be linted given the specified

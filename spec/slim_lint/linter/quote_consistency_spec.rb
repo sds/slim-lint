@@ -88,4 +88,39 @@ describe SlimLint::Linter::QuoteConsistency do
 
     it { should_not report_lint }
   end
+
+  context 'autocorrect support' do
+    let(:slim) { <<-SLIM }
+      .container
+    SLIM
+
+    it 'is declared' do
+      described_class.supports_autocorrect?.should == true
+    end
+  end
+
+  describe 'correction' do
+    context 'when enforcing single quotes on a line with double quotes' do
+      let(:slim) { <<-SLIM }
+        .title "Hello World"
+      SLIM
+
+      it 'swaps double quotes for single quotes' do
+        subject.lints.first.correction.call('.title "Hello World"')
+               .should == ".title 'Hello World'"
+      end
+    end
+
+    context 'when enforcing double quotes on a line with single quotes' do
+      let(:config) { { 'enforced_style' => 'double_quotes' } }
+      let(:slim) { <<-SLIM }
+        .title 'Hello World'
+      SLIM
+
+      it 'swaps single quotes for double quotes' do
+        subject.lints.first.correction.call(".title 'Hello World'")
+               .should == '.title "Hello World"'
+      end
+    end
+  end
 end

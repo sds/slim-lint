@@ -46,4 +46,20 @@ describe SlimLint::Linter::TrailingWhitespace do
 
     it { should_not report_lint }
   end
+
+  context 'autocorrect support' do
+    let(:slim) { '' }
+
+    it 'is declared' do
+      described_class.supports_autocorrect?.should == true
+    end
+  end
+
+  describe 'correction' do
+    let(:slim) { '.style      ' }
+
+    it 'strips the trailing whitespace' do
+      subject.lints.first.correction.call('.style      ').should == '.style'
+    end
+  end
 end

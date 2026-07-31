@@ -41,6 +41,14 @@ describe SlimLint::Options do
       end
     end
 
+    context 'with the autocorrect flag' do
+      let(:args) { ['--autocorrect'] }
+
+      it 'sets the `autocorrect` option to true' do
+        subject.should include autocorrect: true
+      end
+    end
+
     context 'with input from stdin' do
       let(:args) { %w[--stdin-file-path file1.slim] }
 

@@ -5,6 +5,7 @@ module SlimLint
   # already implies a div.
   class Linter::RedundantDiv < Linter
     include LinterRegistry
+    support_autocorrect
 
     MESSAGE = '`div` is redundant when %s attribute shortcut is present'
 
@@ -16,7 +17,8 @@ module SlimLint
       attr = captures[:attr_name]
       next unless %w[class id].include?(attr)
 
-      report_lint(sexp, MESSAGE % attr)
+      report_lint(sexp, MESSAGE % attr,
+                  correction: ->(line) { line.sub(/\bdiv(?=[.#])/, '') })
     end
   end
 end

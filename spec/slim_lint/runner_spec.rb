@@ -76,5 +76,43 @@ describe SlimLint::Runner do
         subject
       end
     end
+
+    context 'when the :autocorrect option is enabled' do
+      include_context 'isolated environment'
+
+      let(:file) { 'view.slim' }
+      let(:files) { [file] }
+      let(:options) { { files: files, autocorrect: true } }
+
+      before do
+        runner.stub(:collect_lints).and_call_original
+        File.stub(:read).and_call_original
+
+        File.write(file, "p Hello world   \n")
+      end
+
+      it 'writes the corrected content back to the file' do
+        subject
+        File.read(file).should == "p Hello world\n"
+      end
+
+      it 'marks the corrected lint as corrected' do
+        report = subject
+        report.lints.first.corrected?.should == true
+      end
+    end
+
+    context 'when the :autocorrect option is enabled with `--stdin-file-path`' do
+      let(:options) { { autocorrect: true, stdin_file_path: 'file1.slim' } }
+
+      before do
+        $stdin.stub(:read).and_return('.myclass')
+      end
+
+      it 'does not attempt to write to disk' do
+        File.should_not_receive(:write)
+        subject
+      end
+    end
   end
 end

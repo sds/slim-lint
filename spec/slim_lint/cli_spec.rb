@@ -92,6 +92,17 @@ describe SlimLint::CLI do
       end
     end
 
+    context 'when passed the --autocorrect flag' do
+      let(:args) { ['--autocorrect'] }
+
+      it 'passes the autocorrect option through to the runner' do
+        SlimLint::Runner.any_instance
+                        .should_receive(:run)
+                        .with(hash_including(autocorrect: true))
+        subject
+      end
+    end
+
     context 'when passed the --show-linters flag' do
       let(:args) { ['--show-linters'] }
 

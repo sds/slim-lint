@@ -4,6 +4,7 @@ module SlimLint
   # Checks for consistent quote usage in HTML attributes
   class Linter::QuoteConsistency < Linter
     include LinterRegistry
+    support_autocorrect
 
     MSG = 'Inconsistent quote style. %s'
 
@@ -19,10 +20,12 @@ module SlimLint
 
       if enforced_style == :single_quotes && double_quotes.any?
         report_lint(node,
-                    format(MSG, "Use single quotes for attribute values (')"))
+                    format(MSG, "Use single quotes for attribute values (')"),
+                    correction: ->(source_line) { source_line.tr('"', "'") })
       elsif enforced_style == :double_quotes && single_quotes.any?
         report_lint(node,
-                    format(MSG, 'Use double quotes for attribute values (")'))
+                    format(MSG, 'Use double quotes for attribute values (")'),
+                    correction: ->(source_line) { source_line.tr("'", '"') })
       end
     end
 

@@ -232,6 +232,8 @@ Long lines are harder to read and usually indicative of complexity.
 
 ## QuoteConsistency
 
+_Supports autocorrect (`-a`/`--autocorrect`)._
+
 Reports inconsistent quote usage.
 
 | Option           | Description                                 |
@@ -281,6 +283,8 @@ a href='javascript:void(0)' onclick="$('#create-modal').modal('show')"
 ```
 
 ## RedundantDiv
+
+_Supports autocorrect (`-a`/`--autocorrect`)._
 
 Reports explicit uses of `div` when it would otherwise be implicit.
 
@@ -439,6 +443,8 @@ P STYLE="{ color: blue; }" Something else
 
 ## TagCase
 
+_Supports autocorrect (`-a`/`--autocorrect`)._
+
 Reports tag names with uppercase characters.
 
 **Bad**
@@ -465,6 +471,8 @@ using them consistently results in more portable code.
 Reports trailing blank lines.
 
 ## TrailingWhitespace
+
+_Supports autocorrect (`-a`/`--autocorrect`)._
 
 Reports trailing whitespace (spaces or tabs) on any lines in a Slim document.
 

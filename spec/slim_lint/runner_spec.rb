@@ -100,6 +100,34 @@ describe SlimLint::Runner do
         report = subject
         report.lints.first.corrected?.should == true
       end
+
+      it 'preserves extra trailing newlines' do
+        File.write(file, "p Hello world   \n\n")
+        subject
+        File.read(file).should == "p Hello world\n\n"
+      end
+    end
+
+    context 'when autocorrecting a file with skipped frontmatter' do
+      include_context 'isolated environment'
+
+      let(:file) { 'view.slim' }
+      let(:files) { [file] }
+      let(:config) do
+        SlimLint::ConfigurationLoader.load_hash('skip_frontmatter' => true)
+      end
+      let(:options) { { files: files, config: config, autocorrect: true } }
+
+      before do
+        runner.stub(:collect_lints).and_call_original
+        File.stub(:read).and_call_original
+        File.write(file, "---\ntitle: Example\n---\np Hello world   \n")
+      end
+
+      it 'preserves the skipped frontmatter' do
+        subject
+        File.read(file).should == "---\ntitle: Example\n---\np Hello world\n"
+      end
     end
 
     context 'when the :autocorrect option is enabled with `--stdin-file-path`' do

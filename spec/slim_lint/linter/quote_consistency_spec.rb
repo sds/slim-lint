@@ -109,6 +109,16 @@ describe SlimLint::Linter::QuoteConsistency do
         subject.lints.first.correction.call('.title "Hello World"')
                .should == ".title 'Hello World'"
       end
+
+      context 'when the attribute contains a quoted expression' do
+        let(:slim) { %(.button title="Hello" data='He said "Hello"') }
+
+        it 'preserves the nested quote characters' do
+          source = %(.button title="Hello" data='He said "Hello"')
+          subject.lints.first.correction.call(source)
+                 .should == %(.button title='Hello' data='He said "Hello"')
+        end
+      end
     end
 
     context 'when enforcing double quotes on a line with single quotes' do

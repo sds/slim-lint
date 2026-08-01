@@ -36,8 +36,9 @@ module SlimLint
     # @return [String]
     def corrected_source(lines)
       source = lines.join("\n")
-      source += "\n" if @document.source.end_with?("\n")
-      source
+      trailing_newlines = @document.source[/\n+\z/]
+      source += trailing_newlines if trailing_newlines
+      @document.source_prefix + source
     end
   end
 end

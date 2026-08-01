@@ -79,7 +79,9 @@ module SlimLint
     # @param lints [Array<SlimLint::Lint>]
     def correct_lints(document, file_name, lints)
       corrected_source = SlimLint::Corrector.new(document).correct(lints)
-      File.write(file_name, corrected_source) if corrected_source != document.source
+      return if corrected_source == document.original_source
+
+      File.write(file_name, corrected_source)
     end
 
     # Returns the list of files that should be linted given the specified

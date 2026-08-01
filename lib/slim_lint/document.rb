@@ -15,6 +15,12 @@ module SlimLint
     # @return [String] original source code
     attr_reader :source
 
+    # @return [String] source code before optional frontmatter removal
+    attr_reader :original_source
+
+    # @return [String] source removed before linting, such as frontmatter
+    attr_reader :source_prefix
+
     # @return [Array<String>] original source code as an array of lines
     attr_reader :source_lines
 
@@ -36,8 +42,9 @@ module SlimLint
     # @param source [String] Slim code to parse
     # @raise [SlimLint::Exceptions::ParseError] if there was a problem parsing the document
     def process_source(source)
-      @source = process_encoding(source)
-      @source = strip_frontmatter(source)
+      @original_source = process_encoding(source)
+      @source = strip_frontmatter(@original_source)
+      @source_prefix = @original_source[0, @original_source.length - @source.length] || ''
       @source_lines = @source.split("\n")
 
       engine = SlimLint::Engine.new(file: @file)

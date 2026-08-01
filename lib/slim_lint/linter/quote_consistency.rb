@@ -21,15 +21,42 @@ module SlimLint
       if enforced_style == :single_quotes && double_quotes.any?
         report_lint(node,
                     format(MSG, "Use single quotes for attribute values (')"),
-                    correction: ->(source_line) { source_line.tr('"', "'") })
+                    correction: ->(source_line) { correct_quotes(source_line, '"', "'") })
       elsif enforced_style == :double_quotes && single_quotes.any?
         report_lint(node,
                     format(MSG, 'Use double quotes for attribute values (")'),
-                    correction: ->(source_line) { source_line.tr("'", '"') })
+                    correction: ->(source_line) { correct_quotes(source_line, "'", '"') })
       end
     end
 
     private
+
+    def correct_quotes(source_line, from, to)
+      chars = source_line.chars
+      corrected = []
+      quote = nil
+      escaped = false
+
+      chars.each do |char|
+        if escaped
+          corrected << char
+          escaped = false
+        elsif char == '\\' && quote
+          corrected << char
+          escaped = true
+        elsif quote.nil? && ["'", '"'].include?(char)
+          quote = char
+          corrected << (char == from ? to : char)
+        elsif quote == char
+          corrected << (char == from ? to : char)
+          quote = nil
+        else
+          corrected << char
+        end
+      end
+
+      corrected.join
+    end
 
     def enforced_style
       config['enforced_style']&.to_sym || :single_quotes

@@ -35,7 +35,8 @@ module SlimLint
         log.success("#{lint.linter.name}: ", false)
       end
 
-      log.log lint.message
+      log.log lint.message, false
+      lint.corrected? ? log.success(' [Corrected]') : log.newline
     end
   end
 end

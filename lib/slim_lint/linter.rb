@@ -15,6 +15,21 @@ module SlimLint
     #   lints for the subject instead of the linter itself.
     attr_reader :lints
 
+    class << self
+      # Declares that this linter can automatically correct (some of) the
+      # offenses it reports.
+      def support_autocorrect
+        @supports_autocorrect = true
+      end
+
+      # Returns whether this linter declared autocorrect support.
+      #
+      # @return [Boolean]
+      def supports_autocorrect?
+        @supports_autocorrect || false
+      end
+    end
+
     # Initializes a linter with the specified configuration.
     #
     # @param config [Hash] configuration for this linter
@@ -49,10 +64,13 @@ module SlimLint
     #
     # @param node [#line] node to extract the line number from
     # @param message [String] error/warning to display to the user
-    def report_lint(node, message)
+    # @param correction [Proc, nil] maps the offending line of source to its
+    #   corrected version, for linters that declared {support_autocorrect}
+    def report_lint(node, message, correction: nil)
       return if disabled_for_line?(node.line)
 
-      @lints << SlimLint::Lint.new(self, @document.file, node.line, message)
+      @lints << SlimLint::Lint.new(self, @document.file, node.line, message,
+                                   correction: correction)
     end
 
     # Parse Ruby code into an abstract syntax tree.

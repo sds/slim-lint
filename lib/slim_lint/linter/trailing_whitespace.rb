@@ -4,6 +4,7 @@ module SlimLint
   # Checks for trailing whitespace.
   class Linter::TrailingWhitespace < Linter
     include LinterRegistry
+    support_autocorrect
 
     on_start do |_sexp|
       dummy_node = Struct.new(:line)
@@ -12,7 +13,8 @@ module SlimLint
         next unless line =~ /\s+$/
 
         report_lint(dummy_node.new(index + 1),
-                    'Line contains trailing whitespace')
+                    'Line contains trailing whitespace',
+                    correction: lambda(&:rstrip))
       end
     end
   end

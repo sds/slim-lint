@@ -1,5 +1,11 @@
 # Slim-Lint Changelog
 
+## Unreleased
+
+* Add `-a`/`--autocorrect` flag to automatically fix offenses reported by
+  linters that support it (`QuoteConsistency`, `RedundantDiv`, `TagCase`,
+  and `TrailingWhitespace` for now)
+
 ## 0.35.0
 
 * Fix `ControlStatementSpacing` reporting false positives after an attribute

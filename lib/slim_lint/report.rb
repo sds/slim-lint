@@ -19,7 +19,7 @@ module SlimLint
     end
 
     def failed?
-      @lints.any?
+      @lints.any? { |lint| !lint.corrected? }
     end
   end
 end

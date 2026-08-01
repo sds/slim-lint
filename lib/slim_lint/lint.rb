@@ -18,6 +18,13 @@ module SlimLint
     # @return [Symbol] whether this lint is a warning or an error
     attr_reader :severity
 
+    # @return [Proc, nil] maps a line of source to its corrected version, or
+    #   `nil` if this lint has no known automatic correction
+    attr_reader :correction
+
+    # @return [Boolean] whether this lint's correction has been applied
+    attr_accessor :corrected
+
     # Creates a new lint.
     #
     # @param linter [SlimLint::Linter]
@@ -25,12 +32,16 @@ module SlimLint
     # @param line [Fixnum]
     # @param message [String]
     # @param severity [Symbol]
-    def initialize(linter, filename, line, message, severity = :warning)
-      @linter   = linter
-      @filename = filename
-      @line     = line || 0
-      @message  = message
-      @severity = severity
+    # @param correction [Proc, nil] maps a line of source to its corrected version
+    def initialize(linter, filename, line, message, severity = :warning, # rubocop:disable Metrics/ParameterLists
+                   correction: nil)
+      @linter     = linter
+      @filename   = filename
+      @line       = line || 0
+      @message    = message
+      @severity   = severity
+      @correction = correction
+      @corrected  = false
     end
 
     # Return whether this lint has a severity of error.
@@ -38,6 +49,20 @@ module SlimLint
     # @return [Boolean]
     def error?
       @severity == :error
+    end
+
+    # Return whether this lint has a known automatic correction.
+    #
+    # @return [Boolean]
+    def correctable?
+      !@correction.nil?
+    end
+
+    # Return whether this lint's correction has been applied.
+    #
+    # @return [Boolean]
+    def corrected?
+      @corrected
     end
   end
 end

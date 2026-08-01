@@ -58,6 +58,7 @@ filename and line number.
 
 Command Line Flag         | Description
 --------------------------|----------------------------------------------------
+`-a`/`--autocorrect`      | Automatically correct offenses that support it
 `-c`/`--config`           | Specify which configuration file to use
 `-e`/`--exclude`          | Exclude one or more files from being linted
 `-i`/`--include-linter`   | Specify which linters you specifically want to run
@@ -67,6 +68,22 @@ Command Line Flag         | Description
 `--reporter [reporter]`   | Specify which output formatter to use
 `--show-linters`          | Show all registered linters
 `--show-reporters`        | Show all available reporters
+
+### Autocorrect
+
+Passing `-a`/`--autocorrect` rewrites files in place to fix any offenses
+reported by linters that support it:
+
+```bash
+slim-lint -a app/views/
+```
+
+Only a handful of linters currently support autocorrection (see the
+[Linters Documentation](lib/slim_lint/linter/README.md) for the full list) —
+these are limited to mechanical, single-line text fixes such as trailing
+whitespace, quote style, and tag casing. Offenses without a supported
+correction are still reported as usual. As with any automated rewrite, review
+the diff before committing.
 `-h`/`--help`             | Show command line flag documentation
 `-v`/`--version`          | Show version
 `-V`/`--verbose-version`  | Show detailed version information

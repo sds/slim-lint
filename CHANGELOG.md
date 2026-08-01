@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## Unreleased
+## 0.36.0
 
 * Add `-a`/`--autocorrect` flag to automatically fix offenses reported by
   linters that support it (`QuoteConsistency`, `RedundantDiv`, `TagCase`,

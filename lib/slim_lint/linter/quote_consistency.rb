@@ -32,30 +32,28 @@ module SlimLint
     private
 
     def correct_quotes(source_line, from, to)
-      chars = source_line.chars
-      corrected = []
-      quote = nil
-      escaped = false
-
-      chars.each do |char|
-        if escaped
-          corrected << char
-          escaped = false
-        elsif char == '\\' && quote
-          corrected << char
-          escaped = true
-        elsif quote.nil? && ["'", '"'].include?(char)
-          quote = char
-          corrected << (char == from ? to : char)
-        elsif quote == char
-          corrected << (char == from ? to : char)
-          quote = nil
-        else
-          corrected << char
-        end
+      state = { quote: nil, corrected: [] }
+      source_line.scan(/\\.|['"]|[^\\'"]+/).each do |token|
+        correct_quote_token(token, state, from, to)
       end
+      state[:corrected].join
+    end
 
-      corrected.join
+    def correct_quote_token(token, state, from, to)
+      return state[:corrected] << token if token.length > 1 || token.start_with?('\\')
+
+      if state[:quote]
+        close_quote_token(token, state, from, to)
+      else
+        state[:quote] = token
+        state[:corrected] << (token == from ? to : token)
+      end
+    end
+
+    def close_quote_token(token, state, from, to)
+      replacement = token == state[:quote] && token == from ? to : token
+      state[:corrected] << replacement
+      state[:quote] = nil if token == state[:quote]
     end
 
     def enforced_style

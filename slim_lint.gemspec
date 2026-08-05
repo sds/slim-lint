@@ -24,6 +24,13 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 3.0'
 
+  s.metadata = {
+    'bug_tracker_uri' => 'https://github.com/sds/slim-lint/issues',
+    'changelog_uri' => 'https://github.com/sds/slim-lint/blob/main/CHANGELOG.md',
+    'source_code_uri' => 'https://github.com/sds/slim-lint',
+    'rubygems_mfa_required' => 'true'
+  }
+
   s.add_runtime_dependency 'rexml', '~> 3.2'
   s.add_runtime_dependency 'rubocop', ['>= 1.0', '< 2.0']
   s.add_runtime_dependency 'slim', ['>= 3.0', '< 6.0']

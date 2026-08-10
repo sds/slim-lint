@@ -5,6 +5,7 @@ module SlimLint
   # and for the first blank line in file.
   class Linter::EmptyLines < Linter
     include LinterRegistry
+    support_autocorrect
 
     on_start do |_sexp|
       dummy_node = Struct.new(:line)
@@ -14,7 +15,8 @@ module SlimLint
         if line.blank?
           if was_empty
             report_lint(dummy_node.new(i + 1),
-                        'Extra empty line detected')
+                        'Extra empty line detected',
+                        correction: ->(_line) { nil })
           end
           was_empty = true
         else

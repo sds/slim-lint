@@ -20,4 +20,21 @@ describe SlimLint::Linter::Zwsp do
 
     it { should_not report_lint }
   end
+
+  context 'autocorrect support' do
+    let(:slim) { '' }
+
+    it 'is declared' do
+      described_class.supports_autocorrect?.should == true
+    end
+  end
+
+  describe 'correction' do
+    let(:slim) { '| Hello ZWSP​' }
+
+    it 'removes the zero-width space' do
+      subject.lints.first.correction.call('| Hello ZWSP​')
+             .should == '| Hello ZWSP'
+    end
+  end
 end

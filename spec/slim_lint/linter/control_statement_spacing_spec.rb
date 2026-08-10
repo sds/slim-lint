@@ -387,4 +387,117 @@ describe SlimLint::Linter::ControlStatementSpacing do
       it { should report_lint }
     end
   end
+
+  context 'autocorrect support' do
+    let(:slim) { '' }
+
+    it 'is declared' do
+      described_class.supports_autocorrect?.should == true
+    end
+  end
+
+  describe 'correction' do
+    context 'for an output statement' do
+      context 'with a missing space before =' do
+        let(:slim) { 'div= bad = 1' }
+
+        it 'adds the missing space' do
+          subject.lints.first.correction.call('div= bad = 1')
+                 .should == 'div = bad = 1'
+        end
+      end
+
+      context 'with a missing space after =' do
+        let(:slim) { 'div =bad = 1' }
+
+        it 'adds the missing space' do
+          subject.lints.first.correction.call('div =bad = 1')
+                 .should == 'div = bad = 1'
+        end
+      end
+
+      context 'with spaces missing on both sides of =' do
+        let(:slim) { 'div=bad' }
+
+        it 'adds the missing spaces' do
+          subject.lints.first.correction.call('div=bad')
+                 .should == 'div = bad'
+        end
+      end
+
+      context 'with superfluous spacing around =' do
+        let(:slim) { 'div  =  bad' }
+
+        it 'collapses the spacing' do
+          subject.lints.first.correction.call('div  =  bad')
+                 .should == 'div = bad'
+        end
+      end
+
+      context 'with attribute shortcuts' do
+        let(:slim) { '.some-class#submit=bad' }
+
+        it 'preserves the shortcuts' do
+          subject.lints.first.correction.call('.some-class#submit=bad')
+                 .should == '.some-class#submit = bad'
+        end
+      end
+
+      context 'with a multi-character operator' do
+        let(:slim) { 'title==<>bad' }
+
+        it 'preserves the operator' do
+          subject.lints.first.correction.call('title==<>bad')
+                 .should == 'title ==<> bad'
+        end
+      end
+
+      context 'when indented' do
+        let(:slim) { "p\n  span= foo\n" }
+
+        it 'only fixes spacing, preserving indentation' do
+          subject.lints.first.correction.call('  span= foo')
+                 .should == '  span = foo'
+        end
+      end
+    end
+
+    context 'for a control statement' do
+      context 'with a missing space after -' do
+        let(:slim) { '-bad' }
+
+        it 'adds the missing space' do
+          subject.lints.first.correction.call('-bad')
+                 .should == '- bad'
+        end
+      end
+
+      context 'with superfluous spacing after -' do
+        let(:slim) { '-  bad' }
+
+        it 'collapses the spacing' do
+          subject.lints.first.correction.call('-  bad')
+                 .should == '- bad'
+        end
+      end
+
+      context 'when the code itself contains a hyphen' do
+        let(:slim) { '-  something?("foo - bar")' }
+
+        it 'only fixes the leading spacing' do
+          subject.lints.first.correction.call('-  something?("foo - bar")')
+                 .should == '- something?("foo - bar")'
+        end
+      end
+
+      context 'when indented' do
+        let(:slim) { "p\n  -bad\n" }
+
+        it 'only fixes spacing, preserving indentation' do
+          subject.lints.first.correction.call('  -bad')
+                 .should == '  - bad'
+        end
+      end
+    end
+  end
 end

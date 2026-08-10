@@ -75,5 +75,89 @@ describe SlimLint::Corrector do
         subject.should == 'p Hello'
       end
     end
+
+    context 'when a correction returns nil' do
+      let(:source) { "p Hello\n-\np World\n" }
+      let(:lints) { [lint_for(2, correction: ->(_line) { nil })] }
+
+      it 'removes the line entirely' do
+        subject.should == "p Hello\np World\n"
+      end
+
+      it 'marks the lint as corrected' do
+        subject
+        lints.first.corrected?.should == true
+      end
+    end
+
+    context 'when multiple lines are removed' do
+      let(:source) { "p Hello\n-\n-\np World\n" }
+      let(:lints) do
+        [
+          lint_for(2, correction: ->(_line) { nil }),
+          lint_for(3, correction: ->(_line) { nil }),
+        ]
+      end
+
+      it 'removes both lines without disturbing the others' do
+        subject.should == "p Hello\np World\n"
+      end
+    end
+
+    context 'when a correction returns a string with an embedded newline' do
+      let(:source) { 'p Hello' }
+      let(:lints) { [lint_for(1, correction: ->(line) { "#{line}\n" })] }
+
+      it 'splits it into multiple lines' do
+        subject.should == "p Hello\n"
+      end
+    end
+
+    context 'when a line-adding correction is on the last line of a multi-line file' do
+      let(:source) { "p Hello\np World" }
+      let(:lints) do
+        [
+          lint_for(1, correction: lambda(&:upcase)),
+          lint_for(2, correction: ->(line) { "#{line}\n" }),
+        ]
+      end
+
+      it 'does not corrupt earlier, already-processed corrections' do
+        subject.should == "P HELLO\np World\n"
+      end
+    end
+
+    context 'when a correction removes a line before another correction' do
+      let(:source) { "p One\n-\np Two\np Three \n" }
+      let(:lints) do
+        [
+          lint_for(2, correction: ->(_line) { nil }),
+          lint_for(4, correction: lambda(&:rstrip)),
+        ]
+      end
+
+      it 'applies both corrections using their original line numbers' do
+        subject.should == "p One\np Two\np Three\n"
+      end
+    end
+
+    context 'when a correction on a line makes a later correction on the same line moot' do
+      let(:source) { "p Hello\n-\n" }
+      let(:lints) do
+        [
+          lint_for(2, correction: ->(_line) { nil }),
+          lint_for(2, correction: ->(_line) { raise 'should not be called' }),
+        ]
+      end
+
+      it 'skips the later correction' do
+        subject.should == "p Hello\n"
+      end
+
+      it 'does not mark the skipped correction as corrected' do
+        subject
+        lints.last.corrected?.should == false
+      end
+    end
   end
 end

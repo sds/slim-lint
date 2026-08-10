@@ -101,10 +101,10 @@ describe SlimLint::Runner do
         report.lints.first.corrected?.should == true
       end
 
-      it 'preserves extra trailing newlines' do
+      it 'removes extra trailing newlines' do
         File.write(file, "p Hello world   \n\n")
         subject
-        File.read(file).should == "p Hello world\n\n"
+        File.read(file).should == "p Hello world\n"
       end
     end
 

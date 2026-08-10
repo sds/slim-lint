@@ -25,6 +25,8 @@ Below is a list of linters supported by `slim-lint`, ordered alphabetically.
 
 ## CommentControlStatement
 
+_Supports autocorrect (`-a`/`--autocorrect`)._
+
 Reports control statements with only comments.
 
 **Bad**
@@ -78,6 +80,8 @@ a smell. It is best to extract these into separate helpers whenever possible.
 
 ## ControlStatementSpacing
 
+_Supports autocorrect (`-a`/`--autocorrect`)._
+
 Reports missing or superfluous spacing before and after control statements
 
 **Bad**
@@ -119,6 +123,8 @@ javascript:
 
 ## EmptyControlStatement
 
+_Supports autocorrect (`-a`/`--autocorrect`)._
+
 Reports control statements with no code.
 
 **Bad**
@@ -137,6 +143,8 @@ p Something else
 ```
 
 ## EmptyLines
+
+_Supports autocorrect (`-a`/`--autocorrect`)._
 
 Reports two or more consecutive blank lines.
 
@@ -468,6 +476,8 @@ using them consistently results in more portable code.
 
 ## TrailingBlankLines
 
+_Supports autocorrect (`-a`/`--autocorrect`)._
+
 Reports trailing blank lines.
 
 ## TrailingWhitespace
@@ -477,6 +487,8 @@ _Supports autocorrect (`-a`/`--autocorrect`)._
 Reports trailing whitespace (spaces or tabs) on any lines in a Slim document.
 
 ## Zwsp
+
+_Supports autocorrect (`-a`/`--autocorrect`)._
 
 Reports it contains ZWSP(zero width space).
 

@@ -4,11 +4,6 @@
 # coverage percentage in the console.
 require 'simplecov'
 
-SimpleCov.start do
-  skip '/bin/'
-  skip '/spec/'
-end
-
 require 'slim_lint'
 require 'rspec/its'
 

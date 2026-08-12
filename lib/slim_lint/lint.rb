@@ -18,8 +18,10 @@ module SlimLint
     # @return [Symbol] whether this lint is a warning or an error
     attr_reader :severity
 
-    # @return [Proc, nil] maps a line of source to its corrected version, or
-    #   `nil` if this lint has no known automatic correction
+    # @return [Proc, nil] maps a line of source to its corrected version
+    #   (`nil` to remove the line, or a string with embedded newlines to
+    #   replace it with multiple lines), or `nil` if this lint has no known
+    #   automatic correction
     attr_reader :correction
 
     # @return [Boolean] whether this lint's correction has been applied

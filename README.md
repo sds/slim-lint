@@ -80,10 +80,10 @@ slim-lint -a app/views/
 
 Only a handful of linters currently support autocorrection (see the
 [Linters Documentation](lib/slim_lint/linter/README.md) for the full list) —
-these are limited to mechanical, single-line text fixes such as trailing
-whitespace, quote style, and tag casing. Offenses without a supported
-correction are still reported as usual. As with any automated rewrite, review
-the diff before committing.
+these are limited to mechanical, unambiguous fixes such as trailing
+whitespace, quote style, tag casing, and removing redundant or empty lines.
+Offenses without a supported correction are still reported as usual. As with
+any automated rewrite, review the diff before committing.
 `-h`/`--help`             | Show command line flag documentation
 `-v`/`--version`          | Show version
 `-V`/`--verbose-version`  | Show detailed version information

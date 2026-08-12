@@ -3,6 +3,7 @@
 module SlimLint
   class Linter::Zwsp < Linter
     include LinterRegistry
+    support_autocorrect
 
     MSG = 'Remove zero-width space'
 
@@ -11,7 +12,8 @@ module SlimLint
       document.source_lines.each_with_index do |line, index|
         next unless line.include?("\u200b")
 
-        report_lint(dummy_node.new(index + 1), MSG)
+        report_lint(dummy_node.new(index + 1), MSG,
+                    correction: ->(source_line) { source_line.delete("\u200b") })
       end
     end
   end

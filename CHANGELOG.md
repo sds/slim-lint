@@ -1,5 +1,11 @@
 # Slim-Lint Changelog
 
+## Unreleased
+
+* Add autocorrect support to `CommentControlStatement`,
+  `ControlStatementSpacing`, `EmptyControlStatement`, `EmptyLines`,
+  `TrailingBlankLines`, and `Zwsp`
+
 ## 0.36.0
 
 * Add `-a`/`--autocorrect` flag to automatically fix offenses reported by

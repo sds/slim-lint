@@ -39,4 +39,39 @@ describe SlimLint::Linter::CommentControlStatement do
 
     it { should_not report_lint }
   end
+
+  context 'autocorrect support' do
+    let(:slim) { '' }
+
+    it 'is declared' do
+      described_class.supports_autocorrect?.should == true
+    end
+  end
+
+  describe 'correction' do
+    let(:slim) { '-# A comment' }
+
+    it 'replaces the control statement comment with a Slim comment' do
+      subject.lints.first.correction.call('-# A comment')
+             .should == '/ A comment'
+    end
+
+    context 'when there is a space between the `-` and `#`' do
+      let(:slim) { '- # Another comment' }
+
+      it 'replaces the control statement comment with a Slim comment' do
+        subject.lints.first.correction.call('- # Another comment')
+               .should == '/ Another comment'
+      end
+    end
+
+    context 'when indented' do
+      let(:slim) { "p\n  -# A comment\n" }
+
+      it 'only replaces the comment, preserving indentation' do
+        subject.lints.first.correction.call('  -# A comment')
+               .should == '  / A comment'
+      end
+    end
+  end
 end

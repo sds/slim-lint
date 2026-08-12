@@ -65,7 +65,9 @@ module SlimLint
     # @param node [#line] node to extract the line number from
     # @param message [String] error/warning to display to the user
     # @param correction [Proc, nil] maps the offending line of source to its
-    #   corrected version, for linters that declared {support_autocorrect}
+    #   corrected version, for linters that declared {support_autocorrect}.
+    #   Return `nil` to remove the line entirely, or a string containing
+    #   embedded newlines to replace it with multiple lines.
     def report_lint(node, message, correction: nil)
       return if disabled_for_line?(node.line)
 

@@ -4,6 +4,7 @@ module SlimLint
   # This linter looks for trailing blank lines and a final newline.
   class Linter::TrailingBlankLines < Linter
     include LinterRegistry
+    support_autocorrect
 
     on_start do |_sexp|
       dummy_node = Struct.new(:line)
@@ -11,10 +12,12 @@ module SlimLint
 
       if !document.source.end_with?("\n")
         report_lint(dummy_node.new(document.source_lines.size),
-                    'No blank line in the end of file')
+                    'No blank line in the end of file',
+                    correction: ->(line) { "#{line}\n" })
       elsif document.source.lines.last.blank?
         report_lint(dummy_node.new(document.source.lines.size),
-                    'Multiple empty lines in the end of file')
+                    'Multiple empty lines in the end of file',
+                    correction: ->(_line) { nil })
       end
     end
   end

@@ -4,9 +4,16 @@ module SlimLint
   # Checks for missing or superfluous spacing before and after control statements.
   class Linter::ControlStatementSpacing < Linter
     include LinterRegistry
+    support_autocorrect
 
     MESSAGE_OUTPUT = 'Please add a space before and after the `=`'
     MESSAGE_CONTROL = 'Please add a space after the `-`'
+
+    # Matches the tag/attribute-shortcut selector, the `=`-based operator
+    # (`=`, `==`, `=<`, `=>`, `=<>`, `==<`, `==>`, `==<>`), and the whitespace
+    # surrounding the operator, so it can be normalized to a single space on
+    # either side without touching the Ruby code that follows.
+    OUTPUT_SPACING = /^(\s*)(\S+?)(\s*)(=[=<>]*)(\s*)/
 
     on [:html, :tag, anything, [],
          [:slim, :output, anything, capture(:ruby, anything)]] do |sexp|
@@ -20,7 +27,8 @@ module SlimLint
 
       next if line =~ /[^ ] ==?<?>? [^ ]/
 
-      report_lint(sexp, MESSAGE_OUTPUT)
+      report_lint(sexp, MESSAGE_OUTPUT,
+                  correction: ->(source_line) { source_line.sub(OUTPUT_SPACING, '\1\2 \4 ') })
     end
 
     on [:slim, :control] do |sexp|
@@ -30,7 +38,8 @@ module SlimLint
 
       next if line =~ /^ *- [^ ]/
 
-      report_lint(sexp, MESSAGE_CONTROL)
+      report_lint(sexp, MESSAGE_CONTROL,
+                  correction: ->(source_line) { source_line.sub(/^(\s*)-\s*/, '\1- ') })
     end
 
     private

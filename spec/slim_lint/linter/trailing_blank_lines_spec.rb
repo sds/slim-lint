@@ -40,4 +40,44 @@ describe SlimLint::Linter::TrailingBlankLines do
 
     it { should_not report_lint }
   end
+
+  context 'autocorrect support' do
+    let(:slim) { '' }
+
+    it 'is declared' do
+      described_class.supports_autocorrect?.should == true
+    end
+  end
+
+  describe 'correction' do
+    context 'when the final newline is missing' do
+      let(:slim) { '.style' }
+
+      it 'appends a trailing newline' do
+        subject.lints.first.correction.call('.style').should == ".style\n"
+      end
+
+      it 'adds exactly one newline when applied via the corrector' do
+        document = SlimLint::Document.new('.style', config: config)
+        subject.run(document)
+        SlimLint::Corrector.new(document).correct(subject.lints)
+                           .should == ".style\n"
+      end
+    end
+
+    context 'when there are extra blank lines at the end of the file' do
+      let(:slim) { ".style\n\n" }
+
+      it 'removes the offending line' do
+        subject.lints.first.correction.call("\n").should be_nil
+      end
+
+      it 'leaves a single trailing newline when applied via the corrector' do
+        document = SlimLint::Document.new(".style\n\n", config: config)
+        subject.run(document)
+        SlimLint::Corrector.new(document).correct(subject.lints)
+                           .should == ".style\n"
+      end
+    end
+  end
 end

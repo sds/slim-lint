@@ -7,7 +7,7 @@ module SlimLint
   class Options
     # Path scanned by default when no files or directories are given on the
     # command line.
-    DEFAULT_FILES = ['app/views'].freeze
+    DEFAULT_FILES = ['.'].freeze
 
     # Parses command line options into an options hash.
     #
@@ -18,8 +18,8 @@ module SlimLint
 
       OptionParser.new do |parser|
         parser.banner = "Usage: #{APP_NAME} [options] [file1, file2, ...]\n\n" \
-                        'If no files or directories are given, ' \
-                        "#{DEFAULT_FILES.first} is scanned by default."
+                        'If no files or directories are given, the current ' \
+                        'directory is scanned by default.'
 
         add_linter_options parser
         add_file_options parser

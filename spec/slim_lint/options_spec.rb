@@ -136,16 +136,16 @@ describe SlimLint::Options do
     context 'with no files or directories specified' do
       let(:args) { [] }
 
-      it 'defaults the `files` option to `app/views`' do
-        subject.should include files: ['app/views']
+      it 'defaults the `files` option to the current directory' do
+        subject.should include files: ['.']
       end
     end
 
     context 'with no files or directories specified, but other flags present' do
       let(:args) { ['--autocorrect'] }
 
-      it 'still defaults the `files` option to `app/views`' do
-        subject.should include files: ['app/views']
+      it 'still defaults the `files` option to the current directory' do
+        subject.should include files: ['.']
       end
     end
 

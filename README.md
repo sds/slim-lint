@@ -53,8 +53,8 @@ You can also specify a list of files explicitly:
 slim-lint app/**/*.slim
 ```
 
-If you don't pass any files or directories, `slim-lint` scans `app/views` by
-default:
+If you don't pass any files or directories, `slim-lint` scans the current
+directory by default:
 
 ```bash
 slim-lint

@@ -5,6 +5,8 @@
 * Add autocorrect support to `CommentControlStatement`,
   `ControlStatementSpacing`, `EmptyControlStatement`, `EmptyLines`,
   `TrailingBlankLines`, and `Zwsp`
+* Default to scanning the current directory (`.`) when no files or
+  directories are given on the command line
 
 ## 0.36.0
 

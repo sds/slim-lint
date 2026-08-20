@@ -5,6 +5,10 @@ require 'optparse'
 module SlimLint
   # Handles option parsing for the command line application.
   class Options
+    # Path scanned by default when no files or directories are given on the
+    # command line.
+    DEFAULT_FILES = ['.'].freeze
+
     # Parses command line options into an options hash.
     #
     # @param args [Array<String>] arguments passed via the command line
@@ -13,15 +17,18 @@ module SlimLint
       @options = {}
 
       OptionParser.new do |parser|
-        parser.banner = "Usage: #{APP_NAME} [options] [file1, file2, ...]"
+        parser.banner = "Usage: #{APP_NAME} [options] [file1, file2, ...]\n\n" \
+                        'If no files or directories are given, the current ' \
+                        'directory is scanned by default.'
 
         add_linter_options parser
         add_file_options parser
         add_info_options parser
       end.parse!(args)
 
-      # Any remaining arguments are assumed to be files
-      @options[:files] = args
+      # Any remaining arguments are assumed to be files; fall back to
+      # DEFAULT_FILES when none are given
+      @options[:files] = args.empty? ? DEFAULT_FILES : args
 
       @options
     rescue OptionParser::InvalidOption => e

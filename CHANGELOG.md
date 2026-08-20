@@ -1,6 +1,6 @@
 # Slim-Lint Changelog
 
-## Unreleased
+## 0.37.0
 
 * Add autocorrect support to `CommentControlStatement`,
   `ControlStatementSpacing`, `EmptyControlStatement`, `EmptyLines`,

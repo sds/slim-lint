@@ -453,7 +453,9 @@ P STYLE="{ color: blue; }" Something else
 
 _Supports autocorrect (`-a`/`--autocorrect`)._
 
-Reports tag names with uppercase characters.
+Reports tag names with uppercase characters. Documents with an XML doctype
+(`doctype xml`) are skipped, since XML tag names are case-sensitive (e.g.
+`pubDate` in an RSS feed).
 
 **Bad**
 

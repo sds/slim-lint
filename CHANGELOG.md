@@ -1,5 +1,10 @@
 # Slim-Lint Changelog
 
+## master (unreleased)
+
+* Fix `TagCase` reporting (and autocorrecting) case-sensitive tag names such
+  as `pubDate` in documents with an XML doctype
+
 ## 0.37.0
 
 * Add autocorrect support to `CommentControlStatement`,

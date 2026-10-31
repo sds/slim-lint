@@ -35,6 +35,33 @@ describe SlimLint::RubyExtractor do
       its(:source_map) { should == { 1 => 2 } }
     end
 
+    context 'with code after verbatim text on multiple lines' do
+      let(:slim) { <<-SLIM }
+        - if x
+          |
+            multi
+            line
+        = bar
+      SLIM
+
+      its(:source) { should == "if x\n_slim_lint_puts_0\nend\nbar" }
+      its(:source_map) { should == { 1 => 1, 2 => 3, 3 => 5, 4 => 5 } }
+    end
+
+    context 'with code after verbatim text with blank lines and interpolation' do
+      let(:slim) { <<-SLIM }
+        - if x
+          | a
+
+
+            b \#{y}
+        = bar
+      SLIM
+
+      its(:source) { should == "if x\n_slim_lint_puts_0\ny\nend\nbar" }
+      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 5, 4 => 6, 5 => 6 } }
+    end
+
     context 'with verbatim text with trailing whitespace' do
       let(:slim) { <<-SLIM }
         ' Hello world

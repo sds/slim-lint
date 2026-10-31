@@ -9,7 +9,8 @@ on:
 jobs:
   test:
 
-    runs-on: ubuntu-latest
+    # ruby/setup-ruby has no Ruby < 3.2 for ubuntu-26.04, which ubuntu-latest now points to
+    runs-on: ${{ matrix.ruby-version == '3.1' && 'ubuntu-24.04' || 'ubuntu-latest' }}
 
     strategy:
       matrix:

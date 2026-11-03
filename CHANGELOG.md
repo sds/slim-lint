@@ -4,6 +4,8 @@
 
 * Fix `TagCase` reporting (and autocorrecting) case-sensitive tag names such
   as `pubDate` in documents with an XML doctype
+* Fix RuboCop and `InstanceVariables` offenses being reported too low after
+  text spanning several lines inside a block, by one line per line of text
 
 ## 0.37.0
 

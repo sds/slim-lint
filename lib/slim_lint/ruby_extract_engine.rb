@@ -25,6 +25,7 @@ module SlimLint
     use SlimLint::Filters::ControlProcessor
     use SlimLint::Filters::AttributeProcessor
     filter :MultiFlattener
+    use SlimLint::Filters::TextNewlineStripper
     filter :StaticMerger
 
     # Converts Array-based S-expressions into SlimLint::Sexp objects, and gives

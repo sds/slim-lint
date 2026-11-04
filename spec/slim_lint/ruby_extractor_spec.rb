@@ -110,7 +110,44 @@ describe SlimLint::RubyExtractor do
         end
       RUBY
 
-      its(:source_map) { { 1 => 1, 2 => 2, 3 => 1 } }
+      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3 } }
+    end
+
+    context 'with output code with block contents containing Ruby attributes' do
+      let(:slim) { <<-SLIM }
+        = link_to root_path do
+          - url = some_url
+          a href=url
+      SLIM
+
+      its(:source) { should == normalize_indent(<<-RUBY).chomp }
+        link_to root_path do
+        url = some_url
+        _slim_lint_puts_0
+        url
+        end
+      RUBY
+
+      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3, 4 => 3, 5 => 4 } }
+    end
+
+    context 'with output code with nested blocks containing Ruby attributes' do
+      let(:slim) { <<-SLIM }
+        = capture
+          - items.each do |item|
+            div id=item.id
+      SLIM
+
+      its(:source) { should == normalize_indent(<<-RUBY).chomp }
+        capture do
+        items.each do |item|
+        _slim_lint_puts_0
+        item.id
+        end
+        end
+      RUBY
+
+      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3, 4 => 3, 5 => 4, 6 => 4 } }
     end
 
     context 'with output without escaping' do

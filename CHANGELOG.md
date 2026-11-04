@@ -6,6 +6,10 @@
   as `pubDate` in documents with an XML doctype
 * Fix RuboCop and `InstanceVariables` offenses being reported too low after
   text spanning several lines inside a block, by one line per line of text
+* Fix Ruby attribute values (e.g. `href=url`) inside `= ... do` output blocks
+  being dropped from the code passed to RuboCop and `InstanceVariables`,
+  which caused false `Lint/UselessAssignment` and `Lint/UnusedBlockArgument`
+  offenses
 
 ## 0.37.0
 

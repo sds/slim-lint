@@ -26,7 +26,8 @@ module SlimLint::Filters
     def on_slim_output(_escape, code, content)
       if code[BLOCK_RE]
         [:multi,
-          [:code, code, compile(content)],
+          [:code, code],
+          compile(content),
           [:code, 'end']]
       else
         [:multi, [:dynamic, code], compile(content)]

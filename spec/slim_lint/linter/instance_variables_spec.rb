@@ -49,6 +49,15 @@ describe SlimLint::Linter::InstanceVariables do
     it { should report_lint line: 5 }
   end
 
+  context 'with instance variables in attributes inside an output block' do
+    let(:slim) { <<-SLIM }
+      = link_to root_path do
+        a href=@url
+    SLIM
+
+    it { should report_lint line: 2 }
+  end
+
   context 'with instance variables in interpolated code' do
     let(:slim) { <<-SLIM }
       ' \#{@hello}

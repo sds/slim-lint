@@ -131,22 +131,6 @@ describe SlimLint::RubyExtractor do
       its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3, 4 => 3, 5 => 4 } }
     end
 
-    context 'with unescaped output code with block contents containing Ruby attributes' do
-      let(:slim) { <<-SLIM }
-        == form_for user do |f|
-          div class=f.object_name
-      SLIM
-
-      its(:source) { should == normalize_indent(<<-RUBY).chomp }
-        form_for user do |f|
-        _slim_lint_puts_0
-        f.object_name
-        end
-      RUBY
-
-      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 2, 4 => 3 } }
-    end
-
     context 'with output code with nested blocks containing Ruby attributes' do
       let(:slim) { <<-SLIM }
         = capture

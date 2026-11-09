@@ -63,6 +63,9 @@ describe SlimLint::Linter::TagCase do
 
   describe 'correction' do
     let(:slim) { 'IMG src="images/cat.gif"' }
+    let(:corrector) do
+      SlimLint::Corrector.new(SlimLint::Document.new(slim, config: config))
+    end
 
     it 'downcases the offending tag name' do
       subject.lints.first.correction.call('IMG src="images/cat.gif"')
@@ -75,6 +78,41 @@ describe SlimLint::Linter::TagCase do
       it 'only downcases the tag name, preserving indentation' do
         subject.lints.first.correction.call('  IMG src="images/cat.gif"')
                .should == '  img src="images/cat.gif"'
+      end
+    end
+
+    [
+      'div title="IMG": IMG src="cat.png"',
+      'div IMG="keep": IMG src="cat.png"',
+      'a.IMG: IMG',
+      'DIV: DIV',
+    ].each do |source|
+      context "with an ambiguous tag in #{source.inspect}" do
+        let(:slim) { source }
+
+        it 'reports the lint without rewriting the line' do
+          expect(subject.lints).not_to be_empty
+          expect(corrector.correct(subject.lints)).to eq(slim)
+          expect(subject.lints.map(&:corrected?)).to all(eq(false))
+        end
+      end
+    end
+
+    context 'with an unambiguous inline tag' do
+      let(:slim) { 'div title="MY_IMG": IMG src="cat.png"' }
+
+      it 'corrects the tag without changing the attribute' do
+        expect(corrector.correct(subject.lints)).to eq('div title="MY_IMG": img src="cat.png"')
+        expect(subject.lints.first).to be_corrected
+      end
+    end
+
+    context 'with safe and ambiguous corrections on the same line' do
+      let(:slim) { 'DIV title="IMG": IMG src="cat.png"' }
+
+      it 'corrects only the unambiguous tag' do
+        expect(corrector.correct(subject.lints)).to eq('div title="IMG": IMG src="cat.png"')
+        expect(subject.lints.map(&:corrected?)).to eq([true, false])
       end
     end
   end

@@ -15,12 +15,19 @@ module SlimLint
       next unless name[/[A-Z]/]
 
       report_lint(sexp, "Tag `#{name}` should be written as `#{name.downcase}`",
-                  correction: ->(line) {
-                    line.sub(/\b#{Regexp.escape(name.to_s)}\b/, name.downcase)
-                  })
+                  correction: correction_for(name, sexp.line))
     end
 
     private
+
+    def correction_for(name, line_number)
+      pattern = /\b#{Regexp.escape(name.to_s)}\b/
+      line = document.source_lines[line_number - 1]
+      # A line number alone cannot distinguish the tag from a matching attribute.
+      return unless line&.scan(pattern)&.one?
+
+      ->(source_line) { source_line.sub(pattern, name.downcase) }
+    end
 
     # XML tag names are case-sensitive (e.g. `pubDate` in RSS feeds), but an
     # XHTML document also declares an HTML doctype next to `doctype xml`

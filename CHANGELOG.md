@@ -2,6 +2,10 @@
 
 ## master (unreleased)
 
+* Fix false RuboCop syntax errors when an omitted keyword value (e.g. `f:`)
+  is followed by another Ruby statement in a Slim template. Ignore
+  `Style/Semicolon` by default because extraction inserts statement separators
+
 * Ignore `Style/RedundantLineContinuation` by default, since continuations
   required by Slim can be redundant in the extracted Ruby
 

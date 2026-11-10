@@ -385,5 +385,45 @@ describe SlimLint::RubyExtractor do
 
       its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3 } }
     end
+
+    context 'with an omitted keyword value before another block' do
+      let(:slim) { <<-SLIM }
+        = simple_form_for(@object) do |f|
+          = render 'fields', f:
+
+          - content_for :something do
+            | Some content
+      SLIM
+
+      its(:source) { should == normalize_indent(<<-RUBY).chomp }
+        simple_form_for(@object) do |f|
+        render 'fields', f:;
+        content_for :something do
+        _slim_lint_puts_0
+        end
+        end
+      RUBY
+
+      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 4, 4 => 5, 5 => 6, 6 => 6 } }
+    end
+
+    context 'with an omitted keyword value in multiline control code' do
+      let(:slim) { <<-SLIM }
+        - result = helper first,
+                          second:
+        - content_for :something do
+          = result
+      SLIM
+
+      its(:source) { should == normalize_indent(<<-RUBY).chomp }
+        result = helper first,
+        second:;
+        content_for :something do
+        result
+        end
+      RUBY
+
+      its(:source_map) { should == { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5 } }
+    end
   end
 end

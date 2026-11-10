@@ -65,7 +65,7 @@ describe SlimLint::Linter::RuboCop do
 end
 
 # Exercise the real Ruby extraction and RuboCop path with the default ignore list.
-describe SlimLint::Linter::RuboCop, 'line continuation integration' do
+describe SlimLint::Linter::RuboCop, 'integration' do
   include_context 'isolated environment'
   include_context 'linter'
 
@@ -74,7 +74,10 @@ describe SlimLint::Linter::RuboCop, 'line continuation integration' do
       AllCops:
         DisabledByDefault: true
         NewCops: disable
+        TargetRubyVersion: 3.1
       Style/RedundantLineContinuation:
+        Enabled: true
+      Style/Semicolon:
         Enabled: true
       Lint/UnusedBlockArgument:
         Enabled: true
@@ -97,6 +100,17 @@ describe SlimLint::Linter::RuboCop, 'line continuation integration' do
 
   context 'with a continuation in control code' do
     let(:slim) { "- href = helper( \\\n  value)\n= href\n" }
+
+    it { should_not report_lint }
+  end
+  context 'with an omitted keyword value before another block' do
+    let(:slim) { <<-SLIM }
+      = simple_form_for(@object) do |f|
+        = render 'fields', f:
+
+        - content_for :something do
+          | Some content
+    SLIM
 
     it { should_not report_lint }
   end

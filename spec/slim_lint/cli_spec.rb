@@ -220,6 +220,40 @@ describe SlimLint::CLI do
       it { should == described_class::EX_NOINPUT }
     end
 
+    context 'when checking compiled Slim syntax' do
+      include_context 'isolated environment'
+
+      let(:args) { %w[-x RuboCop view.slim] }
+      let(:source) { "' Hello. This is some simple math:\n= 1 + 1 # this equals 2\n" }
+
+      before { File.write('view.slim', source) }
+
+      it 'fails even when RuboCop is disabled' do
+        expect(subject).to eq(described_class::EX_DATAERR)
+        expect(output).to include('view.slim:2 [E] Syntax:')
+      end
+
+      context 'with valid Slim' do
+        let(:source) { "' Hello. This is some simple math:\n= 1 + 1\n" }
+
+        it { should == described_class::EX_OK }
+      end
+
+      context 'when reading from stdin' do
+        let(:args) { %w[-x RuboCop --stdin-file-path view.slim] }
+
+        before { $stdin.stub(:read).and_return(source) }
+
+        it { should == described_class::EX_DATAERR }
+      end
+
+      context 'with syntax checking disabled' do
+        let(:args) { %w[-x RuboCop,Syntax view.slim] }
+
+        it { should == described_class::EX_OK }
+      end
+    end
+
     context 'when an unhandled exception occurs' do
       let(:backtrace) { %w[file1.rb:1 file2.rb:2] }
       let(:error_msg) { 'Oops' }

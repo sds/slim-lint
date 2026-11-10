@@ -64,14 +64,15 @@ module SlimLint
     #
     # @param node [#line] node to extract the line number from
     # @param message [String] error/warning to display to the user
+    # @param severity [Symbol] severity of the lint (warning or error)
     # @param correction [Proc, nil] maps the offending line of source to its
     #   corrected version, for linters that declared {support_autocorrect}.
     #   Return `nil` to remove the line entirely, or a string containing
     #   embedded newlines to replace it with multiple lines.
-    def report_lint(node, message, correction: nil)
+    def report_lint(node, message, severity: :warning, correction: nil)
       return if disabled_for_line?(node.line)
 
-      @lints << SlimLint::Lint.new(self, @document.file, node.line, message,
+      @lints << SlimLint::Lint.new(self, @document.file, node.line, message, severity,
                                    correction: correction)
     end
 

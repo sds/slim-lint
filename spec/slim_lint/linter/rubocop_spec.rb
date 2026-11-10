@@ -63,3 +63,41 @@ describe SlimLint::Linter::RuboCop do
     end
   end
 end
+
+# Exercise the real Ruby extraction and RuboCop path with the default ignore list.
+describe SlimLint::Linter::RuboCop, 'line continuation integration' do
+  include_context 'isolated environment'
+  include_context 'linter'
+
+  around do |example|
+    File.write('rubocop.yml', <<~YAML)
+      AllCops:
+        DisabledByDefault: true
+        NewCops: disable
+      Style/RedundantLineContinuation:
+        Enabled: true
+      Lint/UnusedBlockArgument:
+        Enabled: true
+    YAML
+
+    SlimLint::Utils.with_environment 'SLIM_LINT_RUBOCOP_CONF' => File.expand_path('rubocop.yml') do
+      example.run
+    end
+  end
+
+  context 'with a continuation in output code' do
+    let(:slim) { "= helper( \\\n  value) do |unused|\n  p Content\n" }
+
+    it 'ignores Ruby-only continuation warnings but still reports other offenses' do
+      expect(subject.lints.map(&:message)).to contain_exactly(
+        a_string_including('Lint/UnusedBlockArgument')
+      )
+    end
+  end
+
+  context 'with a continuation in control code' do
+    let(:slim) { "- href = helper( \\\n  value)\n= href\n" }
+
+    it { should_not report_lint }
+  end
+end

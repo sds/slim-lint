@@ -86,6 +86,7 @@ linters:
       - Style/IdenticalConditionalBranches
       - Style/IfUnlessModifier
       - Style/Next
+      - Style/RedundantLineContinuation
       - Style/WhileUntilDo
       - Style/WhileUntilModifier
 

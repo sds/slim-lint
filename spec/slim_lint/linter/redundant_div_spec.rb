@@ -90,6 +90,37 @@ describe SlimLint::Linter::RedundantDiv do
   end
 
   describe 'correction' do
+    let(:corrector) do
+      SlimLint::Corrector.new(SlimLint::Document.new(slim, config: config))
+    end
+
+    [
+      'p title="div.x": div.b',
+      'p title="div#x": div#b',
+      'p title="div.x": .b: div.c',
+      'div.a: div.b',
+      '.a title="div.x": div.b',
+    ].each do |source|
+      context "with an inline tag in #{source.inspect}" do
+        let(:slim) { source }
+
+        it 'reports the lint without rewriting the line' do
+          expect(subject.lints).not_to be_empty
+          expect(corrector.correct(subject.lints)).to eq(slim)
+          expect(subject.lints.map(&:corrected?)).to all(eq(false))
+        end
+      end
+    end
+
+    context 'with an unambiguous inline tag' do
+      let(:slim) { 'p title="keep": div.b' }
+
+      it 'corrects the tag without changing the attribute' do
+        expect(corrector.correct(subject.lints)).to eq('p title="keep": .b')
+        expect(subject.lints.first).to be_corrected
+      end
+    end
+
     context 'for a class attribute shortcut' do
       let(:slim) { 'div.class Hello world' }
 

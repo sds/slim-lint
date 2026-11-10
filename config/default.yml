@@ -97,6 +97,9 @@ linters:
       # Include only Rails partial templates by default
       - app/views/**/_*.html.slim
 
+  Syntax:
+    enabled: true
+
   Tab:
     enabled: true
 

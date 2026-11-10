@@ -15,6 +15,7 @@ Below is a list of linters supported by `slim-lint`, ordered alphabetically.
 - [RedundantDiv](#redundantdiv)
 - [RuboCop](#rubocop)
 - [StrictLocalsMissing](#strictlocalsmissing)
+- [Syntax](#syntax)
 - [Tab](#tab)
 - [Tag](#tag)
 - [TagAttribute](#tagattribute)
@@ -398,6 +399,39 @@ In `app/views/somewhere/_partial.html.slim`:
 By default, Rails partial templates accept any local variables.
 Strict locals, on the other hand, help define an explicit interface
 for the template that shows which local variables it accepts.
+
+## Syntax
+
+Enabled by default. Compiles the template with Slim and checks the generated
+Ruby for syntax errors without executing it. This catches errors that are not
+visible to Slim's initial parser or to RuboCop's extracted Ruby, such as a Ruby
+comment at the end of an output statement.
+
+**Bad**
+
+```slim
+= 1 + 1 # this equals 2
+```
+
+**Good**
+
+```slim
+/ This equals 2
+= 1 + 1
+```
+
+Compilation and syntax errors are reported with error severity. The check uses
+the parser for the Ruby version running slim-lint, independently of the RuboCop
+linter and its `TargetRubyVersion` setting. It does not require view helpers or
+application objects to be available.
+
+To disable the check:
+
+```yaml
+linters:
+  Syntax:
+    enabled: false
+```
 
 ## Tab
 

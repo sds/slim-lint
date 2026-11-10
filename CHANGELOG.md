@@ -2,6 +2,9 @@
 
 ## master (unreleased)
 
+* Skip ambiguous `RedundantDiv` autocorrections that could change attribute
+  values instead of inline tags
+
 * Skip `TagCase` autocorrection when the tag name matches multiple tokens on
   the same line, while still reporting the offense
 * Fix `TagCase` reporting (and autocorrecting) case-sensitive tag names such

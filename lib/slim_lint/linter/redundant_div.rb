@@ -18,7 +18,18 @@ module SlimLint
       next unless %w[class id].include?(attr)
 
       report_lint(sexp, MESSAGE % attr,
-                  correction: ->(line) { line.sub(/\bdiv(?=[.#])/, '') })
+                  correction: correction_for(sexp.line))
+    end
+
+    private
+
+    def correction_for(line_number)
+      pattern = /\bdiv(?=[.#])/
+      line = document.source_lines[line_number - 1]
+      # A line number alone cannot distinguish the tag from a matching attribute.
+      return unless line&.scan(pattern)&.one?
+
+      ->(source_line) { source_line.sub(pattern, '') }
     end
   end
 end

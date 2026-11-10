@@ -87,6 +87,7 @@ linters:
       - Style/IfUnlessModifier
       - Style/Next
       - Style/RedundantLineContinuation
+      - Style/Semicolon
       - Style/WhileUntilDo
       - Style/WhileUntilModifier
 

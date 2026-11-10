@@ -77,6 +77,8 @@ describe SlimLint::Linter::RuboCop, 'integration' do
         TargetRubyVersion: 3.1
       Style/RedundantLineContinuation:
         Enabled: true
+      Style/Semicolon:
+        Enabled: true
       Lint/UnusedBlockArgument:
         Enabled: true
     YAML

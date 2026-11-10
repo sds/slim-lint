@@ -87,6 +87,9 @@ module SlimLint
     def append(code, sexp)
       return if code.empty?
 
+      # Slim statements end independently. Terminate an omitted keyword value
+      # so Ruby cannot consume the next extracted statement as its value.
+      code = code.sub(/:(?=\s*\z)/, ':;')
       original_line = sexp.line
 
       # For code that spans multiple lines, the resulting code will span

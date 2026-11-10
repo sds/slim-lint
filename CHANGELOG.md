@@ -2,6 +2,9 @@
 
 ## master (unreleased)
 
+* Ignore `Style/RedundantLineContinuation` by default, since continuations
+  required by Slim can be redundant in the extracted Ruby
+
 * Skip ambiguous `RedundantDiv` autocorrections that could change attribute
   values instead of inline tags
 
